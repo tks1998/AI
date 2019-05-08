@@ -17,8 +17,4 @@ export class Piece {
     copy() {
         return new Piece(this.name, this.position);
     }
-
-
-
-
 }

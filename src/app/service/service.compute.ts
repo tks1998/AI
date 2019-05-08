@@ -14,16 +14,16 @@ export class ComputeService {
     constructor(private http: HttpClient) { }
 
     launchCompute(state) {
-        // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
         return this.http.put(this.computeURL, state)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
     }
-
+    // convert response -> json file 
     private extractData(res: Response) {
         return res.json();
     }
+    // check error 
     private handleError(err: Response | any) {
         console.log(err)
     }

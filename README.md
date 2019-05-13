@@ -13,6 +13,5 @@ Note : App build with Angular2 , Angular2 run on environment  npm 6.x.x . If npm
 Next step : 
    - Easy install project with command on terminal(on linux) or command line (on window) : 
       + npm install
-Run project with command :
-    - npm start 
+Run project with command on terminal || conmand line : npm start 
     

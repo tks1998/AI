@@ -1,27 +1,65 @@
-# AIChinaChess
+# ChineseChessAI
+AI Agent for Chinese Chess - CS 221 Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+- Li Deng | 2016 Autumn 
+- Stanford CS 221 Artificial Intelligence
+<br> <br>
 
-## Development server
+<div style="text-align: center">
+<img src="https://raw.githubusercontent.com/dengl11/ChineseChessAI/master/public/resource/img/overview.png"  style="width: 500px;"/>
+</div>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+<br>
 
-## Code scaffolding
+## Install
+```bash
+# clone
+https://github.com/dengl11/ChineseChessAI.git 
+cd ChineseChessAI 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Install dependencies
+npm install
 
-## Build
+# start server
+npm start
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+Open your browser, go to `http://localhost:3000/` and you should be good to go 
 
-## Running unit tests
+--------------
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+<br><br>
+## Live Performance Analysis
+<div style="text-align: center">
+<img src="https://raw.githubusercontent.com/dengl11/ChineseChessAI/master/docs/resource/img/learn.png"  style="width: 500px;"/>
+<img src="https://raw.githubusercontent.com/dengl11/ChineseChessAI/master/docs/resource/img/effenciency.png"  style="width: 500px;"/>
+</div>
 
-## Further help
+<br><br>
+## Demo
+<div style="text-align: center">
+<img src="https://raw.githubusercontent.com/dengl11/ChineseChessAI/master/docs/resource/img/game.gif"  style="width: 600px;"/>
+</div>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+--------------
+
+
+<br><br>
+
+## Disclaimer
+- AI algofithms in the backend computation engine need to be enchanced (I was a bit hasty when then poster session was approaching >\_<)
+    - `MCTS` and `TDLearning` implementations are not solid
+    - reinforcement learning part seldom works
+
+- Effienciency need to be imporved
+    - Current computation engine is in javascript, which is not fast enough (I did not know how to call other executables from nodeJS then..., but now I do, please see below)
+    - You may implement a more powerful engine in C/C++ by calling a subprocess in server, [NodeJS Child Process](https://nodejs.org/api/child_process.html) should help
+
+
+
+<br><br>
+--------------
+Thanks for your interest :)
+<br><br>

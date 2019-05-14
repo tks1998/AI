@@ -270,6 +270,7 @@ var Rule = (function () {
             var piece = myPieces[i];
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam);
             // console.log("moves4Piece", piece.name, moves4Piece)
+            // move [ name ]  =   
             moves[piece.name] = moves4Piece;
         }
         return moves;

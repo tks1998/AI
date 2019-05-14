@@ -36,27 +36,15 @@ export class State {
         return endState;
     }
     // return a copy of state
+    
     copy(setOppoo = true) {
         var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.playingTeam, setOppoo);
         return newState;
     }
 
-    // // return next state by action
-    // next_state(movePieceName, toPos) {
-    //     // make a copy a state
-    //     var nextState = this.copy();
-    //     nextState.switchTurn();
-    //     var agent = this.playingTeam == 1 ? nextState.redAgent : nextState.blackAgent;
-    //     agent.movePieceTo(agent.getPieceByName(movePieceName), toPos);
-    //     agent.updateState();
-    //     agent.oppoAgent.updateState();
-    //     return nextState;
-    // }
-
     switchTurn() {
         this.playingTeam = -this.playingTeam;
     }
-    // return a evaluation score for this state
     getEvaludation(team) {
 
     }

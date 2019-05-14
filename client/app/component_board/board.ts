@@ -58,6 +58,8 @@ export class BoardComponent implements OnInit {
     simulation_state = -1;
     nSimulations_input = 100;
     nSimulations = 100;
+    reverse = false;
+    
 
 
 
@@ -92,7 +94,10 @@ export class BoardComponent implements OnInit {
     }
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
+        // get moves of piece  from legalMoves 
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
+
+        // in that case , I use  syxtax lambda  foreach x in array -> x =  x+ ' ' &&  
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
     // Add dummy pieces to board
@@ -133,16 +138,6 @@ export class BoardComponent implements OnInit {
         if (this.humanMode) this.initGame();
     }
 
-    chooseBlackSimulations(n) {
-        this.blackAgentSimulations = parseInt(n);
-        // console.log(this.blackAgentSimulations)
-        if (this.humanMode) this.initGame();
-    }
-    chooseRedSimulations(n) {
-        this.redAgentSimulations = parseInt(n);
-    }
-
-    /***************** LIFE_CYCLE *******************/
     ngOnInit() {
         this.initDummyButtons();
         this.initGame();
@@ -150,65 +145,38 @@ export class BoardComponent implements OnInit {
     constructor(server: ComputeService) {
         this.server = server;
     }
-    // choose number of simulations
-    chooseNSimulations(n) {
-        this.nSimulations_input = parseInt(n);
-    }
-
+   
     initGame() {
         this.selectedPiece = undefined;
         this.lastState = null;
         // init agents
         var redAgent;
+        if (!this.reverse){
+            redAgent = new HumanAgent(this.redTeam); 
+            var blackAgent;
+            switch (this.blackAgentType) {
+                case 0: { blackAgent = new GreedyAgent(this.blackTeam); break; }
+                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.blackAgentDepth); break; }
 
-        switch (this.redAgentType) {
-            case 0: { redAgent = new GreedyAgent(this.redTeam); break; }
-            case 1: { redAgent = new EvalFnAgent(this.redTeam, this.redAgentDepth); break; }
-
-            case 2: { redAgent = new MoveReorderPruner(this.redTeam, this.redAgentDepth); break; }
-            case 3: { redAgent = new TDLearner(this.redTeam, this.redAgentDepth, this.weigths_1); break; }
-            // TDLearner
-            case 4: { redAgent = new TDLearnerTrained(this.redTeam, this.redAgentDepth); break; }
-            case 5: { redAgent = new MCTS(this.redTeam, this.redAgentSimulations); break; }
-            case 6: { redAgent = new MoveReorderPruner(this.redTeam, this.redAgentDepth); break; }
-            default: redAgent = new HumanAgent(this.redTeam); break;
+                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
+                case 3: { blackAgent = new TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2); break; }
+                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.blackAgentDepth); break; }
+                // TDLearner
+                case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations); break; }
+                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
+                default: blackAgent = new GreedyAgent(this.blackTeam); break;
+            }
+            this.state = new State(redAgent, blackAgent);
         }
-        var blackAgent;
-        switch (this.blackAgentType) {
-            case 0: { blackAgent = new GreedyAgent(this.blackTeam); break; }
-            case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.blackAgentDepth); break; }
-
-            case 2: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
-            case 3: { blackAgent = new TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2); break; }
-            case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.blackAgentDepth); break; }
-            // TDLearner
-            case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations); break; }
-            case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
-            default: blackAgent = new GreedyAgent(this.blackTeam); break;
+        else 
+        {
+            
         }
-        this.state = new State(redAgent, blackAgent);
+        
     }
-
-    // response for clicking simulate
-    click_simulate() {
-        this.nSimulations = this.nSimulations_input;
-        this.clear_results();
-        this.simulate();
-    }
-
-
-    simulate() {
+    Reverse(){
         this.initGame();
         this.state.switchTurn();
-        this.continue_simulate();
-    }
-    continue_simulate() {
-        this.simulation_state = 1;
-        this.switchTurn();
-    }
-
-    stop_simulate() {
-        this.simulation_state = 0;
     }
     clickDummyPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
@@ -241,17 +209,12 @@ export class BoardComponent implements OnInit {
         this.report_result();
         this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
         this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
-        if (!this.humanMode) this.end_simulation();
-        else this.selectedPiece = undefined;
+        /*if (!this.humanMode) this.end_simulation();
+        else */ 
+        this.selectedPiece = undefined;
     }
 
 
-    end_simulation() {
-        // console.log(this.results);
-        this.nSimulations -= 1;
-        if (this.nSimulations == 0) this.simulation_state = -1;
-        if (this.nSimulations > 0) this.simulate();
-    }
 
     // report results
     report_result() {

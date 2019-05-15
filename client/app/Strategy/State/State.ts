@@ -7,11 +7,16 @@ export class State {
     blackAgent: Agent;
     playingTeam: number;
     endFlag = null; // null: on going | 1: red win | -1: black win | 0: draw
-
-    constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1, setOppoo = true) {
+    // create reverse check state piece && current support -> import data from user 
+    reverse = false;
+    currentstate = {};
+     
+    
+    constructor(redAgent: Agent, blacAgent: Agent, reverse  ,playingTeam = 1, setOppoo = true ) {
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam; 
+        this.reverse = reverse ;
         if (setOppoo) {
             this.blackAgent.setOppoAgent(this.redAgent);
             this.redAgent.setOppoAgent(this.blackAgent);
@@ -38,7 +43,7 @@ export class State {
     // return a copy of state
     
     copy(setOppoo = true) {
-        var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.playingTeam, setOppoo);
+        var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse , this.playingTeam, setOppoo);
         return newState;
     }
 

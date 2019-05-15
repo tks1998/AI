@@ -15,11 +15,13 @@ export class Agent {
 
     DEPTH = 0;
 
+    reverse = false;
+
     // team == 1 -> Red , team !=1 -> Black team 
-    constructor(team: number, myPieces = null, pastMoves = [], strategy = 0) {
+    constructor(team: number, reverse = false, myPieces = null, pastMoves = [], strategy = 0) {
         this.team = team;
         if (myPieces == null)
-            this.myPieces = (team == 1 ? InitGame.getRedPieces() : InitGame.getBlackPieces());
+            this.myPieces = (team == 1 ? InitGame.getRedPieces(reverse) : InitGame.getBlackPieces(reverse));
         else {
             this.myPieces = myPieces;
         }

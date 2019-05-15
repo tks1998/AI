@@ -86,12 +86,14 @@ export class BoardComponent implements OnInit {
 
 
     changeMode() {
-        this.humanMode = !this.humanMode;
-        this.simulation_state = -1;
+        //this.humanMode = !this.humanMode;
+        //this.simulation_state = -1;
+        this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
         this.initGame();
     }
+    
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
         // get moves of piece  from legalMoves 
@@ -128,7 +130,7 @@ export class BoardComponent implements OnInit {
         this.simulation_state = -1;
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
-        if (this.humanMode) this.initGame();
+        this.initGame();
     }
     chooseRedAgentDepth(depth) {
         this.redAgentDepth = parseInt(depth);
@@ -151,27 +153,23 @@ export class BoardComponent implements OnInit {
         this.lastState = null;
         // init agents
         var redAgent;
-        if (!this.reverse){
-            redAgent = new HumanAgent(this.redTeam); 
+       
+            redAgent = new HumanAgent(this.redTeam,this.reverse); 
             var blackAgent;
             switch (this.blackAgentType) {
-                case 0: { blackAgent = new GreedyAgent(this.blackTeam); break; }
-                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.blackAgentDepth); break; }
+                case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
+                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
 
-                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
-                case 3: { blackAgent = new TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2); break; }
-                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.blackAgentDepth); break; }
+                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
+                case 3: { blackAgent = new TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2,this.reverse); break; }
+                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
                 // TDLearner
-                case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations); break; }
-                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth); break; }
+                case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
+                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
                 default: blackAgent = new GreedyAgent(this.blackTeam); break;
             }
-            this.state = new State(redAgent, blackAgent);
-        }
-        else 
-        {
-            
-        }
+            this.state = new State(redAgent, blackAgent,this.reverse);
+      
         
     }
     Reverse(){

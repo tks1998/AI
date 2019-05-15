@@ -8,7 +8,7 @@ var Piece_1 = require('./Piece');
 var DummyPiece = (function (_super) {
     __extends(DummyPiece, _super);
     function DummyPiece(position) {
-        _super.call(this, '', position);
+        _super.call(this, '', position, '', '');
     }
     return DummyPiece;
 }(Piece_1.Piece));

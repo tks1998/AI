@@ -7,11 +7,11 @@ var __extends = (this && this.__extends) || function (d, b) {
 var EvaluationFn_1 = require('../EvalFn/EvaluationFn');
 var TDLearner = (function (_super) {
     __extends(TDLearner, _super);
-    function TDLearner(team, depth, weights, myPieces, pastMoves) {
+    function TDLearner(team, reverse, depth, weights, myPieces, pastMoves) {
         if (depth === void 0) { depth = 2; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
-        _super.call(this, team, depth, myPieces, pastMoves);
+        _super.call(this, team, reverse, depth, myPieces, pastMoves);
         this.strategy = 3;
         this.weights = [];
         // INIT_WEIGHTS = [20, 15, 30, 7, 20, 0, 20];
@@ -25,7 +25,7 @@ var TDLearner = (function (_super) {
     TDLearner.prototype.copy = function () {
         // console.log(this.pastMoves)
         // console.log(this.copyMoves())
-        return new TDLearner(this.team, this.DEPTH, this.weights, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new TDLearner(this.team, this.reverse, this.DEPTH, this.weights, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     TDLearner.prototype.merge_arr = function (x, y) {
         var r = [];

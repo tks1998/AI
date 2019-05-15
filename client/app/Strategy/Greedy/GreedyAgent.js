@@ -48,7 +48,7 @@ var GreedyAgent = (function (_super) {
     };
     // return a copy of an agent
     GreedyAgent.prototype.copy = function () {
-        return new GreedyAgent(this.team, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new GreedyAgent(this.team, this.reverse, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     return GreedyAgent;
 }(Agent_1.Agent));

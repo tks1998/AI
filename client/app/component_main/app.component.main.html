@@ -14,7 +14,10 @@
 
 	<div class="left">
 		<button class="ui green basic button fluid">
-		<sm-checkbox label="{{board.humanMode?'Human Player':'Simulation'}}" [control]="humanMode " type="toggle " (change)="board.changeMode() "></sm-checkbox>
+			<sm-checkbox label="{{board.reverse ? 'reverse china chess':'chinachess'}}" 
+					[control]="chinachess" 
+					type="toggle "  (change)="board.changeMode() ">
+			</sm-checkbox>
 		</button>
 
 		<div class="margin"></div>

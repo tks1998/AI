@@ -11,7 +11,7 @@ var TDLearnerTrained = (function (_super) {
         _super.apply(this, arguments);
         this.strategy = 4;
     }
-    TDLearnerTrained.prototype.copy = function () { return new TDLearnerTrained(this.team, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves()); };
+    TDLearnerTrained.prototype.copy = function () { return new TDLearnerTrained(this.team, this.reverse, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves()); };
     return TDLearnerTrained;
 }(EvaluationFn_1.EvalFnAgent));
 exports.TDLearnerTrained = TDLearnerTrained;

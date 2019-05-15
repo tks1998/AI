@@ -7,7 +7,7 @@ import { Evaluation } from '../_Param/Evaluation'
 export class TDLearnerTrained extends EvalFnAgent {
     strategy = 4;
 
-    copy() { return new TDLearnerTrained(this.team, this.DEPTH, this.myPieces.map(x => x.copy()), this.copyMoves()); }
+    copy() { return new TDLearnerTrained(this.team, this.reverse , this.DEPTH, this.myPieces.map(x => x.copy()), this.copyMoves()); }
 
 
 

@@ -7,19 +7,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Agent_1 = require('../Agent/Agent');
 var EvalFnAgent = (function (_super) {
     __extends(EvalFnAgent, _super);
-    function EvalFnAgent(team, depth, myPieces, pastMoves) {
+    function EvalFnAgent(team, reverse, depth, myPieces, pastMoves) {
+        if (reverse === void 0) { reverse = false; }
         if (depth === void 0) { depth = 2; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
         // console.log("EvalFnAgent")
-        _super.call(this, team, myPieces, pastMoves);
+        _super.call(this, team, reverse, myPieces, pastMoves);
         this.DEPTH = 2;
         this.strategy = 1;
         this.DEPTH = depth;
     }
     // return a copy of an agent
     EvalFnAgent.prototype.copy = function () {
-        return new EvalFnAgent(this.team, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new EvalFnAgent(this.team, this.reverse, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     return EvalFnAgent;
 }(Agent_1.Agent));

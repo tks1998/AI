@@ -6,7 +6,7 @@ export class GreedyAgent extends Agent {
 
     strategy = 0;
     DEPTH = 1;
-    
+
     // private method of computing next move
     comptuteNextMove() {
         // var pieceNames = Object.keys(this.legalMoves);
@@ -44,6 +44,6 @@ export class GreedyAgent extends Agent {
 
     // return a copy of an agent
     copy() {
-        return new GreedyAgent(this.team, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new GreedyAgent(this.team, this.reverse,this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 }

@@ -13,6 +13,7 @@ export class State {
      
     
     constructor(redAgent: Agent, blacAgent: Agent, reverse  ,playingTeam = 1, setOppoo = true ) {
+        if (reverse==true ) console.log("111111111111111111");
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam; 

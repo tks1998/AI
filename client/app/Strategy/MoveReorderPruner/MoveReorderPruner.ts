@@ -8,13 +8,13 @@ export class MoveReorderPruner extends EvalFnAgent {
 
     strategy = 2
 
-    constructor(team: number, depth = 2, myPieces = undefined, pastMoves = []) {
-        super(team, depth, myPieces, pastMoves);
+    constructor(team: number, reverse ,depth = 2, myPieces = undefined, pastMoves = []) {
+        super(team, reverse , depth, myPieces, pastMoves);
         this.DEPTH = depth;
     }
 
     copy() {
-        return new MoveReorderPruner(this.team, this.DEPTH, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new MoveReorderPruner(this.team, this.reverse ,this.DEPTH, this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 
 

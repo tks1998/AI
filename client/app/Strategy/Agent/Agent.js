@@ -3,16 +3,18 @@ var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var init_1 = require('../../ChineseChess/InitGame/init');
 var Agent = (function () {
     // team == 1 -> Red , team !=1 -> Black team 
-    function Agent(team, myPieces, pastMoves, strategy) {
+    function Agent(team, reverse, myPieces, pastMoves, strategy) {
+        if (reverse === void 0) { reverse = false; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
         if (strategy === void 0) { strategy = 0; }
         this.strategy = 0;
         this.pastMoves = [];
         this.DEPTH = 0;
+        this.reverse = false;
         this.team = team;
         if (myPieces == null)
-            this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces() : init_1.InitGame.getBlackPieces());
+            this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces(reverse) : init_1.InitGame.getBlackPieces(reverse));
         else {
             this.myPieces = myPieces;
         }
@@ -86,7 +88,7 @@ var Agent = (function () {
     // TO BE OVERIDE BY TDLeaner
     Agent.prototype.save_state = function (feature_vec) { };
     Agent.prototype.copy = function () {
-        return new Agent(this.team, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new Agent(this.team, this.reverse, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     Agent.prototype.copyMoves = function () {
         return this.pastMoves.slice();

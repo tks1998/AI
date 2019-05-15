@@ -12,8 +12,8 @@ export class TDLearner extends EvalFnAgent {
     INIT_WEIGHTS = [5, 10, 2, 0, 2, 0, 10];
     feature_matrix = []; //[fea_vec]
 
-    constructor(team: number, depth = 2, weights, myPieces = null, pastMoves = []) {
-        super(team, depth, myPieces, pastMoves);
+    constructor(team: number,reverse , depth = 2, weights, myPieces = null, pastMoves = []) {
+        super(team, reverse , depth, myPieces, pastMoves);
         this.weights = weights;
         // console.log(this.myPieces)
         // this.weights = weights ? weights : this.INIT_WEIGHTS;
@@ -22,7 +22,7 @@ export class TDLearner extends EvalFnAgent {
     copy() {
         // console.log(this.pastMoves)
         // console.log(this.copyMoves())
-        return new TDLearner(this.team, this.DEPTH, this.weights, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new TDLearner(this.team,this.reverse, this.DEPTH, this.weights, this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 
     merge_arr(x, y) {

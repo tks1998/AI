@@ -14,6 +14,7 @@ import { WeightTableComponent } from '../component_analysis/weights';
 export class AppComponent implements OnInit {
     logined = false;
     options: any;
+    reverse = false; // check chinachess ? reverse chinachess
     @ViewChild(WinRaterComponent)
     private winRaterComp: WinRaterComponent;
 
@@ -27,14 +28,14 @@ export class AppComponent implements OnInit {
     ngOnInit() {
     }
 
-    humanMode: FormControl = new FormControl();
+    chinachess: FormControl = new FormControl();
 
     selectOpponent(v) {
         // console.log(v);
     }
     // update analysis results
-    update_result(x, humanMode, agent_param) {
-        this.winRaterComp.update(x, humanMode, agent_param);
+    update_result(x, chinachess, agent_param) {
+        this.winRaterComp.update(x, chinachess, agent_param);
     }
 
     update_runtime(x) {

@@ -23,17 +23,26 @@ export class InitGame {
     }
     
     static getRedPieces(reverse = false ) {
+        // make state game 
+        // If reverse game then random position for piece expect boss
+        // call RandomPosition() random possition
         var  RedTeam = [[1,1],[1,9],[3,2],[3,8],[1,2],[1,8],[1,3],[1,7],[1,4],[1,6],
         [4,1],[4,3],[4,5],[4,7],[4,9]]
-        var Tname =['j1','j2','p1','p2','m1','m2','x1','x2','s1','s2','z1','z2','z3','z4','z5','k'];
+
+        var Newname =['j1','j2','p1','p2','m1','m2','x1','x2','s1','s2','z1','z2','z3','z4','z5','k'];
+        var Tname = Newname;
+        
         var rand = [] ;
-        var random = [];
-        rand = this.RandomPosition();
-        console.log(random);
-        for (var ele = 0 ;ele <RedTeam.length ; ele++)
+        
+        if (reverse)
         {
-            random[ele] = RedTeam[ele];
+            rand = this.RandomPosition();
+            for (var ele = 0 ;ele <RedTeam.length ; ele++)
+            {
+                Tname[ele]  = Newname[rand[ele]]; 
+            }
         }
+
         return [
             new Piece('j1', RedTeam[0],reverse,Tname[0]),
             new Piece('j2', RedTeam[1],reverse,Tname[1]),
@@ -55,16 +64,21 @@ export class InitGame {
     }
 
     static getBlackPieces(reverse = false ) {
+        
         var BlueTeam = [[10, 1],[10, 9], [8, 2],[8, 8],[10, 2],[10, 8],[10, 3],[10, 7],
             [10, 4],[10, 6],[7, 1],[7, 3],[7, 5],[7, 7],[7, 9]];
         var Newname =['j1','j2','p1','p2','m1','m2','x1','x2','s1','s2','z1','z2','z3','z4','z5','k'];
         var Tname = Newname;
         var rand = [] ;
-        rand = this.RandomPosition();
-        for (var ele = 0 ;ele <BlueTeam.length ; ele++)
-        {
-            Tname[ele]  = Newname[rand[ele]]; 
+            
+        if (reverse){
+            rand = this.RandomPosition();
+            for (var ele = 0 ;ele <BlueTeam.length ; ele++)
+            {
+                Tname[ele]  = Newname[rand[ele]]; 
+            }
         }
+        
         return [
             new Piece('j1', BlueTeam[0],reverse,Tname[0]),
             new Piece('j2', BlueTeam[1],reverse,Tname[1]),

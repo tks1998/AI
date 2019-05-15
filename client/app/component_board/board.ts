@@ -91,6 +91,7 @@ export class BoardComponent implements OnInit {
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
+        console.log("---------------------------change mod ----------------------")
         this.initGame();
     }
     
@@ -158,19 +159,17 @@ export class BoardComponent implements OnInit {
             var blackAgent;
             switch (this.blackAgentType) {
                 case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
-                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
+                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
 
-                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
-                case 3: { blackAgent = new TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2,this.reverse); break; }
-                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
+                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
+                case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
+                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
                 // TDLearner
                 case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
-                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.blackAgentDepth,this.reverse); break; }
-                default: blackAgent = new GreedyAgent(this.blackTeam); break;
+                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+                default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
             }
             this.state = new State(redAgent, blackAgent,this.reverse);
-      
-        
     }
     Reverse(){
         this.initGame();

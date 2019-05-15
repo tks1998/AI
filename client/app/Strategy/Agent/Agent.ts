@@ -98,7 +98,7 @@ export class Agent {
     // TO BE OVERIDE BY TDLeaner
     save_state(feature_vec) { }
     copy() {
-        return new Agent(this.team, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new Agent(this.team,this.reverse, this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 
     copyMoves() {

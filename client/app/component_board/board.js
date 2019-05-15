@@ -69,11 +69,12 @@ var BoardComponent = (function () {
         this.weigths_2 = this.INIT_WEIGHT;
     };
     BoardComponent.prototype.changeMode = function () {
-        this.humanMode = !this.humanMode;
+        //this.humanMode = !this.humanMode;
         //this.simulation_state = -1;
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
+        console.log("---------------------------change mod ----------------------");
         this.initGame();
     };
     BoardComponent.prototype.isPossibleMove = function (pos) {
@@ -109,8 +110,7 @@ var BoardComponent = (function () {
         this.simulation_state = -1;
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
-        if (this.humanMode)
-            this.initGame();
+        this.initGame();
     };
     BoardComponent.prototype.chooseRedAgentDepth = function (depth) {
         this.redAgentDepth = parseInt(depth);
@@ -129,84 +129,43 @@ var BoardComponent = (function () {
         this.lastState = null;
         // init agents
         var redAgent;
-        if (this.reverse == false) {
-            redAgent = new HumanAgent_1.HumanAgent(this.redTeam);
-            var blackAgent;
-            switch (this.blackAgentType) {
-                case 0: {
-                    blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam);
-                    break;
-                }
-                case 1: {
-                    blackAgent = new EvaluationFn_1.EvalFnAgent(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                case 2: {
-                    blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                case 3: {
-                    blackAgent = new TDLearner_1.TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2);
-                    break;
-                }
-                case 4: {
-                    blackAgent = new TDLearnerTrained_1.TDLearnerTrained(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                // TDLearner
-                case 5: {
-                    blackAgent = new MCTS_1.MCTS(this.blackTeam, this.blackAgentSimulations);
-                    break;
-                }
-                case 6: {
-                    blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                default:
-                    blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam);
-                    break;
+        redAgent = new HumanAgent_1.HumanAgent(this.redTeam, this.reverse);
+        var blackAgent;
+        switch (this.blackAgentType) {
+            case 0: {
+                blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
+                break;
             }
-            this.state = new State_1.State(redAgent, blackAgent);
-        }
-        else {
-            redAgent = new HumanAgent_1.HumanAgent(this.redTeam);
-            var blackAgent;
-            switch (this.blackAgentType) {
-                case 0: {
-                    blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam);
-                    break;
-                }
-                case 1: {
-                    blackAgent = new EvaluationFn_1.EvalFnAgent(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                case 2: {
-                    blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                case 3: {
-                    blackAgent = new TDLearner_1.TDLearner(this.blackTeam, this.blackAgentDepth, this.weigths_2);
-                    break;
-                }
-                case 4: {
-                    blackAgent = new TDLearnerTrained_1.TDLearnerTrained(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                // TDLearner
-                case 5: {
-                    blackAgent = new MCTS_1.MCTS(this.blackTeam, this.blackAgentSimulations);
-                    break;
-                }
-                case 6: {
-                    blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.blackAgentDepth);
-                    break;
-                }
-                default:
-                    blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam);
-                    break;
+            case 1: {
+                blackAgent = new EvaluationFn_1.EvalFnAgent(this.blackTeam, this.reverse, this.blackAgentDepth);
+                break;
             }
-            this.state = new State_1.State(redAgent, blackAgent);
+            case 2: {
+                blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.reverse, this.blackAgentDepth);
+                break;
+            }
+            case 3: {
+                blackAgent = new TDLearner_1.TDLearner(this.blackTeam, this.reverse, this.blackAgentDepth, this.weigths_2);
+                break;
+            }
+            case 4: {
+                blackAgent = new TDLearnerTrained_1.TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth);
+                break;
+            }
+            // TDLearner
+            case 5: {
+                blackAgent = new MCTS_1.MCTS(this.blackTeam, this.blackAgentSimulations, this.reverse);
+                break;
+            }
+            case 6: {
+                blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.reverse, this.blackAgentDepth);
+                break;
+            }
+            default:
+                blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
+                break;
         }
+        this.state = new State_1.State(redAgent, blackAgent, this.reverse);
     };
     BoardComponent.prototype.Reverse = function () {
         this.initGame();

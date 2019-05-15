@@ -2,13 +2,19 @@
 var Rule_1 = require('../../ChineseChess/Rule/Rule');
 // get current state red team && get current state blue team
 var State = (function () {
-    function State(redAgent, blacAgent, playingTeam, setOppoo) {
+    function State(redAgent, blacAgent, reverse, playingTeam, setOppoo) {
         if (playingTeam === void 0) { playingTeam = 1; }
         if (setOppoo === void 0) { setOppoo = true; }
         this.endFlag = null; // null: on going | 1: red win | -1: black win | 0: draw
+        // create reverse check state piece && current support -> import data from user 
+        this.reverse = false;
+        this.currentstate = {};
+        if (reverse == true)
+            console.log("111111111111111111");
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam;
+        this.reverse = reverse;
         if (setOppoo) {
             this.blackAgent.setOppoAgent(this.redAgent);
             this.redAgent.setOppoAgent(this.blackAgent);
@@ -33,7 +39,7 @@ var State = (function () {
     // return a copy of state
     State.prototype.copy = function (setOppoo) {
         if (setOppoo === void 0) { setOppoo = true; }
-        var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.playingTeam, setOppoo);
+        var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse, this.playingTeam, setOppoo);
         return newState;
     };
     State.prototype.switchTurn = function () {

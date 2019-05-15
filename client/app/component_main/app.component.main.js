@@ -16,7 +16,8 @@ var weights_1 = require('../component_analysis/weights');
 var AppComponent = (function () {
     function AppComponent() {
         this.logined = false;
-        this.humanMode = new forms_1.FormControl();
+        this.reverse = false; // check chinachess ? reverse chinachess
+        this.chinachess = new forms_1.FormControl();
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -24,8 +25,8 @@ var AppComponent = (function () {
         // console.log(v);
     };
     // update analysis results
-    AppComponent.prototype.update_result = function (x, humanMode, agent_param) {
-        this.winRaterComp.update(x, humanMode, agent_param);
+    AppComponent.prototype.update_result = function (x, chinachess, agent_param) {
+        this.winRaterComp.update(x, chinachess, agent_param);
     };
     AppComponent.prototype.update_runtime = function (x) {
         this.runtimeAnalysist.update(x);
@@ -37,6 +38,7 @@ var AppComponent = (function () {
         this.update_weight(null, null);
     };
     __decorate([
+        // check chinachess ? reverse chinachess
         core_1.ViewChild(winRate_1.WinRaterComponent), 
         __metadata('design:type', winRate_1.WinRaterComponent)
     ], AppComponent.prototype, "winRaterComp", void 0);

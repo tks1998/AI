@@ -7,16 +7,16 @@ var __extends = (this && this.__extends) || function (d, b) {
 var EvaluationFn_1 = require('../EvalFn/EvaluationFn');
 var MoveReorderPruner = (function (_super) {
     __extends(MoveReorderPruner, _super);
-    function MoveReorderPruner(team, depth, myPieces, pastMoves) {
+    function MoveReorderPruner(team, reverse, depth, myPieces, pastMoves) {
         if (depth === void 0) { depth = 2; }
         if (myPieces === void 0) { myPieces = undefined; }
         if (pastMoves === void 0) { pastMoves = []; }
-        _super.call(this, team, depth, myPieces, pastMoves);
+        _super.call(this, team, reverse, depth, myPieces, pastMoves);
         this.strategy = 2;
         this.DEPTH = depth;
     }
     MoveReorderPruner.prototype.copy = function () {
-        return new MoveReorderPruner(this.team, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new MoveReorderPruner(this.team, this.reverse, this.DEPTH, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     return MoveReorderPruner;
 }(EvaluationFn_1.EvalFnAgent));

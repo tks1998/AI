@@ -35,7 +35,7 @@ var Agent = (function () {
     };
     // compute legals moves for my pieces after state updated
     Agent.prototype.computeLegalMoves = function () {
-        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team);
+        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     };
     // update board state by pieces
     Agent.prototype.updateBoardState = function () {
@@ -55,6 +55,10 @@ var Agent = (function () {
         // having oppo piece in target pos
         if (isCapture)
             this.captureOppoPiece(pos);
+        // if "reverse game " && isMove == 1 -> rename current name= truth name
+        if (piece.isMove == 1 && this.reverse) {
+            piece.name = piece.truthname;
+        }
     };
     // capture piece of opponent
     // pos: position of piece to be captured
@@ -75,6 +79,7 @@ var Agent = (function () {
         var computeResult = this.comptuteNextMove();
         var piece = computeResult[0];
         var toPos = computeResult[1];
+        piece.isMove = piece.isMove + 1;
         this.movePieceTo(piece, toPos);
     };
     ;

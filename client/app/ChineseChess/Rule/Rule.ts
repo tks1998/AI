@@ -267,12 +267,19 @@ export class Rule {
     // all legal moves for a piece in a board state
     // boardStates: {posStr->[name, isMyPiece]}
     // return [(row, col)]
-    static possibleMoves = function(piece: Piece, boardStates: {}, isLowerTeam) {
+    static possibleMoves = function(piece: Piece, boardStates: {}, isLowerTeam,reverse) {
         var name = piece.name[0];
         var currRow = piece.position[0];
         var currCol = piece.position[1];
         var moves = [];
-
+        if (reverse && piece.isMove){
+            if (name == 'x'){
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam);
+            }
+            if (name == 'z'){
+                return this.possibleMovesForZuofReverse(currRow, currCol, boardStates, isLowerTeam);
+            }
+        }
         switch (name) {
             case 'j':
                 moves = this.possibleMovesForJu(currRow, currCol, boardStates);
@@ -304,13 +311,13 @@ export class Rule {
 
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
-    static allPossibleMoves = function(myPieces: Piece[], boardStates: {}, team) {
+    static allPossibleMoves = function(myPieces: Piece[], boardStates: {}, team , reverse) {
         var moves = {};
         // team is in the lower part of the river
         var isLowerTeam = (team == 1);
         for (var i in myPieces) {
             var piece = myPieces[i];
-            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam);
+            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam,reverse);
             // console.log("moves4Piece", piece.name, moves4Piece)
 
             // move [ name ]  =   

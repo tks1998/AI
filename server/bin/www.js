@@ -30,21 +30,15 @@ app.put('/compute/', function (request, response) {
     // console.log("-=-=-=-= Server: Compute get Request Received  -=-=-=-=-=-=-");
     var state = request.body;
     var to_return = {};
-    // console.log(state)
-    // console.log(state.blackAgent.pastMoves.length)
     if (state.redAgent.pastMoves.length >= N_MAX_MOVES) {
         console.log("-=-=-=-=-= Draw -=-=-=-=-=-");
         response.end(JSON.stringify({ "move": [] }));
         return;
     }
     state = State_1.State.copyFromDict(state);
-    // console.log(state)
-    // console.log(playing instanceof TDLeaner)
-    // console.log(playing.oppoAgent instanceof TDLeaner)
     var start = new Date().getTime();
     var next = state.nextMove();
     var now = new Date().getTime();
-    // console.log("next move:", next);
     var t = (now - start);
     var feature_vec = null;
     var playing = state.get_playing_agent();

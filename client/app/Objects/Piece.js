@@ -1,13 +1,14 @@
 "use strict";
 var Piece = (function () {
-    function Piece(name, position, Reverse, Tname) {
+    function Piece(name, position, Reverse, Tname, isMove) {
         this.name = name;
         this.position = position;
         this.Reverse = true;
         this.truthname = Tname;
+        this.isMove = 0;
     }
     Piece.copyFromDict = function (dict) {
-        return new Piece(dict.name, dict.position, dict.Reverse, dict.truthname);
+        return new Piece(dict.name, dict.position, dict.Reverse, dict.truthname, dict.isMove);
     };
     Piece.prototype.moveTo = function (newPos) {
         this.position = newPos;
@@ -15,7 +16,7 @@ var Piece = (function () {
     };
     // return a copy of a piece
     Piece.prototype.copy = function () {
-        return new Piece(this.name, this.position, this.Reverse, this.truthname);
+        return new Piece(this.name, this.position, this.Reverse, this.truthname, this.isMove);
     };
     Piece.prototype.update = function (name) {
         this.name = this.truthname;

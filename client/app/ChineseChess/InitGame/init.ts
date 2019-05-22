@@ -33,26 +33,25 @@ export class InitGame {
             {
                 Tname[ele]  = Newname[rand[ele]]; 
             }
-            console.log("++++++++222+++++++++");
         }
 
         return [
-            new Piece('j1', RedTeam[0],reverse,Tname[0]),
-            new Piece('j2', RedTeam[1],reverse,Tname[1]),
-            new Piece('p1', RedTeam[2],reverse,Tname[2]),
-            new Piece('p2', RedTeam[3],reverse,Tname[3]),
-            new Piece('m1', RedTeam[4],reverse,Tname[4]),
-            new Piece('m2', RedTeam[5],reverse,Tname[5]),
-            new Piece('x1', RedTeam[6],reverse,Tname[6]),
-            new Piece('x2', RedTeam[7],reverse,Tname[7]),
-            new Piece('s1', RedTeam[8],reverse,Tname[8]),
-            new Piece('s2', RedTeam[9],reverse,Tname[9]),
-            new Piece('z1', RedTeam[10],reverse,Tname[10]),
-            new Piece('z2', RedTeam[11],reverse,Tname[11]),
-            new Piece('z3', RedTeam[12],reverse,Tname[12]),
-            new Piece('z4', RedTeam[13],reverse,Tname[13]),
-            new Piece('z5', RedTeam[14],reverse,Tname[14]),
-            new Piece('k', [1,5],1,'k')
+            new Piece('j1', RedTeam[0],reverse,Tname[0],0),
+            new Piece('j2', RedTeam[1],reverse,Tname[1],0),
+            new Piece('p1', RedTeam[2],reverse,Tname[2],0),
+            new Piece('p2', RedTeam[3],reverse,Tname[3],0),
+            new Piece('m1', RedTeam[4],reverse,Tname[4],0),
+            new Piece('m2', RedTeam[5],reverse,Tname[5],0),
+            new Piece('x1', RedTeam[6],reverse,Tname[6],0),
+            new Piece('x2', RedTeam[7],reverse,Tname[7],0),
+            new Piece('s1', RedTeam[8],reverse,Tname[8],0),
+            new Piece('s2', RedTeam[9],reverse,Tname[9],0),
+            new Piece('z1', RedTeam[10],reverse,Tname[10],0),
+            new Piece('z2', RedTeam[11],reverse,Tname[11],0),
+            new Piece('z3', RedTeam[12],reverse,Tname[12],0),
+            new Piece('z4', RedTeam[13],reverse,Tname[13],0),
+            new Piece('z5', RedTeam[14],reverse,Tname[14],0),
+            new Piece('k', [1,5],1,'k',0)
         ];
     }
 
@@ -74,22 +73,22 @@ export class InitGame {
         }
         
         return [
-            new Piece('j1', BlueTeam[0],reverse,Tname[0]),
-            new Piece('j2', BlueTeam[1],reverse,Tname[1]),
-            new Piece('p1', BlueTeam[2],reverse,Tname[2]),
-            new Piece('p2', BlueTeam[3],reverse,Tname[3]),
-            new Piece('m1', BlueTeam[4],reverse,Tname[4]),
-            new Piece('m2', BlueTeam[5],reverse,Tname[5]),
-            new Piece('x1', BlueTeam[6],reverse,Tname[6]),
-            new Piece('x2', BlueTeam[7],reverse,Tname[7]),
-            new Piece('s1', BlueTeam[8],reverse,Tname[8]),
-            new Piece('s2', BlueTeam[9],reverse,Tname[9]),
-            new Piece('z1', BlueTeam[10],reverse,Tname[10]),
-            new Piece('z2', BlueTeam[11],reverse,Tname[11]),
-            new Piece('z3', BlueTeam[12],reverse,Tname[12]),
-            new Piece('z4', BlueTeam[13],reverse,Tname[13]),
-            new Piece('z5', BlueTeam[14],reverse,Tname[14]),
-            new Piece('k', [10,5],1,'k')
+            new Piece('j1', BlueTeam[0],reverse,Tname[0],0),
+            new Piece('j2', BlueTeam[1],reverse,Tname[1],0),
+            new Piece('p1', BlueTeam[2],reverse,Tname[2],0),
+            new Piece('p2', BlueTeam[3],reverse,Tname[3],0),
+            new Piece('m1', BlueTeam[4],reverse,Tname[4],0),
+            new Piece('m2', BlueTeam[5],reverse,Tname[5],0),
+            new Piece('x1', BlueTeam[6],reverse,Tname[6],0),
+            new Piece('x2', BlueTeam[7],reverse,Tname[7],0),
+            new Piece('s1', BlueTeam[8],reverse,Tname[8],0),
+            new Piece('s2', BlueTeam[9],reverse,Tname[9],0),
+            new Piece('z1', BlueTeam[10],reverse,Tname[10],0),
+            new Piece('z2', BlueTeam[11],reverse,Tname[11],0),
+            new Piece('z3', BlueTeam[12],reverse,Tname[12],0),
+            new Piece('z4', BlueTeam[13],reverse,Tname[13],0),
+            new Piece('z5', BlueTeam[14],reverse,Tname[14],0),
+            new Piece('k', [10,5],1,'k',0)
         ];
     }
 }

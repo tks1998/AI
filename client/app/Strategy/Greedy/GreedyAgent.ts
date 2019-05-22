@@ -29,6 +29,7 @@ export class GreedyAgent extends Agent {
                 }
             }
         }
+      
         return [piece, toPos];
     }
 

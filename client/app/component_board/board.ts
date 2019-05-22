@@ -14,6 +14,7 @@ import { MCTS } from '../Strategy/MCTS/MCTS';
 import { MoveReorderPruner } from '../Strategy/MoveReorderPruner/MoveReorderPruner';
 import { HumanAgent } from '../Strategy/Agent/HumanAgent';
 import { Agent } from '../Strategy/Agent/Agent';
+import { reverse } from 'dns';
 
 @Component({
     selector: 'board',
@@ -89,12 +90,11 @@ export class BoardComponent implements OnInit {
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
-        console.log("---------------------------change mod ----------------------")
-        this.initGame();
-        console.log("---------------------------change mod2 ----------------------")
-       
+        this.initGame();   
     }
-    
+    checkTname(current_piece : Piece){
+        return current_piece.name == current_piece.truthname;
+    }
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
         // get moves of piece  from legalMoves 
@@ -288,5 +288,8 @@ export class BoardComponent implements OnInit {
 
     copyCurrentState() {
         this.lastState = this.state.copy();
+    }
+    static checkReverse(){
+        return this.reverse;
     }
 }

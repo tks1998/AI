@@ -4,15 +4,17 @@ export class Piece {
     position: [number, number]; // (row, column)
     Reverse : boolean; // chess reverse = 1 , else = 0  
     truthname : string;
-    constructor(name, position , Reverse , Tname) {
+    isMove : number ;
+    constructor(name, position , Reverse , Tname , isMove ) {
         this.name = name;
         this.position = position;
         this.Reverse = true ;
         this.truthname = Tname;
+        this.isMove = 0;
     }
     
     static copyFromDict(dict) {
-        return new Piece(dict.name, dict.position,dict.Reverse,dict.truthname);
+        return new Piece(dict.name, dict.position,dict.Reverse,dict.truthname,dict.isMove);
     }
     
 
@@ -23,7 +25,7 @@ export class Piece {
 
     // return a copy of a piece
     copy() {
-        return new Piece(this.name, this.position , this.Reverse ,this.truthname );
+        return new Piece(this.name, this.position , this.Reverse ,this.truthname,this.isMove);
     }   
 
     update(name){

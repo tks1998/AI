@@ -68,9 +68,10 @@ var BoardComponent = (function () {
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
-        console.log("---------------------------change mod ----------------------");
         this.initGame();
-        console.log("---------------------------change mod2 ----------------------");
+    };
+    BoardComponent.prototype.checkTname = function (current_piece) {
+        return current_piece.name == current_piece.truthname;
     };
     BoardComponent.prototype.isPossibleMove = function (pos) {
         if (!this.selectedPiece)
@@ -251,6 +252,9 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.copyCurrentState = function () {
         this.lastState = this.state.copy();
+    };
+    BoardComponent.checkReverse = function () {
+        return this.reverse;
     };
     __decorate([
         core_1.Output(), 

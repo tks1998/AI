@@ -13,14 +13,15 @@ var Agent = (function () {
         this.DEPTH = 0;
         this.reverse = false;
         this.team = team;
-        if (myPieces == null)
-            this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces(reverse) : init_1.InitGame.getBlackPieces(reverse));
+        this.reverse = reverse;
+        if (myPieces == null) {
+            this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces(this.reverse) : init_1.InitGame.getBlackPieces(this.reverse));
+        }
         else {
             this.myPieces = myPieces;
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
-        // console.log("Agent")
     }
     Agent.prototype.setOppoAgent = function (oppoAgent) {
         this.oppoAgent = oppoAgent;

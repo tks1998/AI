@@ -1,28 +1,20 @@
 import { Piece } from '../../Objects/Piece';
+import { TypeScriptEmitter } from '@angular/compiler';
+import { Z_BLOCK } from 'zlib';
+import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
+
 
 export class InitGame {
+     
     
-    // random posistion chess 
     static RandomPosition(){
-        var Rand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
-        var Mask = [] ;
-        var Random = [] ;
-        for (var element = 0 ; element < Rand.length ; element++)
-        {
-            while (1)
-            {
-                var k = Rand[ Math.floor(Math.random() * Rand.length) ];
-                if (! (k.toString() in Mask) )
-                {
-                    Mask.push(k);
-                    Random[element] = k ;    
-                }
-            }
-        }
-        return Random;
+        // prepare module combiatorics from javascrtip 
+        // get next permutation in reserse game  
+        var Rand = [4,1,3,2,0,5,13,7,6,10,9,8,11,12,14];
+        return Rand;  
     }
     
-    static getRedPieces(reverse = false ) {
+    static getRedPieces(reverse ) {
         // make state game 
         // If reverse game then random position for piece expect boss
         // call RandomPosition() random possition
@@ -33,7 +25,7 @@ export class InitGame {
         var Tname = Newname;
         
         var rand = [] ;
-        
+         
         if (reverse)
         {
             rand = this.RandomPosition();
@@ -41,6 +33,7 @@ export class InitGame {
             {
                 Tname[ele]  = Newname[rand[ele]]; 
             }
+            console.log("++++++++222+++++++++");
         }
 
         return [
@@ -63,7 +56,7 @@ export class InitGame {
         ];
     }
 
-    static getBlackPieces(reverse = false ) {
+    static getBlackPieces(reverse :boolean ) {
         
         var BlueTeam = [[10, 1],[10, 9], [8, 2],[8, 8],[10, 2],[10, 8],[10, 3],[10, 7],
             [10, 4],[10, 6],[7, 1],[7, 3],[7, 5],[7, 7],[7, 9]];
@@ -72,6 +65,7 @@ export class InitGame {
         var rand = [] ;
             
         if (reverse){
+            console.log("----------------------------");
             rand = this.RandomPosition();
             for (var ele = 0 ;ele <BlueTeam.length ; ele++)
             {

@@ -187,6 +187,26 @@ export class Rule {
         }
         return moves;
     }
+     // reverse si 
+     static possibleMovesForZuofReverse(currRow, currCol, boardStates, isLowerTeam) {
+       
+        var dx : number[] = [1,1,-1,-1];
+        var dy : number[] = [1,-1,1,-1];
+        var moves = [];         
+        var next_x ,next_y , pair;
+        for (var i =  0 ;i<4 ; i++)
+        {
+            next_x = currRow + dx[i] ; 
+            next_y = currCol + dy[i] ; 
+            pair = [next_x , next_y];
+            if (next_x >= this.minRow && next_x <=this.maxRow && next_y >= this.minCol 
+                && next_y<=this.maxCol && !(pair in boardStates))
+                {
+                    moves.push(pair);
+                }
+        }
+        return moves;
+    }
 
     // King
     static possibleMovesForKing(currRow, currCol, boardStates) {
@@ -202,6 +222,23 @@ export class Rule {
     }
 
     // Xiang
+    static possibleMovesForXiangofReverse(currRow , currCol , boardStates ,isLowerTeam){
+        var dx : number[] = [2,2,-2,-2];
+        var dy : number[] = [-2,-2,2,2];
+        var pair,next_x, next_y;
+        var moves = [];
+        for (var i = 0 ; i<4 ; i++){
+            next_x = currRow + dx[i];
+            next_y = currCol + dy[i];
+            pair = [next_x , next_y];
+            if (next_x >= this.minRow && next_x <= this.maxRow && next_y>=this.minCol 
+                && next_y<=this.maxCol && !(pair.toString() in boardStates ) ) 
+                {
+                    moves.push(pair);
+                }
+        }
+        return moves;
+    }
     static possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -212,8 +249,9 @@ export class Rule {
         if (canMoveDowward && !([currRow - 1, currCol - 1].toString() in boardStates)) moves.push([currRow - 2, currCol - 2]);
         return moves;
     }
-
-    // Zu
+   
+    // Zu - chot
+    
     static possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
         var moves = isLowerTeam ? [[currRow + 1, currCol]] : [[currRow - 1, currCol]];
@@ -243,6 +281,7 @@ export class Rule {
                 moves = this.possibleMovesForMa(currRow, currCol, boardStates);
                 break
             case 'x':
+                // xiang  == quan tinh 
                 moves = this.possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam);
                 break
             case 's':

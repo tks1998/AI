@@ -13,12 +13,8 @@ var service_compute_1 = require('../service/service.compute');
 var DummyPiece_1 = require('../Objects/DummyPiece');
 var State_1 = require('../Strategy/State/State');
 var GreedyAgent_1 = require('../Strategy/Greedy/GreedyAgent');
-var EvaluationFn_1 = require('../Strategy/EvalFn/EvaluationFn');
-var TDLearner_1 = require('../Strategy/TDLearner/TDLearner');
-var TDLearnerTrained_1 = require('../Strategy/TDLearner/TDLearnerTrained');
 var MCTS_1 = require('../Strategy/MCTS/MCTS');
-var MoveReorderPruner_1 = require('../Strategy/MoveReorderPruner/MoveReorderPruner');
-var HumanAgent_1 = require('../Strategy/Agent/HumanAgent');
+var Agent_1 = require('../Strategy/Agent/Agent');
 var BoardComponent = (function () {
     function BoardComponent(server) {
         /***************** CONTROL *******************/
@@ -69,13 +65,12 @@ var BoardComponent = (function () {
         this.weigths_2 = this.INIT_WEIGHT;
     };
     BoardComponent.prototype.changeMode = function () {
-        //this.humanMode = !this.humanMode;
-        //this.simulation_state = -1;
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
         console.log("---------------------------change mod ----------------------");
         this.initGame();
+        console.log("---------------------------change mod2 ----------------------");
     };
     BoardComponent.prototype.isPossibleMove = function (pos) {
         if (!this.selectedPiece)
@@ -129,42 +124,25 @@ var BoardComponent = (function () {
         this.lastState = null;
         // init agents
         var redAgent;
-        redAgent = new HumanAgent_1.HumanAgent(this.redTeam, this.reverse);
         var blackAgent;
-        switch (this.blackAgentType) {
-            case 0: {
-                blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
-                break;
-            }
-            case 1: {
-                blackAgent = new EvaluationFn_1.EvalFnAgent(this.blackTeam, this.reverse, this.blackAgentDepth);
-                break;
-            }
-            case 2: {
-                blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.reverse, this.blackAgentDepth);
-                break;
-            }
-            case 3: {
-                blackAgent = new TDLearner_1.TDLearner(this.blackTeam, this.reverse, this.blackAgentDepth, this.weigths_2);
-                break;
-            }
-            case 4: {
-                blackAgent = new TDLearnerTrained_1.TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth);
-                break;
-            }
-            // TDLearner
-            case 5: {
-                blackAgent = new MCTS_1.MCTS(this.blackTeam, this.blackAgentSimulations, this.reverse);
-                break;
-            }
-            case 6: {
-                blackAgent = new MoveReorderPruner_1.MoveReorderPruner(this.blackTeam, this.reverse, this.blackAgentDepth);
-                break;
-            }
-            default:
-                blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
-                break;
-        }
+        // choose type of red team 
+        blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
+        redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
+        /* if (redAgent.reverse) console.log("day la quan co up ");
+             switch (this.blackAgentType) {
+             /*    case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
+                 case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+ 
+                 case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
+                 case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
+                 case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
+                 // TDLearner
+                 case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
+                 case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+               */
+        //   default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
+        //  }
+        // make state with readAgent , black Agent , && type chess 
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
     };
     BoardComponent.prototype.Reverse = function () {

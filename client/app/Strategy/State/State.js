@@ -9,8 +9,6 @@ var State = (function () {
         // create reverse check state piece && current support -> import data from user 
         this.reverse = false;
         this.currentstate = {};
-        if (reverse == true)
-            console.log("111111111111111111");
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam;

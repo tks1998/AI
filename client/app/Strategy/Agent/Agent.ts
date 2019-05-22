@@ -18,16 +18,19 @@ export class Agent {
     reverse = false;
 
     // team == 1 -> Red , team !=1 -> Black team 
-    constructor(team: number, reverse = false, myPieces = null, pastMoves = [], strategy = 0) {
+    constructor(team: number, reverse =false, myPieces = null, pastMoves = [], strategy = 0) {
+
         this.team = team;
-        if (myPieces == null)
-            this.myPieces = (team == 1 ? InitGame.getRedPieces(reverse) : InitGame.getBlackPieces(reverse));
+        this.reverse = reverse;
+        if (myPieces == null){
+            this.myPieces = (team == 1 ? InitGame.getRedPieces(this.reverse) : InitGame.getBlackPieces(this.reverse));
+            
+        }
         else {
             this.myPieces = myPieces;
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
-        // console.log("Agent")
     }
     setOppoAgent(oppoAgent) {
         this.oppoAgent = oppoAgent;

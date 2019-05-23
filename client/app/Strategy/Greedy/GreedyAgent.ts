@@ -6,7 +6,7 @@ export class GreedyAgent extends Agent {
 
     strategy = 0;
     DEPTH = 1;
-
+    reverse = false;
     // private method of computing next move
     comptuteNextMove() {
         // var pieceNames = Object.keys(this.legalMoves);

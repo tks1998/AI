@@ -43,6 +43,7 @@ var BoardComponent = (function () {
         this.simulation_state = -1;
         this.nSimulations_input = 100;
         this.nSimulations = 100;
+        // If "reverse chinachess " -> reverse = 0 else reverse = 1 
         this.reverse = false;
         /***************** EVENT *******************/
         // new game result obtained
@@ -145,10 +146,6 @@ var BoardComponent = (function () {
         //  }
         // make state with readAgent , black Agent , && type chess 
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
-    };
-    BoardComponent.prototype.Reverse = function () {
-        this.initGame();
-        this.state.switchTurn();
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
@@ -257,7 +254,10 @@ var BoardComponent = (function () {
         return this.reverse;
     };
     BoardComponent.prototype.checkMove = function (currentpiece) {
-        return currentpiece.isMove > 0;
+        if (currentpiece.isMove > 0)
+            return true;
+        else
+            return false;
     };
     __decorate([
         core_1.Output(), 

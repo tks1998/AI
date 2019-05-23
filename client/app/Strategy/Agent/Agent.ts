@@ -19,7 +19,7 @@ export class Agent {
 
     // team == 1 -> Red , team !=1 -> Black team 
     constructor(team: number, reverse =false, myPieces = null, pastMoves = [], strategy = 0) {
-
+        if (reverse == true ) console.log("day la co up") ;
         this.team = team;
         this.reverse = reverse;
         if (myPieces == null){

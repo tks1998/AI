@@ -12,6 +12,7 @@ var GreedyAgent = (function (_super) {
         _super.apply(this, arguments);
         this.strategy = 0;
         this.DEPTH = 1;
+        this.reverse = false;
     }
     // private method of computing next move
     GreedyAgent.prototype.comptuteNextMove = function () {

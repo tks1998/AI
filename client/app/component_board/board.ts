@@ -59,6 +59,7 @@ export class BoardComponent implements OnInit {
     simulation_state = -1;
     nSimulations_input = 100;
     nSimulations = 100;
+    // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
     
 
@@ -177,10 +178,7 @@ export class BoardComponent implements OnInit {
         // make state with readAgent , black Agent , && type chess 
         this.state = new State(redAgent, blackAgent,this.reverse);    
     }
-    Reverse(){
-        this.initGame();
-        this.state.switchTurn();
-    }
+    
     clickDummyPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
@@ -292,7 +290,8 @@ export class BoardComponent implements OnInit {
     checkReverse() : Boolean{
         return this.reverse;
     }
-    checkMove(currentpiece : Piece){
-        return currentpiece.isMove>0
+    checkMove(currentpiece : Piece) : Boolean{
+        if (currentpiece.isMove>0) return true;
+        else return false;
     }
 }

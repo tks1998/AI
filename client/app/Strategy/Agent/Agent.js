@@ -12,6 +12,8 @@ var Agent = (function () {
         this.pastMoves = [];
         this.DEPTH = 0;
         this.reverse = false;
+        if (reverse == true)
+            console.log("day la co up");
         this.team = team;
         this.reverse = reverse;
         if (myPieces == null) {

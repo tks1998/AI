@@ -253,8 +253,11 @@ var BoardComponent = (function () {
     BoardComponent.prototype.copyCurrentState = function () {
         this.lastState = this.state.copy();
     };
-    BoardComponent.checkReverse = function () {
+    BoardComponent.prototype.checkReverse = function () {
         return this.reverse;
+    };
+    BoardComponent.prototype.checkMove = function (currentpiece) {
+        return currentpiece.isMove > 0;
     };
     __decorate([
         core_1.Output(), 

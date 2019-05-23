@@ -272,7 +272,8 @@ export class Rule {
         var currRow = piece.position[0];
         var currCol = piece.position[1];
         var moves = [];
-        if (reverse && piece.isMove){
+        // piece.isMove == 0 -> piece is not move -> fake move
+        if (reverse && piece.isMove == 0){
             if (name == 'x'){
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam);
             }

@@ -289,7 +289,10 @@ export class BoardComponent implements OnInit {
     copyCurrentState() {
         this.lastState = this.state.copy();
     }
-    static checkReverse(){
+    checkReverse() : Boolean{
         return this.reverse;
+    }
+    checkMove(currentpiece : Piece){
+        return currentpiece.isMove>0
     }
 }

@@ -114,8 +114,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
-        if (this.humanMode)
-            this.initGame();
+        this.initGame();
     };
     BoardComponent.prototype.ngOnInit = function () {
         this.initDummyButtons();

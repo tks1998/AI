@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
     logined = false;
     options: any;
     reverse = false; // check chinachess ? reverse chinachess
-    @ViewChild(WinRaterComponent)
+  /*  @ViewChild(WinRaterComponent)
     private winRaterComp: WinRaterComponent;
 
     @ViewChild(RuntimeAnalysist)
@@ -24,12 +24,12 @@ export class AppComponent implements OnInit {
     @ViewChild(WeightTableComponent)
     private weightTable: WeightTableComponent;
 
-
+*/
     ngOnInit() {
     }
 
     chinachess: FormControl = new FormControl();
-
+/*
     selectOpponent(v) {
         // console.log(v);
     }
@@ -50,6 +50,6 @@ export class AppComponent implements OnInit {
         this.update_weight(null, null);
     }
 
-
+*/
 
 }

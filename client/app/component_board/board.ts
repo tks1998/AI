@@ -139,7 +139,7 @@ export class BoardComponent implements OnInit {
     }
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
-        if (this.humanMode) this.initGame();
+        this.initGame();
     }
 
     ngOnInit() {

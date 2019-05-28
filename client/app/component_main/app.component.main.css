@@ -61,3 +61,16 @@
   width: 100%;
   display: block;
 }
+.textbox {
+  border-radius: 10px;
+  border: 7px solid rgb(216, 5, 23);
+  padding: 20px; 
+  width: 350px;
+  height: 200px;  
+}
+.textbox2 {
+  border-radius: 10px;
+  border: 7px solid rgb(216, 5, 23);
+  width: 350px;
+  height: 50px;  
+}

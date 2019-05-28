@@ -13,13 +13,19 @@
 	</board>
 
 	<div class="left">
+		
 		<button class="ui green basic button fluid">
 			<sm-checkbox label="{{board.reverse ? 'reverse china chess':'chinachess'}}" 
 					[control]="chinachess" 
 					type="toggle "  (change)="board.changeMode() ">
 			</sm-checkbox>
 		</button>
-
+		<button class="ui green basic button fluid">
+			<sm-checkbox label="{{board.StateFlag ? 'StateFlag':'normal'}}" 
+					[control]="flag" 
+					type="toggle "  (change)="board.ChangeType() ">
+			</sm-checkbox>
+		</button>
 		<div class="margin"></div>
 
 
@@ -75,6 +81,7 @@
 					<option>5000</option>
 				</sm-select>
 			</div>
+			
 		</div>
 		<div class=" margin "></div>
 
@@ -118,7 +125,16 @@
 				<input type="text" placeholder="Number of Simulations (100)" (change)="board.chooseNSimulations($event.target.value)">
 			</div>
 		</div>
+		<!--input boardstate && number move  -->
 
+		<textarea placeholder="Nhap co the     " (keyup) = "board.SloveState($event.target.value);" rows="4" cols="50" 
+		class ="textbox">  </textarea>
+		
+		<textarea placeholder="Nhap so nuoc di " (keyup) = "board.NumberMove($event.target.value);" class ="textbox2"> </textarea>
+	<!--	<input type ="file"  (change) = "onFileSelected($event)">	
+		<button type="button" (click) = "fileInput.click()" > Pick file </button>
+		<button type="button" (click) = "onUpload()"> Upload</button>
+		--><!--*********************************-->
 	</div>
 
 
@@ -178,9 +194,9 @@
 
 </div>
 
-
 <div class="analysis">
 	<winRater></winRater>
 	<runtimeAnalysist></runtimeAnalysist>
 	<weightTable [depth1]="board.state.redAgent.DEPTH" [depth2]="board.state.blackAgent.DEPTH"></weightTable>
 </div>
+

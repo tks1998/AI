@@ -45,6 +45,7 @@ var BoardComponent = (function () {
         this.nSimulations = 100;
         // If "reverse chinachess " -> reverse = 0 else reverse = 1 
         this.reverse = false;
+        this.StateFlag = false;
         /***************** EVENT *******************/
         // new game result obtained
         this.onResultsUpdated = new core_1.EventEmitter();
@@ -257,6 +258,58 @@ var BoardComponent = (function () {
             return true;
         else
             return false;
+    };
+    BoardComponent.prototype.runState = function () {
+        console.log("success");
+    };
+    BoardComponent.prototype.SloveState = function (newstate1) {
+        if (newstate1 === void 0) { newstate1 = null; }
+        var newstate = [
+            'x1 1 2 -1',
+            'x2 5 5 1'
+        ];
+        var extract;
+        var red = [], black = [], currentState = {};
+        var key = null;
+        for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
+            var x = newstate_1[_i];
+            extract = x.split(' ');
+            if (extract[3] == "1")
+                red.push(extract);
+            if (extract[3] == "-1")
+                black.push(extract);
+            key = [extract[1], extract[2]].toString();
+            if (!(key in currentState)) {
+                currentState[key] = [extract[0], extract[3]];
+            }
+        }
+        return {
+            "red": red,
+            "black": black,
+            "CurrentBoardState": currentState
+        };
+    };
+    BoardComponent.prototype.NumberMove = function (numbermove) {
+        console.log(numbermove);
+    };
+    BoardComponent.prototype.newState = function (red, black) {
+        this.selectedPiece = undefined;
+        this.lastState = null;
+        var redAgent;
+        var blackAgent;
+        blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, false, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, false, this.StateFlag, red);
+        this.state = new State_1.State(redAgent, blackAgent, false);
+    };
+    BoardComponent.prototype.ChangeType = function () {
+        this.reverse = false;
+        this.StateFlag = !this.StateFlag;
+        this.onClear.emit();
+        this.clear_results();
+        var objectState = this.SloveState();
+        this.boardState = objectState["CurrentBoardState"];
+        console.log(this.boardState);
+        this.newState(objectState["red"], objectState["black"]);
     };
     __decorate([
         core_1.Output(), 

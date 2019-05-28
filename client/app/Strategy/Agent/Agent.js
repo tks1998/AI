@@ -3,8 +3,12 @@ var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var init_1 = require('../../ChineseChess/InitGame/init');
 var Agent = (function () {
     // team == 1 -> Red , team !=1 -> Black team 
-    function Agent(team, reverse, myPieces, pastMoves, strategy) {
+    // mask co up -> add value typechess
+    // InitPiece from input of phayer
+    function Agent(team, reverse, typechess, InitPiece, myPieces, pastMoves, strategy) {
         if (reverse === void 0) { reverse = false; }
+        if (typechess === void 0) { typechess = false; }
+        if (InitPiece === void 0) { InitPiece = null; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
         if (strategy === void 0) { strategy = 0; }
@@ -12,15 +16,26 @@ var Agent = (function () {
         this.pastMoves = [];
         this.DEPTH = 0;
         this.reverse = false;
-        if (reverse == true)
-            console.log("day la co up");
+        this.typechess = false;
+        this.InitPiece = null;
         this.team = team;
         this.reverse = reverse;
-        if (myPieces == null) {
-            this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces(this.reverse) : init_1.InitGame.getBlackPieces(this.reverse));
+        if (typechess == false) {
+            if (myPieces == null) {
+                this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces(this.reverse) : init_1.InitGame.getBlackPieces(this.reverse));
+            }
+            else {
+                this.myPieces = myPieces;
+            }
         }
-        else {
-            this.myPieces = myPieces;
+        if (typechess) {
+            if (myPieces == null) {
+                this.InitPiece = InitPiece;
+                this.myPieces = (team == 1 ? init_1.InitGame.StateRed(this.reverse, this.InitPiece) : init_1.InitGame.StateBlack(this.reverse, this.InitPiece));
+            }
+            else {
+                this.myPieces = myPieces;
+            }
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
@@ -96,7 +111,7 @@ var Agent = (function () {
     // TO BE OVERIDE BY TDLeaner
     Agent.prototype.save_state = function (feature_vec) { };
     Agent.prototype.copy = function () {
-        return new Agent(this.team, this.reverse, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new Agent(this.team, this.reverse, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     Agent.prototype.copyMoves = function () {
         return this.pastMoves.slice();

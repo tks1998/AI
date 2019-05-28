@@ -10,7 +10,7 @@ var MCTS = (function (_super) {
     function MCTS(team, N, myPieces, pastMoves) {
         if (myPieces === void 0) { myPieces = undefined; }
         if (pastMoves === void 0) { pastMoves = []; }
-        _super.call(this, team, myPieces, pastMoves);
+        _super.call(this, team, myPieces, null, false, pastMoves);
         this.strategy = 5;
         this.N_SIMULATION = N;
     }

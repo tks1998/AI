@@ -74,6 +74,13 @@ var InitGame = (function () {
             new Piece_1.Piece('k', [10, 5], 1, 'k', 0)
         ];
     };
+    InitGame.StateRed = function (team, currentstate) {
+        console.log(typeof (currentstate));
+        return [new Piece_1.Piece('k', [10, 5], 1, 'k', 0)];
+    };
+    InitGame.StateBlack = function (team, currentstate) {
+        return [new Piece_1.Piece('k', [1, 5], 1, 'k', 0)];
+    };
     return InitGame;
 }());
 exports.InitGame = InitGame;

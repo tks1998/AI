@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { WinRaterComponent } from '../component_analysis/winRate';
 import { RuntimeAnalysist } from '../component_analysis/runtimeAnalysist';
 import { WeightTableComponent } from '../component_analysis/weights';
-
+import {Http} from '@angular/http';
 @Component({
     selector: 'app',
     templateUrl: '../client/app/component_main/app.component.main.html',
@@ -15,7 +15,9 @@ export class AppComponent implements OnInit {
     logined = false;
     options: any;
     reverse = false; // check chinachess ? reverse chinachess
-  /*  @ViewChild(WinRaterComponent)
+    any_state : any;
+    selectedFile :File=null;
+    @ViewChild(WinRaterComponent)
     private winRaterComp: WinRaterComponent;
 
     @ViewChild(RuntimeAnalysist)
@@ -24,12 +26,12 @@ export class AppComponent implements OnInit {
     @ViewChild(WeightTableComponent)
     private weightTable: WeightTableComponent;
 
-*/
+    constructor(private http:Http){}
     ngOnInit() {
     }
 
     chinachess: FormControl = new FormControl();
-/*
+    flag : FormControl = new FormControl();
     selectOpponent(v) {
         // console.log(v);
     }
@@ -49,7 +51,9 @@ export class AppComponent implements OnInit {
     clear() {
         this.update_weight(null, null);
     }
-
-*/
-
+    onFileSelected($event){
+        this.selectedFile =<File>$event.target.files[0];
+    }
+    onUpload(){
+    }
 }

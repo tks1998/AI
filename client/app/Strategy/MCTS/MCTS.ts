@@ -14,7 +14,7 @@ export class MCTS extends Agent {
     }
 
     constructor(team: number, N, myPieces = undefined, pastMoves = []) {
-        super(team, myPieces, pastMoves);
+        super(team, myPieces, null, false , pastMoves);
         this.N_SIMULATION = N;
     }
 }

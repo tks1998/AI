@@ -61,6 +61,7 @@ export class BoardComponent implements OnInit {
     nSimulations = 100;
     // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
+    StateFlag = false;
     
 
 
@@ -178,7 +179,7 @@ export class BoardComponent implements OnInit {
         // make state with readAgent , black Agent , && type chess 
         this.state = new State(redAgent, blackAgent,this.reverse);    
     }
-    
+   
     clickDummyPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
@@ -293,5 +294,60 @@ export class BoardComponent implements OnInit {
     checkMove(currentpiece : Piece) : Boolean{
         if (currentpiece.isMove>0) return true;
         else return false;
+    }
+    runState(){
+        console.log("success");
+    }
+    SloveState(newstate1 = null){
+        var newstate =[
+            'x1 1 2 -1',
+            'x2 5 5 1'
+        ]
+        var extract;
+        var red = [] , black = [] , currentState = {};
+        var key =null;
+        for (var x of newstate){
+            extract = x.split(' ');
+            if (extract[3] == "1") red.push(extract);  
+            if (extract[3]=="-1")  black.push(extract);
+            key =  [extract[1],extract[2]].toString() ;
+            if (! (key in currentState))
+            {
+                currentState[key]= [extract[0],extract[3]]        
+            }
+        }
+
+        return {
+            "red" : red ,
+            "black": black,
+            "CurrentBoardState" : currentState 
+        };
+    }
+    NumberMove(numbermove){
+        console.log(numbermove);
+    
+    }
+    newState(red :any , black : any){
+
+        this.selectedPiece = undefined;
+        this.lastState = null;
+        
+        var redAgent;
+        var blackAgent;
+        
+        blackAgent = new GreedyAgent(this.blackTeam,false,this.StateFlag , black);
+        redAgent = new Agent(this.redTeam,false,this.StateFlag , red);
+        this.state = new State(redAgent, blackAgent,false);    
+        
+    }
+    ChangeType(){
+        this.reverse = false;
+        this.StateFlag = !this.StateFlag;
+        this.onClear.emit();
+        this.clear_results();
+        var objectState =  this.SloveState();
+        this.boardState = objectState["CurrentBoardState"];
+        console.log(this.boardState);
+        this.newState(objectState["red"] , objectState["black"]);
     }
 }

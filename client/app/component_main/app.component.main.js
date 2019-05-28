@@ -10,31 +10,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
+var winRate_1 = require('../component_analysis/winRate');
+var runtimeAnalysist_1 = require('../component_analysis/runtimeAnalysist');
+var weights_1 = require('../component_analysis/weights');
+var http_1 = require('@angular/http');
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(http) {
+        this.http = http;
         this.logined = false;
         this.reverse = false; // check chinachess ? reverse chinachess
+        this.selectedFile = null;
         this.chinachess = new forms_1.FormControl();
+        this.flag = new forms_1.FormControl();
     }
-    /*  @ViewChild(WinRaterComponent)
-      private winRaterComp: WinRaterComponent;
-  
-      @ViewChild(RuntimeAnalysist)
-      private runtimeAnalysist: RuntimeAnalysist;
-  
-      @ViewChild(WeightTableComponent)
-      private weightTable: WeightTableComponent;
-  
-  */
     AppComponent.prototype.ngOnInit = function () {
     };
+    AppComponent.prototype.selectOpponent = function (v) {
+        // console.log(v);
+    };
+    // update analysis results
+    AppComponent.prototype.update_result = function (x, chinachess, agent_param) {
+        this.winRaterComp.update(x, chinachess, agent_param);
+    };
+    AppComponent.prototype.update_runtime = function (x) {
+        this.runtimeAnalysist.update(x);
+    };
+    AppComponent.prototype.update_weight = function (w1, w2) {
+        this.weightTable.update(w1, w2);
+    };
+    AppComponent.prototype.clear = function () {
+        this.update_weight(null, null);
+    };
+    AppComponent.prototype.onFileSelected = function ($event) {
+        this.selectedFile = $event.target.files[0];
+    };
+    AppComponent.prototype.onUpload = function () {
+    };
+    __decorate([
+        core_1.ViewChild(winRate_1.WinRaterComponent), 
+        __metadata('design:type', winRate_1.WinRaterComponent)
+    ], AppComponent.prototype, "winRaterComp", void 0);
+    __decorate([
+        core_1.ViewChild(runtimeAnalysist_1.RuntimeAnalysist), 
+        __metadata('design:type', runtimeAnalysist_1.RuntimeAnalysist)
+    ], AppComponent.prototype, "runtimeAnalysist", void 0);
+    __decorate([
+        core_1.ViewChild(weights_1.WeightTableComponent), 
+        __metadata('design:type', weights_1.WeightTableComponent)
+    ], AppComponent.prototype, "weightTable", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',
             templateUrl: '../client/app/component_main/app.component.main.html',
             styleUrls: ['../client/app/component_main//app.component.main.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], AppComponent);
     return AppComponent;
 }());

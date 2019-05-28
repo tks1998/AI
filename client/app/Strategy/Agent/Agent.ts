@@ -16,18 +16,31 @@ export class Agent {
     DEPTH = 0;
 
     reverse = false;
+    typechess = false;
+    InitPiece = null;
 
     // team == 1 -> Red , team !=1 -> Black team 
-    constructor(team: number, reverse =false, myPieces = null, pastMoves = [], strategy = 0) {
-        if (reverse == true ) console.log("day la co up") ;
+    // mask co up -> add value typechess
+    // InitPiece from input of phayer
+    constructor(team: number, reverse = false, typechess = false, InitPiece = null, myPieces = null, pastMoves = [], strategy = 0) {
         this.team = team;
         this.reverse = reverse;
-        if (myPieces == null){
-            this.myPieces = (team == 1 ? InitGame.getRedPieces(this.reverse) : InitGame.getBlackPieces(this.reverse));
-            
-        }
-        else {
-            this.myPieces = myPieces;
+        if (typechess == false) {
+            if (myPieces == null ){
+                this.myPieces = (team == 1 ? InitGame.getRedPieces(this.reverse) : InitGame.getBlackPieces(this.reverse));
+            } else {
+                this.myPieces = myPieces;
+            }
+        } 
+        if (typechess){
+            if (myPieces ==null )
+            {
+                this.InitPiece = InitPiece;
+                this.myPieces = (team == 1 ? InitGame.StateRed(this.reverse,this.InitPiece) : InitGame.StateBlack(this.reverse,this.InitPiece));    
+            }
+            else {
+                this.myPieces = myPieces ;
+            }
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
@@ -45,7 +58,7 @@ export class Agent {
 
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
-        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
+        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     }
 
     // update board state by pieces
@@ -63,7 +76,7 @@ export class Agent {
         // having oppo piece in target pos
         if (isCapture) this.captureOppoPiece(pos);
         // if "reverse game " && isMove == 1 -> rename current name= truth name
-        if (piece.isMove==1 && this.reverse){
+        if (piece.isMove == 1 && this.reverse) {
             piece.name = piece.truthname;
         }
     }
@@ -106,7 +119,7 @@ export class Agent {
     // TO BE OVERIDE BY TDLeaner
     save_state(feature_vec) { }
     copy() {
-        return new Agent(this.team,this.reverse, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new Agent(this.team, this.reverse,false , null ,  this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 
     copyMoves() {

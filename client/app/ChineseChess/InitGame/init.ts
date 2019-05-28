@@ -90,4 +90,11 @@ export class InitGame {
             new Piece('k', [10,5],1,'k',0)
         ];
     }
+    static StateRed(team , currentstate){
+        console.log(typeof(currentstate));
+        return [new Piece('k', [10,5],1,'k',0)];
+    }
+    static StateBlack(team , currentstate){
+        return [new Piece('k', [1,5],1,'k',0)];
+    }
 }

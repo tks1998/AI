@@ -45,6 +45,6 @@ export class GreedyAgent extends Agent {
 
     // return a copy of an agent
     copy() {
-        return new GreedyAgent(this.team, this.reverse,this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new GreedyAgent(this.team, this.reverse,false , null , this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 }

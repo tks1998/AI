@@ -62,7 +62,7 @@ export class BoardComponent implements OnInit {
     // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
     StateFlag = false;
-    
+    InputState : object;
 
 
 
@@ -87,7 +87,7 @@ export class BoardComponent implements OnInit {
         this.weigths_2 = this.INIT_WEIGHT;
     }
 
-
+    // change type of game , this.reverse = true -> reverse chiana chess else china chess
     changeMode() {
         this.reverse = !this.reverse;
         this.onClear.emit();
@@ -298,14 +298,17 @@ export class BoardComponent implements OnInit {
     runState(){
         console.log("success");
     }
-    SloveState(newstate1 = null){
-        var newstate =[
-            'x1 1 2 -1',
-            'x2 5 5 1'
-        ]
+    SaveState(input){
+        var xy = [input];
+      //  console.log(typeof([xy]));
+        this.InputState = xy; 
+    }
+    SloveState(){
+        var newstate = [] ;//this.InputState;
         var extract;
         var red = [] , black = [] , currentState = {};
         var key =null;
+
         for (var x of newstate){
             extract = x.split(' ');
             if (extract[3] == "1") red.push(extract);  
@@ -313,10 +316,9 @@ export class BoardComponent implements OnInit {
             key =  [extract[1],extract[2]].toString() ;
             if (! (key in currentState))
             {
-                currentState[key]= [extract[0],extract[3]]        
+                currentState[key]= [extract[0],extract[3]] ;        
             }
         }
-
         return {
             "red" : red ,
             "black": black,
@@ -350,4 +352,6 @@ export class BoardComponent implements OnInit {
         console.log(this.boardState);
         this.newState(objectState["red"] , objectState["black"]);
     }
+    // Check move && change image 
+
 }

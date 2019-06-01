@@ -68,7 +68,6 @@ export class Agent {
         for (var i in this.oppoPieces) state[this.oppoPieces[i].position.toString()] = [this.oppoPieces[i].name, false];
         this.boardState = state;
     }
-
     movePieceTo(piece: Piece, pos, isCapture = undefined) {
         piece.moveTo(pos);
         this.addMove(piece.name, pos);

@@ -90,11 +90,23 @@ export class InitGame {
             new Piece('k', [10,5],1,'k',0)
         ];
     }
-    static StateRed(team , currentstate){
-        console.log(typeof(currentstate));
-        return [new Piece('k', [10,5],1,'k',0)];
+    // support china chess -> reslove any state 
+    // make red team
+    static StateRed(team , currentstate , reverse = false){
+        var allPiece = [];
+        for (var element of currentstate){
+            console.log(element[0]);
+            allPiece.push(new Piece(element[0],[element[1],element[2]],reverse,element[0],0));
+        }        
+        return allPiece;
     }
-    static StateBlack(team , currentstate){
-        return [new Piece('k', [1,5],1,'k',0)];
+    // make blue team
+    static StateBlack(team , currentstate,reverse=false){
+        var allPiece = [];
+        for (var element of currentstate){
+            console.log(element[0]);
+            allPiece.push(new Piece(element[0],[element[1],element[2]],reverse,element[0],0));
+        }  
+        return allPiece;
     }
 }

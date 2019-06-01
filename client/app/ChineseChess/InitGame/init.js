@@ -74,12 +74,28 @@ var InitGame = (function () {
             new Piece_1.Piece('k', [10, 5], 1, 'k', 0)
         ];
     };
-    InitGame.StateRed = function (team, currentstate) {
-        console.log(typeof (currentstate));
-        return [new Piece_1.Piece('k', [10, 5], 1, 'k', 0)];
+    // support china chess -> reslove any state 
+    // make red team
+    InitGame.StateRed = function (team, currentstate, reverse) {
+        if (reverse === void 0) { reverse = false; }
+        var allPiece = [];
+        for (var _i = 0, currentstate_1 = currentstate; _i < currentstate_1.length; _i++) {
+            var element = currentstate_1[_i];
+            console.log(element[0]);
+            allPiece.push(new Piece_1.Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
+        }
+        return allPiece;
     };
-    InitGame.StateBlack = function (team, currentstate) {
-        return [new Piece_1.Piece('k', [1, 5], 1, 'k', 0)];
+    // make blue team
+    InitGame.StateBlack = function (team, currentstate, reverse) {
+        if (reverse === void 0) { reverse = false; }
+        var allPiece = [];
+        for (var _i = 0, currentstate_2 = currentstate; _i < currentstate_2.length; _i++) {
+            var element = currentstate_2[_i];
+            console.log(element[0]);
+            allPiece.push(new Piece_1.Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
+        }
+        return allPiece;
     };
     return InitGame;
 }());

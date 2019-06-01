@@ -267,11 +267,14 @@ export class Rule {
     // all legal moves for a piece in a board state
     // boardStates: {posStr->[name, isMyPiece]}
     // return [(row, col)]
+    // 
     static possibleMoves = function(piece: Piece, boardStates: {}, isLowerTeam,reverse) {
         var name = piece.name[0];
         var currRow = piece.position[0];
         var currCol = piece.position[1];
         var moves = [];
+        // xiang -> quan tinh
+        // zu -> si
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove == 0){
             if (name == 'x'){

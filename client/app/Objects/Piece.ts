@@ -1,6 +1,6 @@
 export class Piece {
 
-    name: string;
+    name: string; //j1 j2 his.name[0] 
     position: [number, number]; // (row, column)
     Reverse : boolean; // chess reverse = 1 , else = 0  
     truthname : string;

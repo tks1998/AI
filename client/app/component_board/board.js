@@ -66,6 +66,7 @@ var BoardComponent = (function () {
         this.weigths_1 = this.INIT_WEIGHT;
         this.weigths_2 = this.INIT_WEIGHT;
     };
+    // change type of game , this.reverse = true -> reverse chiana chess else china chess
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
         this.onClear.emit();
@@ -262,12 +263,13 @@ var BoardComponent = (function () {
     BoardComponent.prototype.runState = function () {
         console.log("success");
     };
-    BoardComponent.prototype.SloveState = function (newstate1) {
-        if (newstate1 === void 0) { newstate1 = null; }
-        var newstate = [
-            'x1 1 2 -1',
-            'x2 5 5 1'
-        ];
+    BoardComponent.prototype.SaveState = function (input) {
+        var xy = [input];
+        //  console.log(typeof([xy]));
+        this.InputState = xy;
+    };
+    BoardComponent.prototype.SloveState = function () {
+        var newstate = []; //this.InputState;
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;

@@ -20,12 +20,6 @@
 					type="toggle "  (change)="board.changeMode() ">
 			</sm-checkbox>
 		</button>
-		<button class="ui green basic button fluid">
-			<sm-checkbox label="{{board.StateFlag ? 'StateFlag':'normal'}}" 
-					[control]="flag" 
-					type="toggle "  (change)="board.ChangeType() ">
-			</sm-checkbox>
-		</button>
 		<div class="margin"></div>
 
 
@@ -126,15 +120,22 @@
 			</div>
 		</div>
 		<!--input boardstate && number move  -->
-
-		<textarea placeholder="Nhap co the     " (keyup) = "board.SloveState($event.target.value);" rows="4" cols="50" 
+		<button class="ui green basic button fluid">
+			<sm-checkbox label="{{board.StateFlag ? 'StateFlag':'normal'}}" 
+					[control]="flag" 
+					type="toggle "  (change)="board.ChangeType() ">
+			</sm-checkbox>
+		</button>
+		
+		<textarea placeholder="Nhap co the     " (keyup.enter) = "board.SaveState($event.target.value);" rows="4" cols="50" 
 		class ="textbox">  </textarea>
 		
 		<textarea placeholder="Nhap so nuoc di " (keyup) = "board.NumberMove($event.target.value);" class ="textbox2"> </textarea>
-	<!--	<input type ="file"  (change) = "onFileSelected($event)">	
+		
+			<input type ="file"  (change) = "onFileSelected($event)">	
 		<button type="button" (click) = "fileInput.click()" > Pick file </button>
 		<button type="button" (click) = "onUpload()"> Upload</button>
-		--><!--*********************************-->
+		
 	</div>
 
 
@@ -186,12 +187,7 @@
 				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.png" alt="">
 			</div>
 		</div>
-
-
 	</div>
-
-
-
 </div>
 
 <div class="analysis">

@@ -24,7 +24,7 @@ var GreedyAgent = (function (_super) {
         var toPos = [];
         for (var i in this.myPieces) {
             var name = this.myPieces[i].name;
-            var moves = this.legalMoves[name];
+            var moves = this.legalMoves[name]; // name[x]
             for (var j in moves) {
                 var move = moves[j];
                 var value = this.getValueOfMove(name, move);

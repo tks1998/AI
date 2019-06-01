@@ -2,8 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ComputeService } from '../service/service.compute';
 import { Piece } from '../Objects/Piece';
 import { DummyPiece } from '../Objects/DummyPiece';
-import { Draggable } from '../directive/draggable';
-
 import { Rule } from '../ChineseChess/Rule/Rule';
 import { State } from '../Strategy/State/State';
 import { GreedyAgent } from '../Strategy/Greedy/GreedyAgent';
@@ -62,7 +60,7 @@ export class BoardComponent implements OnInit {
     // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
     StateFlag = false;
-    InputState : object;
+    InputState : Object;
 
 
 

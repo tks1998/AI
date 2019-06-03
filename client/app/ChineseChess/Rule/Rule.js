@@ -223,19 +223,15 @@ var Rule = (function () {
         return moves;
     };
     Rule.possibleMovesForXiangofReverse = function (currRow, currCol, boardStates) {
-        var dx = [2, 2, -2, -2];
-        var dy = [-2, -2, 2, 2];
-        var pair, next_x, next_y;
         var moves = [];
-        for (var i = 0; i < 4; i++) {
-            next_x = currRow + dx[i];
-            next_y = currCol + dy[i];
-            pair = [next_x, next_y];
-            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
-                && next_y <= this.maxCol && !(pair.toString() in boardStates)) {
-                moves.push(pair);
-            }
-        }
+        if (!([currRow + 1, currCol + 1].toString() in boardStates))
+            moves.push([currRow + 2, currCol + 2]);
+        if (!([currRow + 1, currCol - 1].toString() in boardStates))
+            moves.push([currRow + 2, currCol - 2]);
+        if (!([currRow - 1, currCol + 1].toString() in boardStates))
+            moves.push([currRow - 2, currCol + 2]);
+        if (!([currRow - 1, currCol - 1].toString() in boardStates))
+            moves.push([currRow - 2, currCol - 2]);
         return moves;
     };
     // Zu: chot

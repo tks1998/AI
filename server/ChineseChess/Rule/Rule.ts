@@ -15,6 +15,7 @@ export class Rule {
         return false;
     }
 
+
     static numPieceOnRows(col, minRow, maxRow, boardStates) {
         var r = 0;
         for (var i = minRow; i <= maxRow; i++) {
@@ -22,7 +23,6 @@ export class Rule {
         }
         return r;
     }
-
 
 
     // return moves within board range and escape positions occupied by own team
@@ -77,10 +77,12 @@ export class Rule {
         return moves;
     }
 
+
     // Ju: Xe
     static possibleMovesForJu(currRow, currCol, boardStates) {
         return this.movesOnSameLine(currRow, currCol, boardStates);
     }
+
 
     // Ma: Ma
     static possibleMovesForMa(currRow, currCol, boardStates) {
@@ -105,7 +107,6 @@ export class Rule {
     }
 
 
-
     static findFirstOpponentOnRow(row, startCol, states, team, incFn) {
         while (startCol >= this.minCol && startCol <= this.maxCol) {
             var k = [row, startCol].toString();
@@ -116,6 +117,8 @@ export class Rule {
             startCol = incFn(startCol);
         }
     }
+
+
     static findFirstOpponentOnCol(col, startRow, states, team, incFn) {
         while (startRow >= this.minRow && startRow <= this.maxRow) {
             var k = [startRow, col].toString();
@@ -172,6 +175,7 @@ export class Rule {
         return moves;
     }
 
+
     // Shi: Si
     static possibleMovesForShi(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
@@ -188,24 +192,19 @@ export class Rule {
         return moves;
     }
 
-    // reverse Shi
-    static possibleMovesForShiofReverse(currRow, currCol, boardStates, isLowerTeam) {
 
-        var dx: number[] = [1, 1, -1, -1];
-        var dy: number[] = [1, -1, 1, -1];
+    // reverse Shi
+    static possibleMovesForShiofReverse(currRow, currCol, boardStates) {
         var moves = [];
-        var next_x, next_y, pair;
-        for (var i = 0; i < 4; i++) {
-            next_x = currRow + dx[i];
-            next_y = currCol + dy[i];
-            pair = [next_x, next_y];
-            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
-                && next_y <= this.maxCol && !(pair in boardStates)) {
-                moves.push(pair);
-            }
-        }
+        moves = [
+            [currRow - 1, currCol + 1],
+            [currRow - 1, currCol - 1],
+            [currRow + 1, currCol + 1],
+            [currRow + 1, currCol - 1]
+        ];
         return moves;
     }
+
 
     // King
     static possibleMovesForKing(currRow, currCol, boardStates) {
@@ -220,23 +219,8 @@ export class Rule {
         return moves.filter(x => ((x[0] - currRow) * (x[0] - currRow) + (x[1] - currCol) * (x[1] - currCol)) < 2);
     }
 
+
     // Xiang: Tuong
-    static possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam) {
-        var dx: number[] = [2, 2, -2, -2];
-        var dy: number[] = [-2, -2, 2, 2];
-        var pair, next_x, next_y;
-        var moves = [];
-        for (var i = 0; i < 4; i++) {
-            next_x = currRow + dx[i];
-            next_y = currCol + dy[i];
-            pair = [next_x, next_y];
-            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
-                && next_y <= this.maxCol && !(pair.toString() in boardStates)) {
-                moves.push(pair);
-            }
-        }
-        return moves;
-    }
     static possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -245,6 +229,16 @@ export class Rule {
         if (canMoveUpward && !([currRow + 1, currCol - 1].toString() in boardStates)) moves.push([currRow + 2, currCol - 2]);
         if (canMoveDowward && !([currRow - 1, currCol + 1].toString() in boardStates)) moves.push([currRow - 2, currCol + 2]);
         if (canMoveDowward && !([currRow - 1, currCol - 1].toString() in boardStates)) moves.push([currRow - 2, currCol - 2]);
+        return moves;
+    }
+
+
+    static possibleMovesForXiangofReverse(currRow, currCol, boardStates) {
+        var moves = [];
+        if (!([currRow + 1, currCol + 1].toString() in boardStates)) moves.push([currRow + 2, currCol + 2]);
+        if (!([currRow + 1, currCol - 1].toString() in boardStates)) moves.push([currRow + 2, currCol - 2]);
+        if (!([currRow - 1, currCol + 1].toString() in boardStates)) moves.push([currRow - 2, currCol + 2]);
+        if (!([currRow - 1, currCol - 1].toString() in boardStates)) moves.push([currRow - 2, currCol - 2]);
         return moves;
     }
 
@@ -261,11 +255,9 @@ export class Rule {
     }
 
 
-
     // all legal moves for a piece in a board state
     // boardStates: {posStr->[name, isMyPiece]}
     // return [(row, col)]
-    // 
     static possibleMoves = function (piece: Piece, boardStates: {}, isLowerTeam, reverse) {
         var name = piece.name[0];
         var currRow = piece.position[0];
@@ -274,10 +266,10 @@ export class Rule {
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove == 0) {
             if (name == 'x') {
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam);
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }
             if (name == 's') {
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates, isLowerTeam);
+                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
             }
         }
         switch (name) {
@@ -307,6 +299,7 @@ export class Rule {
         moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
         return moves;
     }
+
 
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
@@ -338,6 +331,7 @@ export class Rule {
         return this.getGameEndStateByState(myPieces, oppoPieces, boardState, agent.team)
 
     }
+
 
     static getGameEndStateByState = function (myPieces: Piece[], oppoPieces: Piece[], boardState, team) {
         var myKing = myPieces.filter(x => x.name == 'k')[0];

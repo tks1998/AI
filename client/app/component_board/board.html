@@ -40,7 +40,7 @@
 				<div *ngIf = "checkMove(piece)"> 
 					<button 
 					[class.selected]='selectedPiece && selectedPiece.position==piece.position' 
-					(click)="clickRedPiece(piece)" 
+					(click)="clickBlackPiece(piece)" 
 					[style.left]="(piece.position[1]-1.5)*pieceSize+'px'" 
 					[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
 						<img src="resource/img/pieces/-1/{{piece.name[0]}}.png" alt="">
@@ -49,7 +49,7 @@
 				<div *ngIf="!checkMove(piece)">
 					<button 
 						[class.selected]='selectedPiece && selectedPiece.position==piece.position' 
-						(click)="clickRedPiece(piece)" 
+						(click)="clickBlackPiece(piece)" 
 						[style.left]="(piece.position[1]-1.5)*pieceSize+'px'" 
 						[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
 							<img src="resource/img/quanxanh.png" alt="">

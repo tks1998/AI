@@ -12,8 +12,6 @@ var core_1 = require('@angular/core');
 var service_compute_1 = require('../service/service.compute');
 var DummyPiece_1 = require('../Objects/DummyPiece');
 var State_1 = require('../Strategy/State/State');
-var GreedyAgent_1 = require('../Strategy/Greedy/GreedyAgent');
-var MCTS_1 = require('../Strategy/MCTS/MCTS');
 var Agent_1 = require('../Strategy/Agent/Agent');
 var BoardComponent = (function () {
     function BoardComponent(server) {
@@ -129,23 +127,8 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         // choose type of red team 
-        blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, this.reverse);
+        blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
-        /* if (redAgent.reverse) console.log("day la quan co up ");
-             switch (this.blackAgentType) {
-             /*    case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
-                 case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
- 
-                 case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
-                 case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
-                 case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
-                 // TDLearner
-                 case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
-                 case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
-               */
-        //   default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
-        //  }
-        // make state with readAgent , black Agent , && type chess 
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
@@ -224,8 +207,6 @@ var BoardComponent = (function () {
             var move = result['move'];
             var time = parseInt(result['time']);
             var state_feature = result['state_feature'];
-            if (time)
-                _this.report_runtime(agent.strategy, (agent instanceof MCTS_1.MCTS ? agent.N_SIMULATION : agent.DEPTH), time);
             if (state_feature)
                 agent.save_state(state_feature);
             if (!move) {
@@ -301,7 +282,7 @@ var BoardComponent = (function () {
         this.lastState = null;
         var redAgent;
         var blackAgent;
-        blackAgent = new GreedyAgent_1.GreedyAgent(this.blackTeam, false, this.StateFlag, black);
+        blackAgent = new Agent_1.Agent(this.blackTeam, false, this.StateFlag, black);
         redAgent = new Agent_1.Agent(this.redTeam, false, this.StateFlag, red);
         this.state = new State_1.State(redAgent, blackAgent, false);
     };

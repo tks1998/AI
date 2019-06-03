@@ -2,15 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ComputeService } from '../service/service.compute';
 import { Piece } from '../Objects/Piece';
 import { DummyPiece } from '../Objects/DummyPiece';
-import { Rule } from '../ChineseChess/Rule/Rule';
 import { State } from '../Strategy/State/State';
-import { GreedyAgent } from '../Strategy/Greedy/GreedyAgent';
-import { EvalFnAgent } from '../Strategy/EvalFn/EvaluationFn';
-import { MCTS } from '../Strategy/MCTS/MCTS';
-import { MoveReorderPruner } from '../Strategy/MoveReorderPruner/MoveReorderPruner';
-import { HumanAgent } from '../Strategy/Agent/HumanAgent';
 import { Agent } from '../Strategy/Agent/Agent';
-import { reverse } from 'dns';
 
 @Component({
     selector: 'board',
@@ -49,7 +42,6 @@ export class BoardComponent implements OnInit {
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
-    subscription: any;
     lastState: State;
     // -1: not started | 0: started but stoped | 1: in insimulation
     simulation_state = -1;
@@ -154,25 +146,10 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
         // choose type of red team 
-        blackAgent = new GreedyAgent(this.blackTeam, this.reverse);
+        blackAgent = new Agent(this.blackTeam, this.reverse);
 
         redAgent = new Agent(this.redTeam, this.reverse);
 
-        /* if (redAgent.reverse) console.log("day la quan co up ");
-             switch (this.blackAgentType) {
-             /*    case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
-                 case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
- 
-                 case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
-                 case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
-                 case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
-                 // TDLearner
-                 case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
-                 case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
-               */
-        //   default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
-        //  }
-        // make state with readAgent , black Agent , && type chess 
         this.state = new State(redAgent, blackAgent, this.reverse);
     }
 
@@ -257,7 +234,7 @@ export class BoardComponent implements OnInit {
                 var move = result['move'];
                 var time = parseInt(result['time']);
                 var state_feature = result['state_feature'];
-                if (time) this.report_runtime(agent.strategy, (agent instanceof MCTS ? agent.N_SIMULATION : agent.DEPTH), time)
+                
                 if (state_feature) agent.save_state(state_feature);
                 if (!move) { // FAIL
                     this.end_game(-1);
@@ -333,7 +310,7 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
 
-        blackAgent = new GreedyAgent(this.blackTeam, false, this.StateFlag, black);
+        blackAgent = new Agent(this.blackTeam, false, this.StateFlag, black);
         redAgent = new Agent(this.redTeam, false, this.StateFlag, red);
         this.state = new State(redAgent, blackAgent, false);
 

@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
 import { State } from '../Strategy/State/State'
-import { TDLearner } from '../Strategy/TDLearner/TDLearner'
 import { MCTS } from '../Strategy/MCTS/MCTS'
-import { TDLearnerTrained } from '../Strategy/TDLearner/TDLearnerTrained'
 // import { Agent } from '../Strategy/Agent/Agent'
 // import { GreedyAgent } from '../Strategy/Greedy/GreedyAgent'
 // import { EvalFnAgent } from '../Strategy/EvalFn/EvaluationFn'
@@ -34,7 +32,7 @@ function onListening() {
 
 // ******************* PARAM ******************* //
 var N_MAX_MOVES = 100;
-app.put('/compute/', function(request, response) {
+app.put('/compute', function(request, response) {
     // console.log("-=-=-=-= Server: Compute get Request Received  -=-=-=-=-=-=-");
     var state = request.body;
     var to_return = {};
@@ -45,7 +43,7 @@ app.put('/compute/', function(request, response) {
     }
     state = State.copyFromDict(state);
     var start = new Date().getTime();
- 
+
     let next = state.nextMove();
  
     var now = new Date().getTime();
@@ -55,11 +53,9 @@ app.put('/compute/', function(request, response) {
     var feature_vec = null;
 
     var playing = state.get_playing_agent();
-    if (playing.check_king_exist() && playing instanceof TDLearner && !state.is_repeating && !(playing instanceof TDLearnerTrained)) {
-        // console.log(playing.weights)
-        feature_vec = playing.extract_state_feature(playing, state, playing.oppoAgent);
-    }
-    response.end(JSON.stringify({ "move": next, "time": t, "state_feature": feature_vec }));
+
+    response.end(JSON.stringify({ "move": next, "time": t}));
     var param = (playing instanceof MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");
 });
+

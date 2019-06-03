@@ -24,10 +24,6 @@ export class State {
     }
 
     // TDlearning
-    learn(nSimulations) {
-        this.redAgent.update_weights(nSimulations, this.endFlag);
-        this.blackAgent.update_weights(nSimulations, this.endFlag);
-    }
     record_feature(feature_vec) {
         // console.log("record_feature")
         this.redAgent.save_state(feature_vec);

@@ -1,10 +1,7 @@
 import { Agent } from '../Agent/Agent'
 import { GreedyAgent } from '../Greedy/GreedyAgent'
 import { ABPruning } from '../ABPruning/ABPruning'
-import { TDLearner } from '../TDLearner/TDLearner'
-import { TDLearnerTrained } from '../TDLearner/TDLearnerTrained'
 import { MCTS } from '../MCTS/MCTS'
-import { Reorder } from '../Reorder/Reorder'
 import { Rule } from '../../ChineseChess/Rule/Rule'
 
 export class State {
@@ -88,10 +85,7 @@ export class State {
 
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 2) agent = Reorder.copyFromDict(agentDict);
-        if (agentDict.strategy == 3) agent = TDLearner.copyFromDict(agentDict);
-        if (agentDict.strategy == 4) agent = TDLearnerTrained.copyFromDict(agentDict);
-        if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
+         if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
         var new_state;
         if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam);
         else new_state = new State(oppo, agent, dict.playingTeam);

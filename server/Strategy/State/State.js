@@ -2,10 +2,7 @@
 var Agent_1 = require('../Agent/Agent');
 var GreedyAgent_1 = require('../Greedy/GreedyAgent');
 var ABPruning_1 = require('../ABPruning/ABPruning');
-var TDLearner_1 = require('../TDLearner/TDLearner');
-var TDLearnerTrained_1 = require('../TDLearner/TDLearnerTrained');
 var MCTS_1 = require('../MCTS/MCTS');
-var Reorder_1 = require('../Reorder/Reorder');
 var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var State = (function () {
     function State(redAgent, blacAgent, playingTeam, updateDict) {
@@ -78,12 +75,6 @@ var State = (function () {
             agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1)
             agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 2)
-            agent = Reorder_1.Reorder.copyFromDict(agentDict);
-        if (agentDict.strategy == 3)
-            agent = TDLearner_1.TDLearner.copyFromDict(agentDict);
-        if (agentDict.strategy == 4)
-            agent = TDLearnerTrained_1.TDLearnerTrained.copyFromDict(agentDict);
         if (agentDict.strategy == 5)
             agent = MCTS_1.MCTS.copyFromDict(agentDict);
         var new_state;

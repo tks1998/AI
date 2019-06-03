@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { WinRaterComponent } from '../component_analysis/winRate';
-import { RuntimeAnalysist } from '../component_analysis/runtimeAnalysist';
-import { WeightTableComponent } from '../component_analysis/weights';
 import {Http} from '@angular/http';
 @Component({
     selector: 'app',
@@ -17,14 +14,7 @@ export class AppComponent implements OnInit {
     reverse = false; // check chinachess ? reverse chinachess
     any_state : any;
     selectedFile :File=null;
-    @ViewChild(WinRaterComponent)
-    private winRaterComp: WinRaterComponent;
-
-    @ViewChild(RuntimeAnalysist)
-    private runtimeAnalysist: RuntimeAnalysist;
-
-    @ViewChild(WeightTableComponent)
-    private weightTable: WeightTableComponent;
+    
 
     constructor(private http:Http){}
     ngOnInit() {
@@ -36,21 +26,6 @@ export class AppComponent implements OnInit {
         // console.log(v);
     }
     // update analysis results
-    update_result(x, chinachess, agent_param) {
-        this.winRaterComp.update(x, chinachess, agent_param);
-    }
-
-    update_runtime(x) {
-        this.runtimeAnalysist.update(x);
-    }
-
-    update_weight(w1, w2) {
-        this.weightTable.update(w1, w2);
-    }
-
-    clear() {
-        this.update_weight(null, null);
-    }
     onFileSelected($event){
         this.selectedFile =<File>$event.target.files[0];
     }

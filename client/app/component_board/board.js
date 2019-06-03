@@ -255,6 +255,8 @@ var BoardComponent = (function () {
         return this.reverse;
     };
     BoardComponent.prototype.checkMove = function (currentpiece) {
+        if (currentpiece.name[0] == 'k')
+            return true;
         if (currentpiece.isMove > 0)
             return true;
         else

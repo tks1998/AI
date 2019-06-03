@@ -1,7 +1,6 @@
 
 import { Agent } from '../Agent/Agent'
 import { State } from '../State/State'
-import { TDLearner } from '../TDLearner/TDLearner'
 import { MoveReorderPruner } from '../MoveReorderPruner/MoveReorderPruner'
 
 export class MCTS extends Agent {

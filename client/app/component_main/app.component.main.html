@@ -1,8 +1,5 @@
 <div class="body_content" (keyup.Enter)="board.initGame()">
-	<board #board class="board" (onResultsUpdated)="update_result(board.results, board.humanMode, [board.redAgentType, board.redAgentDepth, board.blackAgentType, board.blackAgentDepth])" 
-			(onTimeUpdated)="update_runtime(board.runtime_dict)" 
-			(onWeightUpdated)="update_weight(board.state.redAgent.strategy==3? board.weigths_1: undefined, board.state.blackAgent.strategy==3? board.weigths_2:undefined)"
-			(onClear)="clear()">
+	<board #board class="board" >
 	</board>
 
 	<div class="left">
@@ -181,10 +178,3 @@
 		</div>
 	</div>
 </div>
-
-<div class="analysis">
-	<winRater></winRater>
-	<runtimeAnalysist></runtimeAnalysist>
-	<weightTable [depth1]="board.state.redAgent.DEPTH" [depth2]="board.state.blackAgent.DEPTH"></weightTable>
-</div>
-

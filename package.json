@@ -1,7 +1,7 @@
 {
-  "name": "ChineseChessAi",
+  "name": "ChineseChessAI",
   "version": "1.0.0",
-  "description": "AI Agent for Chinese Chess - Stanford CS 221 Projects",
+  "description": "AI Agent for Chinese Chess - UIT CS 106 Projects",
   "main": "gulpfile.js",
   "private": true,
   "scripts": {

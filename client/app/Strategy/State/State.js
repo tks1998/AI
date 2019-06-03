@@ -19,10 +19,6 @@ var State = (function () {
         }
     }
     // TDlearning
-    State.prototype.learn = function (nSimulations) {
-        this.redAgent.update_weights(nSimulations, this.endFlag);
-        this.blackAgent.update_weights(nSimulations, this.endFlag);
-    };
     State.prototype.record_feature = function (feature_vec) {
         // console.log("record_feature")
         this.redAgent.save_state(feature_vec);

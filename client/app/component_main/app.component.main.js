@@ -31,6 +31,15 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onUpload = function () {
     };
+    AppComponent.prototype.myFunction = function () {
+        var x = document.getElementById("demo");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        }
+        else {
+            x.style.display = "none";
+        }
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

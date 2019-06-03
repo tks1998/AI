@@ -194,23 +194,14 @@ export class Rule {
 
 
     // reverse Shi
-    static possibleMovesForShiofReverse(currRow, currCol, boardStates, isLowerTeam) {
-       
-        var dx : number[] = [1,1,-1,-1];
-        var dy : number[] = [1,-1,1,-1];
-        var moves = [];         
-        var next_x ,next_y , pair;
-        for (var i =  0 ;i<4 ; i++)
-        {
-            next_x = currRow + dx[i] ; 
-            next_y = currCol + dy[i] ; 
-            pair = [next_x , next_y];
-            if (next_x >= this.minRow && next_x <=this.maxRow && next_y >= this.minCol 
-                && next_y<=this.maxCol && !(pair in boardStates))
-                {
-                    moves.push(pair);
-                }
-        }
+    static possibleMovesForShiofReverse(currRow, currCol, boardStates) {
+        var moves = [];
+        moves = [
+            [currRow - 1, currCol + 1],
+            [currRow - 1, currCol - 1],
+            [currRow + 1, currCol + 1],
+            [currRow + 1, currCol - 1]
+        ];
         return moves;
     }
 
@@ -230,25 +221,6 @@ export class Rule {
 
 
     // Xiang: Tuong
-    static possibleMovesForXiangofReverse(currRow , currCol , boardStates ,isLowerTeam){
-        var dx : number[] = [2,2,-2,-2];
-        var dy : number[] = [-2,-2,2,2];
-        var pair,next_x, next_y;
-        var moves = [];
-        for (var i = 0 ; i<4 ; i++){
-            next_x = currRow + dx[i];
-            next_y = currCol + dy[i];
-            pair = [next_x , next_y];
-            if (next_x >= this.minRow && next_x <= this.maxRow && next_y>=this.minCol 
-                && next_y<=this.maxCol && !(pair.toString() in boardStates ) ) 
-                {
-                    moves.push(pair);
-                }
-        }
-        return moves;
-    }
-
-
     static possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -259,8 +231,26 @@ export class Rule {
         if (canMoveDowward && !([currRow - 1, currCol - 1].toString() in boardStates)) moves.push([currRow - 2, currCol - 2]);
         return moves;
     }
-   
 
+
+    static possibleMovesForXiangofReverse(currRow, currCol, boardStates) {
+        var dx: number[] = [2, 2, -2, -2];
+        var dy: number[] = [-2, -2, 2, 2];
+        var pair, next_x, next_y;
+        var moves = [];
+        for (var i = 0; i < 4; i++) {
+            next_x = currRow + dx[i];
+            next_y = currCol + dy[i];
+            pair = [next_x, next_y];
+            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
+                && next_y <= this.maxCol && !(pair.toString() in boardStates)) {
+                moves.push(pair);
+            }
+        }
+        return moves;
+    }
+
+    
     // Zu: chot
     static possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
@@ -276,18 +266,18 @@ export class Rule {
     // all legal moves for a piece in a board state
     // boardStates: {posStr->[name, isMyPiece]}
     // return [(row, col)]
-    static possibleMoves = function(piece: Piece, boardStates: {}, isLowerTeam,reverse) {
+    static possibleMoves = function (piece: Piece, boardStates: {}, isLowerTeam, reverse) {
         var name = piece.name[0];
         var currRow = piece.position[0];
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0){
-            if (name == 'x'){
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam);
+        if (reverse && piece.isMove == 0) {
+            if (name == 'x') {
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }
-            if (name == 's'){
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates, isLowerTeam);
+            if (name == 's') {
+                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
             }
         }
         switch (name) {
@@ -321,13 +311,13 @@ export class Rule {
 
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
-    static allPossibleMoves = function(myPieces: Piece[], boardStates: {}, team , reverse) {
+    static allPossibleMoves = function (myPieces: Piece[], boardStates: {}, team, reverse) {
         var moves = {};
         // team is in the lower part of the river
         var isLowerTeam = (team == 1);
         for (var i in myPieces) {
             var piece = myPieces[i];
-            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam,reverse);
+            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
             // console.log("moves4Piece", piece.name, moves4Piece)
 
             // move [ name ]  =   
@@ -342,7 +332,7 @@ export class Rule {
     // 1: Win
     // -1: Lase
     // {posStr->[name, isMyPiece]}
-    static getGameEndState = function(agent) {
+    static getGameEndState = function (agent) {
         var myPieces: Piece[] = agent.myPieces;
         var oppoPieces: Piece[] = agent.oppoPieces;
         var boardState = agent.boardState;
@@ -350,8 +340,8 @@ export class Rule {
 
     }
 
-    
-    static getGameEndStateByState = function(myPieces: Piece[], oppoPieces: Piece[], boardState, team) {
+
+    static getGameEndStateByState = function (myPieces: Piece[], oppoPieces: Piece[], boardState, team) {
         var myKing = myPieces.filter(x => x.name == 'k')[0];
         var oppoKing = oppoPieces.filter(x => x.name == 'k')[0];
         if (!myKing) return -1;

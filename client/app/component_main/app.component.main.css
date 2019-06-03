@@ -61,12 +61,8 @@
   width: 100%;
   display: block;
 }
-.textbox {
-  border-radius: 10px;
-  border: 7px solid rgb(216, 5, 23);
-  padding: 20px; 
-  width: 250px;
-  height: 200px;  
+.textboxx {
+  width: 100%;
 }
 .textbox2 {
   border-radius: 10px;

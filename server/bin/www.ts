@@ -35,6 +35,7 @@ var N_MAX_MOVES = 100;
 app.put('/compute', function(request, response) {
     // console.log("-=-=-=-= Server: Compute get Request Received  -=-=-=-=-=-=-");
     var state = request.body;
+   
     var to_return = {};
     if (state.redAgent.pastMoves.length >= N_MAX_MOVES) {
         console.log("-=-=-=-=-= Draw -=-=-=-=-=-");
@@ -43,7 +44,7 @@ app.put('/compute', function(request, response) {
     }
     state = State.copyFromDict(state);
     var start = new Date().getTime();
-
+    
     let next = state.nextMove();
  
     var now = new Date().getTime();

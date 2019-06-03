@@ -5,10 +5,11 @@ var ABPruning_1 = require('../ABPruning/ABPruning');
 var MCTS_1 = require('../MCTS/MCTS');
 var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var State = (function () {
-    function State(redAgent, blacAgent, playingTeam, updateDict) {
+    function State(redAgent, blacAgent, playingTeam, reverse, updateDict) {
         if (playingTeam === void 0) { playingTeam = 1; }
         if (updateDict === void 0) { updateDict = false; }
         this.is_repeating = false;
+        this.reverse = false;
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam;
@@ -67,6 +68,7 @@ var State = (function () {
             var agentDict = dict.blackAgent;
             var oppo = dict.redAgent;
         }
+        var reverse = dict.reverse;
         oppo = Agent_1.Agent.copyFromDict(oppo);
         var agent;
         // console.log(agentDict.strategy)
@@ -79,9 +81,9 @@ var State = (function () {
             agent = MCTS_1.MCTS.copyFromDict(agentDict);
         var new_state;
         if (dict.playingTeam == 1)
-            new_state = new State(agent, oppo, dict.playingTeam);
+            new_state = new State(agent, oppo, dict.playingTeam, reverse);
         else
-            new_state = new State(oppo, agent, dict.playingTeam);
+            new_state = new State(oppo, agent, dict.playingTeam, reverse);
         new_state.is_repeating = is_repeating;
         return new_state;
     };

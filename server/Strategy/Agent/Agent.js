@@ -30,7 +30,7 @@ var Agent = (function () {
     };
     // compute legals moves for my pieces after state updated
     Agent.prototype.computeLegalMoves = function () {
-        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team);
+        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, false);
     };
     // update board state by pieces
     Agent.prototype.updateBoardState = function () {

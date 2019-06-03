@@ -10,8 +10,8 @@ export class State {
     playingTeam: number;
 
     is_repeating = false;
-
-    constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1, updateDict = false) {
+    reverse = false;
+    constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1,reverse, updateDict = false) {
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam;
@@ -78,6 +78,7 @@ export class State {
             var agentDict = dict.blackAgent;
             var oppo = dict.redAgent;
         }
+        var reverse = dict.reverse;
         oppo = Agent.copyFromDict(oppo);
         var agent;
         // console.log(agentDict.strategy)
@@ -87,8 +88,8 @@ export class State {
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
          if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
         var new_state;
-        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam);
-        else new_state = new State(oppo, agent, dict.playingTeam);
+        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,reverse);
+        else new_state = new State(oppo, agent, dict.playingTeam,reverse);
         new_state.is_repeating = is_repeating;
         return new_state;
     }

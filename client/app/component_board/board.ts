@@ -288,6 +288,7 @@ export class BoardComponent implements OnInit {
         return this.reverse;
     }
     checkMove(currentpiece : Piece) : Boolean{
+        if (currentpiece.name[0]=='k') return true;
         if (currentpiece.isMove>0) return true;
         else return false;
     }

@@ -14,9 +14,6 @@ var ng_semantic_1 = require("ng-semantic");
 var app_component_main_1 = require('./component_main/app.component.main');
 var http_1 = require('@angular/http');
 var board_1 = require('./component_board/board');
-var winRate_1 = require('./component_analysis/winRate');
-var weights_1 = require('./component_analysis/weights');
-var runtimeAnalysist_1 = require('./component_analysis/runtimeAnalysist');
 var MapToIterable_1 = require('./pipe/MapToIterable');
 var ng2_charts_1 = require('ng2-charts/ng2-charts');
 var AppModule = (function () {
@@ -37,9 +34,6 @@ var AppModule = (function () {
                 app_component_main_1.AppComponent,
                 board_1.BoardComponent,
                 MapToIterable_1.MapToIterable,
-                winRate_1.WinRaterComponent,
-                runtimeAnalysist_1.RuntimeAnalysist,
-                weights_1.WeightTableComponent,
             ]
         }), 
         __metadata('design:paramtypes', [])

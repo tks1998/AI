@@ -2,10 +2,12 @@ export class Piece {
 
     name: string;
     position: [number, number]; // (row, column)
+    isMove: number;
 
     constructor(name, position) {
         this.name = name;
         this.position = position;
+        this.isMove = 0;
     }
 
     static copyFromDict(dict) {

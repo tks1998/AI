@@ -3,6 +3,7 @@ var Piece = (function () {
     function Piece(name, position) {
         this.name = name;
         this.position = position;
+        this.isMove = 0;
     }
     Piece.copyFromDict = function (dict) {
         return new Piece(dict.name, dict.position);

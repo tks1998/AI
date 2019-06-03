@@ -2,6 +2,7 @@ import { Piece } from '../../Objects/Piece';
 
 
 export class Rule {
+
     static minRow = 1;
     static maxRow = 10;
     static minCol = 1;
@@ -242,7 +243,7 @@ export class Rule {
         return moves;
     }
 
-    
+
     // Zu: chot
     static possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
@@ -264,7 +265,7 @@ export class Rule {
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0) {
+        if (reverse && piece.isMove != 0) {
             if (name == 'x') {
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }

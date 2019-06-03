@@ -257,7 +257,7 @@ var Rule = (function () {
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0) {
+        if (reverse && piece.isMove != 0) {
             if (name == 'x') {
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }

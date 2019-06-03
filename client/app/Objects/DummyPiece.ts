@@ -6,5 +6,4 @@ export class DummyPiece extends Piece {
         super('', position, '', '', '');
     }
 
-
 }

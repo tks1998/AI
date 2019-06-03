@@ -74,7 +74,7 @@ var InitGame = (function () {
             new Piece_1.Piece('k', [10, 5], 1, 'k', 0)
         ];
     };
-    // support china chess -> reslove any state 
+    // support china chess -> resolve any state 
     // make red team
     InitGame.StateRed = function (team, currentstate, reverse) {
         if (reverse === void 0) { reverse = false; }

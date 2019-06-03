@@ -6,7 +6,6 @@ import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
 
 export class InitGame {
 
-
     static RandomPosition() {
         // prepare module combiatorics from javascript 
         // get next permutation in reserse game  
@@ -54,6 +53,7 @@ export class InitGame {
         ];
     }
 
+
     static getBlackPieces(reverse: boolean) {
 
         var BlueTeam = [[10, 1], [10, 9], [8, 2], [8, 8], [10, 2], [10, 8], [10, 3], [10, 7],
@@ -88,7 +88,9 @@ export class InitGame {
             new Piece('k', [10, 5], 1, 'k', 0)
         ];
     }
-    // support china chess -> reslove any state 
+
+
+    // support china chess -> resolve any state 
     // make red team
     static StateRed(team, currentstate, reverse = false) {
         var allPiece = [];
@@ -98,6 +100,8 @@ export class InitGame {
         }
         return allPiece;
     }
+
+
     // make blue team
     static StateBlack(team, currentstate, reverse = false) {
         var allPiece = [];

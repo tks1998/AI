@@ -13,6 +13,7 @@ export class Piece {
         this.isMove = 0;
     }
 
+
     static copyFromDict(dict) {
         return new Piece(dict.name, dict.position, dict.Reverse, dict.truthname, dict.isMove);
     }
@@ -23,11 +24,13 @@ export class Piece {
         this.name = this.truthname;
     }
 
+
     // return a copy of a piece
     copy() {
         return new Piece(this.name, this.position, this.Reverse, this.truthname, this.isMove);
     }
 
+    
     update(name) {
         this.name = this.truthname;
     }

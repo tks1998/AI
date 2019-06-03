@@ -1,11 +1,13 @@
-#!/usr/bin/env node
-
+/*
+ * client request to sever 
+ * Sever reveice and extract request from client and compute next move -> reponse client 
+ * use method http of angular make reponse for client
+ * default port = 3000 
+ * references on page  https://angular.io/guide/http
+ * If you want to upgrade , you should use method nginx . Nginx is method support load balancer 
+ */
 import { State } from '../Strategy/State/State'
 import { MCTS } from '../Strategy/MCTS/MCTS'
-// import { Agent } from '../Strategy/Agent/Agent'
-// import { GreedyAgent } from '../Strategy/Greedy/GreedyAgent'
-// import { EvalFnAgent } from '../Strategy/EvalFn/EvaluationFn'
-// import { Piece } from '../Objects/Piece'
 
 var app = require('../server').app;
 var debug = require('debug')('server:server');
@@ -28,33 +30,31 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
-
-
-// ******************* PARAM ******************* //
+// set maximum move 
 var N_MAX_MOVES = 100;
+
 app.put('/compute', function(request, response) {
-    // console.log("-=-=-=-= Server: Compute get Request Received  -=-=-=-=-=-=-");
     var state = request.body;
-   
     var to_return = {};
+    // number move > maximum move -> end game 
     if (state.redAgent.pastMoves.length >= N_MAX_MOVES) {
-        console.log("-=-=-=-=-= Draw -=-=-=-=-=-");
         response.end(JSON.stringify({ "move": [] }));
         return;
     }
+    // recieved request and extract it 
+    // make new State from request 
     state = State.copyFromDict(state);
+    //get time 
     var start = new Date().getTime();
-    
+    // compute next move  
     let next = state.nextMove();
  
     var now = new Date().getTime();
  
     var t = (now - start);
 
-    var feature_vec = null;
-
     var playing = state.get_playing_agent();
-
+    
     response.end(JSON.stringify({ "move": next, "time": t}));
     var param = (playing instanceof MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");

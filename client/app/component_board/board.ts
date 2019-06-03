@@ -58,7 +58,7 @@ export class BoardComponent implements OnInit {
     // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
     StateFlag = false;
-    InputState : Object;
+    InputState: Object;
 
 
 
@@ -88,9 +88,9 @@ export class BoardComponent implements OnInit {
         this.reverse = !this.reverse;
         this.onClear.emit();
         this.clear_results();
-        this.initGame();   
+        this.initGame();
     }
-    checkTname(current_piece : Piece){
+    checkTname(current_piece: Piece) {
         return current_piece.name == current_piece.truthname;
     }
     isPossibleMove(pos) {
@@ -146,7 +146,7 @@ export class BoardComponent implements OnInit {
     constructor(server: ComputeService) {
         this.server = server;
     }
-   
+
     initGame() {
         this.selectedPiece = undefined;
         this.lastState = null;
@@ -154,28 +154,28 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
         // choose type of red team 
-        blackAgent = new GreedyAgent(this.blackTeam,this.reverse);
-        
-        redAgent = new Agent(this.redTeam,this.reverse);
-        
-       /* if (redAgent.reverse) console.log("day la quan co up ");
-            switch (this.blackAgentType) {
-            /*    case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
-                case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+        blackAgent = new GreedyAgent(this.blackTeam, this.reverse);
 
-                case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
-                case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
-                case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
-                // TDLearner
-                case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
-                case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
-              */  
-             //   default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
-          //  }
+        redAgent = new Agent(this.redTeam, this.reverse);
+
+        /* if (redAgent.reverse) console.log("day la quan co up ");
+             switch (this.blackAgentType) {
+             /*    case 0: { blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break; }
+                 case 1: { blackAgent = new EvalFnAgent(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+ 
+                 case 2: { blackAgent = new MoveReorderPruner(this.blackTeam,this.reverse, this.blackAgentDepth); break; }
+                 case 3: { blackAgent = new TDLearner(this.blackTeam,this.reverse,this.blackAgentDepth, this.weigths_2); break; }
+                 case 4: { blackAgent = new TDLearnerTrained(this.blackTeam, this.reverse, this.blackAgentDepth); break; }
+                 // TDLearner
+                 case 5: { blackAgent = new MCTS(this.blackTeam, this.blackAgentSimulations,this.reverse); break; }
+                 case 6: { blackAgent = new MoveReorderPruner(this.blackTeam, this.reverse,this.blackAgentDepth); break; }
+               */
+        //   default: blackAgent = new GreedyAgent(this.blackTeam,this.reverse); break;
+        //  }
         // make state with readAgent , black Agent , && type chess 
-        this.state = new State(redAgent, blackAgent,this.reverse);    
+        this.state = new State(redAgent, blackAgent, this.reverse);
     }
-   
+
     clickDummyPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
@@ -208,7 +208,7 @@ export class BoardComponent implements OnInit {
         this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
         this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
         /*if (!this.humanMode) this.end_simulation();
-        else */ 
+        else */
         this.selectedPiece = undefined;
     }
 
@@ -284,69 +284,68 @@ export class BoardComponent implements OnInit {
     copyCurrentState() {
         this.lastState = this.state.copy();
     }
-    checkReverse() : Boolean{
+    checkReverse(): Boolean {
         return this.reverse;
     }
-    checkMove(currentpiece : Piece) : Boolean{
-        if (currentpiece.isMove>0) return true;
+    checkMove(currentpiece: Piece): Boolean {
+        if (currentpiece.isMove > 0) return true;
         else return false;
     }
-    runState(){
+    runState() {
         console.log("success");
     }
-    SaveState(input){
+    SaveState(input) {
         var xy = [input];
-      //  console.log(typeof([xy]));
-        this.InputState = xy; 
+        //  console.log(typeof([xy]));
+        this.InputState = xy;
     }
-    SloveState(){
-        var newstate = [] ;//this.InputState;
+    SloveState() {
+        var newstate = [];//this.InputState;
         var extract;
-        var red = [] , black = [] , currentState = {};
-        var key =null;
+        var red = [], black = [], currentState = {};
+        var key = null;
 
-        for (var x of newstate){
+        for (var x of newstate) {
             extract = x.split(' ');
-            if (extract[3] == "1") red.push(extract);  
-            if (extract[3]=="-1")  black.push(extract);
-            key =  [extract[1],extract[2]].toString() ;
-            if (! (key in currentState))
-            {
-                currentState[key]= [extract[0],extract[3]] ;        
+            if (extract[3] == "1") red.push(extract);
+            if (extract[3] == "-1") black.push(extract);
+            key = [extract[1], extract[2]].toString();
+            if (!(key in currentState)) {
+                currentState[key] = [extract[0], extract[3]];
             }
         }
         return {
-            "red" : red ,
+            "red": red,
             "black": black,
-            "CurrentBoardState" : currentState 
+            "CurrentBoardState": currentState
         };
     }
-    NumberMove(numbermove){
+    NumberMove(numbermove) {
         console.log(numbermove);
-    
+
     }
-    newState(red :any , black : any){
+    newState(red: any, black: any) {
 
         this.selectedPiece = undefined;
         this.lastState = null;
-        
+
         var redAgent;
         var blackAgent;
-        
-        blackAgent = new GreedyAgent(this.blackTeam,false,this.StateFlag , black);
-        redAgent = new Agent(this.redTeam,false,this.StateFlag , red);
-        this.state = new State(redAgent, blackAgent,false);    
-        
+
+        blackAgent = new GreedyAgent(this.blackTeam, false, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, false, this.StateFlag, red);
+        this.state = new State(redAgent, blackAgent, false);
+
     }
-    ChangeType(){
+    ChangeType() {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
         this.onClear.emit();
         this.clear_results();
-        var objectState =  this.SloveState();
+        var objectState = this.SloveState();
         this.boardState = objectState["CurrentBoardState"];
         console.log(this.boardState);
-        this.newState(objectState["red"] , objectState["black"]);
+        this.newState(objectState["red"], objectState["black"]);
     }
     // Check move && change image 
 

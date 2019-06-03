@@ -4,14 +4,14 @@ var InitGame = (function () {
     function InitGame() {
     }
     InitGame.RandomPosition = function () {
-        // prepare module combiatorics from javascrtip 
+        // prepare module combiatorics from javascript 
         // get next permutation in reserse game  
         var Rand = [0, 5, 13, 7, 6, 4, 1, 3, 2, 10, 9, 8, 11, 12, 14];
         return Rand;
     };
     InitGame.getRedPieces = function (reverse) {
         // make state game 
-        // If reverse game then random position for piece expect boss
+        // If reverse game then random position for piece expect king
         // call RandomPosition() random possition
         var RedTeam = [[1, 1], [1, 9], [3, 2], [3, 8], [1, 2], [1, 8], [1, 3], [1, 7], [1, 4], [1, 6],
             [4, 1], [4, 3], [4, 5], [4, 7], [4, 9]];
@@ -74,7 +74,7 @@ var InitGame = (function () {
             new Piece_1.Piece('k', [10, 5], 1, 'k', 0)
         ];
     };
-    // support china chess -> reslove any state 
+    // support china chess -> resolve any state 
     // make red team
     InitGame.StateRed = function (team, currentstate, reverse) {
         if (reverse === void 0) { reverse = false; }

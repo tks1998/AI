@@ -3,8 +3,11 @@ var Piece = (function () {
     function Piece(name, position, Reverse, Tname, isMove) {
         this.name = name;
         this.position = position;
+<<<<<<< HEAD
         this.Reverse = true;
         this.truthname = Tname;
+=======
+>>>>>>> 3bf2517be8e09dea3e62a1c91bcfcef626d8017a
         this.isMove = 0;
     }
     Piece.copyFromDict = function (dict) {

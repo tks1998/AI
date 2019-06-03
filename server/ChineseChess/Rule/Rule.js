@@ -69,11 +69,11 @@ var Rule = (function () {
         }
         return moves;
     };
-    // Ju
+    // Ju: Xe
     Rule.possibleMovesForJu = function (currRow, currCol, boardStates) {
         return this.movesOnSameLine(currRow, currCol, boardStates);
     };
-    // Ma
+    // Ma: Ma
     Rule.possibleMovesForMa = function (currRow, currCol, boardStates) {
         var moves = [];
         if (!([currRow + 1, currCol].toString() in boardStates)) {
@@ -118,7 +118,7 @@ var Rule = (function () {
             startRow = incFn(startRow);
         }
     };
-    // Pao
+    // Pao: Phao
     Rule.possibleMovesForPao = function (currRow, currCol, boardStates, team) {
         var inc = (function (x) { return x + 1; });
         var dec = (function (x) { return x - 1; });
@@ -165,7 +165,7 @@ var Rule = (function () {
         }
         return moves;
     };
-    // Shi
+    // Shi: Si
     Rule.possibleMovesForShi = function (currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         if (2 == currRow || currRow == 9) {
@@ -178,6 +178,23 @@ var Rule = (function () {
         }
         else {
             moves = isLowerTeam ? [[2, 5]] : [[9, 5]];
+        }
+        return moves;
+    };
+    // reverse Shi
+    Rule.possibleMovesForShiofReverse = function (currRow, currCol, boardStates, isLowerTeam) {
+        var dx = [1, 1, -1, -1];
+        var dy = [1, -1, 1, -1];
+        var moves = [];
+        var next_x, next_y, pair;
+        for (var i = 0; i < 4; i++) {
+            next_x = currRow + dx[i];
+            next_y = currCol + dy[i];
+            pair = [next_x, next_y];
+            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
+                && next_y <= this.maxCol && !(pair in boardStates)) {
+                moves.push(pair);
+            }
         }
         return moves;
     };
@@ -196,7 +213,23 @@ var Rule = (function () {
         }
         return moves.filter(function (x) { return ((x[0] - currRow) * (x[0] - currRow) + (x[1] - currCol) * (x[1] - currCol)) < 2; });
     };
-    // Xiang
+    // Xiang: Tuong
+    Rule.possibleMovesForXiangofReverse = function (currRow, currCol, boardStates, isLowerTeam) {
+        var dx = [2, 2, -2, -2];
+        var dy = [-2, -2, 2, 2];
+        var pair, next_x, next_y;
+        var moves = [];
+        for (var i = 0; i < 4; i++) {
+            next_x = currRow + dx[i];
+            next_y = currCol + dy[i];
+            pair = [next_x, next_y];
+            if (next_x >= this.minRow && next_x <= this.maxRow && next_y >= this.minCol
+                && next_y <= this.maxCol && !(pair.toString() in boardStates)) {
+                moves.push(pair);
+            }
+        }
+        return moves;
+    };
     Rule.possibleMovesForXiang = function (currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -211,7 +244,7 @@ var Rule = (function () {
             moves.push([currRow - 2, currCol - 2]);
         return moves;
     };
-    // Zu
+    // Zu: chot
     Rule.possibleMovesForZu = function (currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
         var moves = isLowerTeam ? [[currRow + 1, currCol]] : [[currRow - 1, currCol]];
@@ -228,11 +261,21 @@ var Rule = (function () {
     // all legal moves for a piece in a board state
     // boardStates: {posStr->[name, isMyPiece]}
     // return [(row, col)]
-    Rule.possibleMoves = function (piece, boardStates, isLowerTeam) {
+    // 
+    Rule.possibleMoves = function (piece, boardStates, isLowerTeam, reverse) {
         var name = piece.name[0];
         var currRow = piece.position[0];
         var currCol = piece.position[1];
         var moves = [];
+        // piece.isMove == 0 -> piece is not move -> fake move
+        if (reverse && piece.isMove == 0) {
+            if (name == 'x') {
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates, isLowerTeam);
+            }
+            if (name == 's') {
+                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates, isLowerTeam);
+            }
+        }
         switch (name) {
             case 'j':
                 moves = this.possibleMovesForJu(currRow, currCol, boardStates);
@@ -262,15 +305,15 @@ var Rule = (function () {
     };
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
-    Rule.allPossibleMoves = function (myPieces, boardStates, team) {
+    Rule.allPossibleMoves = function (myPieces, boardStates, team, reverse) {
         var moves = {};
         // team is in the lower part of the river
         var isLowerTeam = (team == 1);
         for (var i in myPieces) {
             var piece = myPieces[i];
-            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam);
+            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
             // console.log("moves4Piece", piece.name, moves4Piece)
-            // if (!moves4Piece || moves4Piece.length == 0) continue;
+            // move [ name ]  =   
             moves[piece.name] = moves4Piece;
         }
         return moves;

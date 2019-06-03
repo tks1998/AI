@@ -6,8 +6,6 @@ import { Rule } from '../ChineseChess/Rule/Rule';
 import { State } from '../Strategy/State/State';
 import { GreedyAgent } from '../Strategy/Greedy/GreedyAgent';
 import { EvalFnAgent } from '../Strategy/EvalFn/EvaluationFn';
-import { TDLearner } from '../Strategy/TDLearner/TDLearner';
-import { TDLearnerTrained } from '../Strategy/TDLearner/TDLearnerTrained';
 import { MCTS } from '../Strategy/MCTS/MCTS';
 import { MoveReorderPruner } from '../Strategy/MoveReorderPruner/MoveReorderPruner';
 import { HumanAgent } from '../Strategy/Agent/HumanAgent';

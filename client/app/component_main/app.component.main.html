@@ -3,6 +3,9 @@
 	</board>
 
 	<div class="left">
+		<!-- <button (click)="myFunction()">
+			abc
+		</button> -->
 		
 		<button class="ui green basic button fluid">
 			<sm-checkbox label="{{board.reverse ? 'reverse china chess':'chinachess'}}" 
@@ -164,7 +167,8 @@
 				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null && board.humanMode" class="ui active centered inline loader "></div>
 			</div>
 		</div>
-
+		<br>
+		<button id="demo" class="btn" style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;"> CHIẾU TƯỚNG</button>
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
 				<i *ngIf="board.state.endFlag == 1" class="circular flag red icon"></i>
@@ -177,4 +181,5 @@
 			</div>
 		</div>
 	</div>
+	
 </div>

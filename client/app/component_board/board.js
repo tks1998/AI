@@ -20,39 +20,39 @@ var BoardComponent = (function () {
         this.blackTeam = -1;
         this.boardState = {}; // {postion => piece}  || NOT including dummy pieces
         this.humanMode = true;
-        this.weigths_1 = [0, 0, 0, 0, 0, 0, 0];
-        this.weigths_2 = [0, 0, 0, 0, 0, 0, 0];
-        this.INIT_WEIGHT = [0, 0, 0, 0, 0, 0, 0];
+        // weigths_1 = [0, 0, 0, 0, 0, 0, 0];
+        // weigths_2 = [0, 0, 0, 0, 0, 0, 0];
+        // INIT_WEIGHT = [0, 0, 0, 0, 0, 0, 0];
         // Strategy
         this.DEFAULT_TYPE = 0;
-        this.redAgentType = 0;
+        // redAgentType = 0;
         this.blackAgentType = 0;
         // DEPTH
         this.DEFAULT_DEPTH = 2;
-        this.redAgentDepth = 2;
+        // redAgentDepth = 2;
         this.blackAgentDepth = 2;
         this.blackAgentSimulations = 2000;
-        this.redAgentSimulations = 2000;
+        // redAgentSimulations = 2000;
         /***************** UI *******************/
         // keep track of all pieces, just for UI purpose (including dummy pieces)
         this.pieceSize = 67;
         this.dummyPieces = [];
         // -1: not started | 0: started but stoped | 1: in insimulation
-        this.simulation_state = -1;
-        this.nSimulations_input = 100;
-        this.nSimulations = 100;
+        // simulation_state = -1;
+        // nSimulations_input = 100;
+        // nSimulations = 100;
         // If "reverse chinachess " -> reverse = 0 else reverse = 1 
         this.reverse = false;
         this.StateFlag = false;
         /***************** EVENT *******************/
         // new game result obtained
-        this.onResultsUpdated = new core_1.EventEmitter();
-        // new runtime for move obtained
-        this.onTimeUpdated = new core_1.EventEmitter();
-        // {"strategy-depth": [average_move_runtime, nMoves]}
-        this.onWeightUpdated = new core_1.EventEmitter();
-        this.onClear = new core_1.EventEmitter();
-        // {"strategy-depth": [average_move_runtime, nMoves]}
+        // @Output() onResultsUpdated = new EventEmitter<boolean>();
+        // // new runtime for move obtained
+        // @Output() onTimeUpdated = new EventEmitter<boolean>();
+        // // {"strategy-depth": [average_move_runtime, nMoves]}
+        // @Output() onWeightUpdated = new EventEmitter<boolean>();
+        // @Output() onClear = new EventEmitter<boolean>();
+        // // {"strategy-depth": [average_move_runtime, nMoves]}
         this.runtime_dict = {};
         /***************** ANALYSIS *******************/
         this.results = [];
@@ -60,14 +60,14 @@ var BoardComponent = (function () {
     }
     BoardComponent.prototype.clear_results = function () {
         this.results = [];
-        this.report_result();
-        this.weigths_1 = this.INIT_WEIGHT;
-        this.weigths_2 = this.INIT_WEIGHT;
+        // this.report_result();
+        // this.weigths_1 = this.INIT_WEIGHT;
+        // this.weigths_2 = this.INIT_WEIGHT;
     };
     // change type of game , this.reverse = true -> reverse chiana chess else china chess
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
-        this.onClear.emit();
+        // this.onClear.emit();
         this.clear_results();
         this.initGame();
     };
@@ -97,21 +97,21 @@ var BoardComponent = (function () {
         }
         return parseInt(desc.split('-')[0]);
     };
-    BoardComponent.prototype.chooseRedAgent = function (desc) {
-        this.onClear.emit();
-        this.simulation_state = -1;
-        this.redAgentType = this.parse_agentType(desc);
-    };
+    // chooseRedAgent(desc) {
+    //     this.onClear.emit();
+    //     this.simulation_state = -1;
+    //     this.redAgentType = this.parse_agentType(desc);
+    // }
     BoardComponent.prototype.chooseBlackAgent = function (desc) {
-        this.onClear.emit();
-        this.simulation_state = -1;
+        // this.onClear.emit();
+        // this.simulation_state = -1;
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
         this.initGame();
     };
-    BoardComponent.prototype.chooseRedAgentDepth = function (depth) {
-        this.redAgentDepth = parseInt(depth);
-    };
+    // chooseRedAgentDepth(depth) {
+    //     this.redAgentDepth = parseInt(depth);
+    // }
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
         this.initGame();
@@ -158,18 +158,18 @@ var BoardComponent = (function () {
         // update state for end state
         this.state.endFlag = red_win;
         this.results.push(red_win);
-        this.report_result();
-        this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
-        this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
+        // this.report_result();
+        // this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
+        // this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
         /*if (!this.humanMode) this.end_simulation();
         else */
         this.selectedPiece = undefined;
     };
     // report results
-    BoardComponent.prototype.report_result = function () {
-        this.onResultsUpdated.emit();
-        this.onWeightUpdated.emit();
-    };
+    // report_result() {
+    //     this.onResultsUpdated.emit();
+    //     this.onWeightUpdated.emit();
+    // }
     BoardComponent.prototype.report_runtime = function (strategy, depth, time) {
         var type = this.runtime_dict[strategy + "-" + depth];
         if (!type)
@@ -178,7 +178,7 @@ var BoardComponent = (function () {
             var new_num = type[1] + 1;
             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num];
         }
-        this.onTimeUpdated.emit();
+        // this.onTimeUpdated.emit();
     };
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
@@ -289,29 +289,13 @@ var BoardComponent = (function () {
     BoardComponent.prototype.ChangeType = function () {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
-        this.onClear.emit();
+        // this.onClear.emit();
         this.clear_results();
         var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
         console.log(this.boardState);
         this.newState(objectState["red"], objectState["black"]);
     };
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], BoardComponent.prototype, "onResultsUpdated", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], BoardComponent.prototype, "onTimeUpdated", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], BoardComponent.prototype, "onWeightUpdated", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], BoardComponent.prototype, "onClear", void 0);
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

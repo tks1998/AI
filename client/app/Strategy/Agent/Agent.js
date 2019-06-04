@@ -105,10 +105,10 @@ var Agent = (function () {
     Agent.prototype.getPieceByName = function (name) {
         return this.myPieces.filter(function (x) { return x.name == name; })[0];
     };
-    // TO BE OVERIDE BY TDLeaner
-    Agent.prototype.update_weights = function (nSimulations, result) { return []; };
-    // TO BE OVERIDE BY TDLeaner
-    Agent.prototype.save_state = function (feature_vec) { };
+    // // TO BE OVERIDE BY TDLeaner
+    // update_weights(nSimulations, result) { return []; }
+    // // TO BE OVERIDE BY TDLeaner
+    // save_state(feature_vec) { }
     Agent.prototype.copy = function () {
         return new Agent(this.team, this.reverse, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };

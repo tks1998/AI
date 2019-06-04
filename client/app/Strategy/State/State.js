@@ -18,12 +18,6 @@ var State = (function () {
             this.redAgent.setOppoAgent(this.blackAgent);
         }
     }
-    // TDlearning
-    State.prototype.record_feature = function (feature_vec) {
-        // console.log("record_feature")
-        this.redAgent.save_state(feature_vec);
-        this.blackAgent.save_state(feature_vec);
-    };
     // return | 1:win | -1:lose | 0:continue for playing team
     State.prototype.getEndState = function () {
         var playing = this.playingTeam == 1 ? this.redAgent : this.blackAgent;

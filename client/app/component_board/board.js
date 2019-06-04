@@ -184,8 +184,7 @@ var BoardComponent = (function () {
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         // stop simulation
-        if (!this.humanMode && this.simulation_state <= 0)
-            return;
+        //  if (!this.humanMode && this.simulation_state <= 0) return;
         // update playing team
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
@@ -207,8 +206,7 @@ var BoardComponent = (function () {
             var move = result['move'];
             var time = parseInt(result['time']);
             var state_feature = result['state_feature'];
-            if (state_feature)
-                agent.save_state(state_feature);
+            //if (state_feature) agent.save_state(state_feature);
             if (!move) {
                 _this.end_game(-1);
                 return;

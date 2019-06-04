@@ -14,7 +14,7 @@ require('rxjs/add/operator/toPromise');
 var ComputeService = (function () {
     function ComputeService(http) {
         this.http = http;
-        this.computeURL = '/compute/';
+        this.computeURL = '/compute';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     ComputeService.prototype.launchCompute = function (state) {

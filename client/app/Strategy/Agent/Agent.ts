@@ -101,7 +101,6 @@ export class Agent {
         var computeResult = this.comptuteNextMove();
         var piece = computeResult[0];
         var toPos = computeResult[1];
-        piece.isMove = piece.isMove + 1;
         this.movePieceTo(piece, toPos);
     };
 

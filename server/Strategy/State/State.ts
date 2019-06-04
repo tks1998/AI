@@ -9,9 +9,8 @@ export class State {
     blackAgent: Agent;
     playingTeam: number;
 
-    is_repeating = false;
-
-    constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1, updateDict = false) {
+    reverse = false;
+    constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1,reverse, updateDict = false) {
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
         this.playingTeam = playingTeam;
@@ -29,7 +28,7 @@ export class State {
         return endState;
     }
     // return a copy of state
-    copy() { return new State(this.redAgent.copy(), this.blackAgent.copy(), this.playingTeam); }
+    copy() { return new State(this.redAgent.copy(), this.blackAgent.copy(), this.playingTeam , this.reverse); }
 
     // return next state by action
     next_state(movePieceName, toPos) {
@@ -52,18 +51,6 @@ export class State {
 
     // return a evaluation score for this state
     getEvaludation(team) { }
-
-    static check_repeating(agent): boolean {
-        var moves = agent.pastMoves;
-        var n = moves.length;
-        if (n < 10) return false;
-        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-            console.log(moves)
-            return true;
-        };
-        return false;
-    }
-
     static samveMove(move1, move2) {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
@@ -71,42 +58,24 @@ export class State {
 
     static copyFromDict(dict) {
         var agentDict;
-        if (dict.playingTeam == 1) {
-            var agentDict = dict.redAgent;
-            var oppo = dict.blackAgent;
-        } else {
-            var agentDict = dict.blackAgent;
-            var oppo = dict.redAgent;
-        }
+        var agentDict = dict.blackAgent;
+        var oppo = dict.redAgent;
+        var IsReverse = dict.reverse;
         oppo = Agent.copyFromDict(oppo);
         var agent;
-        // console.log(agentDict.strategy)
-        var is_repeating = this.check_repeating(agentDict);
-
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
          if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
         var new_state;
-        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam);
-        else new_state = new State(oppo, agent, dict.playingTeam);
-        new_state.is_repeating = is_repeating;
+        new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
         return new_state;
     }
-
-
-
     nextMove() {
         var agent = this.get_playing_agent();
         var r = null;
         if (agent.check_king_exist()) {
-            if (!this.is_repeating) r = agent.comptuteNextMove(this);
-            else {
-                console.log("REPEATING ")
-                agent.updateState();
-                r = agent.random_move();
-            }
+            r = agent.comptuteNextMove(this);
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
     }
-
 }

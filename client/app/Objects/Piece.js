@@ -13,6 +13,7 @@ var Piece = (function () {
     Piece.prototype.moveTo = function (newPos) {
         this.position = newPos;
         this.name = this.truthname;
+        this.isMove = this.isMove + 1;
     };
     // return a copy of a piece
     Piece.prototype.copy = function () {

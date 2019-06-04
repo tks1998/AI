@@ -22,6 +22,7 @@ export class Piece {
     moveTo(newPos) {
         this.position = newPos;
         this.name = this.truthname;
+        this.isMove = this.isMove + 1;
     }
 
 

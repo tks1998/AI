@@ -105,6 +105,7 @@ export class Agent {
         this.movePieceTo(piece, toPos);
     };
 
+    
     // TO BE IMPLEMENTED BY CHILD CLASS
     // return: [piece, toPos]
     comptuteNextMove() { alert("YOU SHOULD NOT CALL THIS!") }
@@ -113,13 +114,17 @@ export class Agent {
         return this.myPieces.filter(x => x.name == name)[0];
     }
 
-    // TO BE OVERIDE BY TDLeaner
-    update_weights(nSimulations, result) { return []; }
-    // TO BE OVERIDE BY TDLeaner
-    save_state(feature_vec) { }
+
+    // // TO BE OVERIDE BY TDLeaner
+    // update_weights(nSimulations, result) { return []; }
+    // // TO BE OVERIDE BY TDLeaner
+    // save_state(feature_vec) { }
+
+
     copy() {
         return new Agent(this.team, this.reverse,false , null ,  this.myPieces.map(x => x.copy()), this.copyMoves());
     }
+
 
     copyMoves() {
         return this.pastMoves.slice();

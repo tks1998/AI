@@ -270,7 +270,7 @@ var BoardComponent = (function () {
         //  console.log(typeof([xy]));
         this.InputState = xy;
     };
-    BoardComponent.prototype.SloveState = function () {
+    BoardComponent.prototype.SolveState = function () {
         var newstate = []; //this.InputState;
         var extract;
         var red = [], black = [], currentState = {};
@@ -310,7 +310,7 @@ var BoardComponent = (function () {
         this.StateFlag = !this.StateFlag;
         this.onClear.emit();
         this.clear_results();
-        var objectState = this.SloveState();
+        var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
         console.log(this.boardState);
         this.newState(objectState["red"], objectState["black"]);

@@ -15,73 +15,36 @@ import { Agent } from '../Strategy/Agent/Agent';
 
 
 export class BoardComponent implements OnInit {
-
-    /***************** CONTROL *******************/
     redTeam = 1;
     blackTeam = -1;
-    boardState = {}; // {postion => piece}  || NOT including dummy pieces
+    boardState = {}; 
     humanMode = true;
     state: State;
     server: ComputeService;
 
-    // weigths_1 = [0, 0, 0, 0, 0, 0, 0];
-    // weigths_2 = [0, 0, 0, 0, 0, 0, 0];
-    // INIT_WEIGHT = [0, 0, 0, 0, 0, 0, 0];
-
-    // Strategy
     private DEFAULT_TYPE = 0;
-    // redAgentType = 0;
     blackAgentType = 0;
-    // DEPTH
     DEFAULT_DEPTH = 2;
-    // redAgentDepth = 2;
     blackAgentDepth = 2;
     blackAgentSimulations = 2000;
-    // redAgentSimulations = 2000;
-
-
-    /***************** UI *******************/
-    // keep track of all pieces, just for UI purpose (including dummy pieces)
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
     lastState: State;
-    // -1: not started | 0: started but stoped | 1: in insimulation
-    // simulation_state = -1;
-    // nSimulations_input = 100;
-    // nSimulations = 100;
-    // If "reverse chinachess " -> reverse = 0 else reverse = 1 
     reverse = false;
     StateFlag = false;
     InputState: Object;
 
 
-    /***************** EVENT *******************/
-    // new game result obtained
-    // @Output() onResultsUpdated = new EventEmitter<boolean>();
-    // // new runtime for move obtained
-    // @Output() onTimeUpdated = new EventEmitter<boolean>();
-    // // {"strategy-depth": [average_move_runtime, nMoves]}
-    // @Output() onWeightUpdated = new EventEmitter<boolean>();
-    // @Output() onClear = new EventEmitter<boolean>();
-    // // {"strategy-depth": [average_move_runtime, nMoves]}
     runtime_dict = {};
 
 
-    /***************** ANALYSIS *******************/
     results = [];
     clear_results() {
         this.results = [];
-        // this.report_result();
-        // this.weigths_1 = this.INIT_WEIGHT;
-        // this.weigths_2 = this.INIT_WEIGHT;
     }
-
-
-    // change type of game , this.reverse = true -> reverse chiana chess else china chess
     changeMode() {
         this.reverse = !this.reverse;
-        // this.onClear.emit();
         this.clear_results();
         this.initGame();
     }
@@ -94,15 +57,9 @@ export class BoardComponent implements OnInit {
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
-        // get moves of piece  from legalMoves 
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-
-        // in that case , I use  syxtax lambda  foreach x in array -> x =  x+ ' ' &&  
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
-
-
-    // Add dummy pieces to board
     initDummyButtons() {
         this.dummyPieces = [];
         for (var i = 1; i <= 10; i++) {
@@ -120,28 +77,11 @@ export class BoardComponent implements OnInit {
         return parseInt(desc.split('-')[0]);
     }
 
-
-    // chooseRedAgent(desc) {
-    //     this.onClear.emit();
-    //     this.simulation_state = -1;
-    //     this.redAgentType = this.parse_agentType(desc);
-    // }
-
-
     chooseBlackAgent(desc) {
-        // this.onClear.emit();
-        // this.simulation_state = -1;
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
         this.initGame();
     }
-
-
-    // chooseRedAgentDepth(depth) {
-    //     this.redAgentDepth = parseInt(depth);
-    // }
-
-
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
         this.initGame();
@@ -162,10 +102,8 @@ export class BoardComponent implements OnInit {
     initGame() {
         this.selectedPiece = undefined;
         this.lastState = null;
-        // init agents
         var redAgent;
         var blackAgent;
-        // choose type of red team 
         blackAgent = new Agent(this.blackTeam, this.reverse);
 
         redAgent = new Agent(this.redTeam, this.reverse);
@@ -193,7 +131,6 @@ export class BoardComponent implements OnInit {
 
 
     humanMove(piece: Piece) {
-        // before human makes move, make a copy of current state
         this.copyCurrentState();
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
@@ -203,23 +140,11 @@ export class BoardComponent implements OnInit {
     // end_state: -1: lose | 0: draw | 1: win
     end_game(end_state) {
         var red_win = end_state * this.state.playingTeam;
-        // update state for end state
         this.state.endFlag = red_win;
         this.results.push(red_win);
-        // this.report_result();
-        // this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
-        // this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
-        /*if (!this.humanMode) this.end_simulation();
-        else */
+      
         this.selectedPiece = undefined;
     }
-
-
-    // report results
-    // report_result() {
-    //     this.onResultsUpdated.emit();
-    //     this.onWeightUpdated.emit();
-    // }
 
 
     report_runtime(strategy, depth, time) {

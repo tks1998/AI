@@ -15,59 +15,28 @@ var State_1 = require('../Strategy/State/State');
 var Agent_1 = require('../Strategy/Agent/Agent');
 var BoardComponent = (function () {
     function BoardComponent(server) {
-        /***************** CONTROL *******************/
         this.redTeam = 1;
         this.blackTeam = -1;
-        this.boardState = {}; // {postion => piece}  || NOT including dummy pieces
+        this.boardState = {};
         this.humanMode = true;
-        // weigths_1 = [0, 0, 0, 0, 0, 0, 0];
-        // weigths_2 = [0, 0, 0, 0, 0, 0, 0];
-        // INIT_WEIGHT = [0, 0, 0, 0, 0, 0, 0];
-        // Strategy
         this.DEFAULT_TYPE = 0;
-        // redAgentType = 0;
         this.blackAgentType = 0;
-        // DEPTH
         this.DEFAULT_DEPTH = 2;
-        // redAgentDepth = 2;
         this.blackAgentDepth = 2;
         this.blackAgentSimulations = 2000;
-        // redAgentSimulations = 2000;
-        /***************** UI *******************/
-        // keep track of all pieces, just for UI purpose (including dummy pieces)
         this.pieceSize = 67;
         this.dummyPieces = [];
-        // -1: not started | 0: started but stoped | 1: in insimulation
-        // simulation_state = -1;
-        // nSimulations_input = 100;
-        // nSimulations = 100;
-        // If "reverse chinachess " -> reverse = 0 else reverse = 1 
         this.reverse = false;
         this.StateFlag = false;
-        /***************** EVENT *******************/
-        // new game result obtained
-        // @Output() onResultsUpdated = new EventEmitter<boolean>();
-        // // new runtime for move obtained
-        // @Output() onTimeUpdated = new EventEmitter<boolean>();
-        // // {"strategy-depth": [average_move_runtime, nMoves]}
-        // @Output() onWeightUpdated = new EventEmitter<boolean>();
-        // @Output() onClear = new EventEmitter<boolean>();
-        // // {"strategy-depth": [average_move_runtime, nMoves]}
         this.runtime_dict = {};
-        /***************** ANALYSIS *******************/
         this.results = [];
         this.server = server;
     }
     BoardComponent.prototype.clear_results = function () {
         this.results = [];
-        // this.report_result();
-        // this.weigths_1 = this.INIT_WEIGHT;
-        // this.weigths_2 = this.INIT_WEIGHT;
     };
-    // change type of game , this.reverse = true -> reverse chiana chess else china chess
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
-        // this.onClear.emit();
         this.clear_results();
         this.initGame();
     };
@@ -77,12 +46,9 @@ var BoardComponent = (function () {
     BoardComponent.prototype.isPossibleMove = function (pos) {
         if (!this.selectedPiece)
             return false;
-        // get moves of piece  from legalMoves 
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-        // in that case , I use  syxtax lambda  foreach x in array -> x =  x+ ' ' &&  
         return moves.map(function (x) { return x + ''; }).indexOf(pos + '') >= 0;
     };
-    // Add dummy pieces to board
     BoardComponent.prototype.initDummyButtons = function () {
         this.dummyPieces = [];
         for (var i = 1; i <= 10; i++) {
@@ -97,21 +63,11 @@ var BoardComponent = (function () {
         }
         return parseInt(desc.split('-')[0]);
     };
-    // chooseRedAgent(desc) {
-    //     this.onClear.emit();
-    //     this.simulation_state = -1;
-    //     this.redAgentType = this.parse_agentType(desc);
-    // }
     BoardComponent.prototype.chooseBlackAgent = function (desc) {
-        // this.onClear.emit();
-        // this.simulation_state = -1;
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
         this.initGame();
     };
-    // chooseRedAgentDepth(depth) {
-    //     this.redAgentDepth = parseInt(depth);
-    // }
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
         this.initGame();
@@ -123,10 +79,8 @@ var BoardComponent = (function () {
     BoardComponent.prototype.initGame = function () {
         this.selectedPiece = undefined;
         this.lastState = null;
-        // init agents
         var redAgent;
         var blackAgent;
-        // choose type of red team 
         blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
@@ -147,7 +101,6 @@ var BoardComponent = (function () {
         this.humanMove(piece);
     };
     BoardComponent.prototype.humanMove = function (piece) {
-        // before human makes move, make a copy of current state
         this.copyCurrentState();
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
@@ -155,21 +108,10 @@ var BoardComponent = (function () {
     // end_state: -1: lose | 0: draw | 1: win
     BoardComponent.prototype.end_game = function (end_state) {
         var red_win = end_state * this.state.playingTeam;
-        // update state for end state
         this.state.endFlag = red_win;
         this.results.push(red_win);
-        // this.report_result();
-        // this.weigths_1 = this.state.redAgent.update_weights(this.results.length, red_win);
-        // this.weigths_2 = this.state.blackAgent.update_weights(this.results.length, red_win);
-        /*if (!this.humanMode) this.end_simulation();
-        else */
         this.selectedPiece = undefined;
     };
-    // report results
-    // report_result() {
-    //     this.onResultsUpdated.emit();
-    //     this.onWeightUpdated.emit();
-    // }
     BoardComponent.prototype.report_runtime = function (strategy, depth, time) {
         var type = this.runtime_dict[strategy + "-" + depth];
         if (!type)

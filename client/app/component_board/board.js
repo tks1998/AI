@@ -40,9 +40,6 @@ var BoardComponent = (function () {
         this.clear_results();
         this.initGame();
     };
-    BoardComponent.prototype.checkTname = function (current_piece) {
-        return current_piece.name == current_piece.truthname;
-    };
     BoardComponent.prototype.isPossibleMove = function (pos) {
         if (!this.selectedPiece)
             return false;
@@ -81,6 +78,7 @@ var BoardComponent = (function () {
         this.lastState = null;
         var redAgent;
         var blackAgent;
+        this.initDummyButtons();
         blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
@@ -125,9 +123,6 @@ var BoardComponent = (function () {
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
-        // stop simulation
-        //  if (!this.humanMode && this.simulation_state <= 0) return;
-        // update playing team
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
@@ -188,7 +183,6 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.SaveState = function (input) {
         var xy = [input];
-        //  console.log(typeof([xy]));
         this.InputState = xy;
     };
     BoardComponent.prototype.SolveState = function () {
@@ -233,7 +227,6 @@ var BoardComponent = (function () {
         this.clear_results();
         var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
-        console.log(this.boardState);
         this.newState(objectState["red"], objectState["black"]);
     };
     BoardComponent = __decorate([

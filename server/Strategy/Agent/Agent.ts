@@ -16,10 +16,11 @@ export class Agent {
     myPiecesDic: {}; // {name -> pos}
     boardState; // {posStr->[name, isMyPiece]}
     // moved: EventEmitter<number> = new EventEmitter();
-
+    reverse = false;
     strategy = 0;
-    constructor(team: number, myPieces = undefined) {
+    constructor(team: number, reverse , myPieces = undefined ) {
         this.team = team;
+        this.reverse= reverse;
         if (myPieces == undefined)
             this.myPieces = (team == 1 ? InitGame.getRedPieces() : InitGame.getBlackPieces());
         else {
@@ -43,7 +44,7 @@ export class Agent {
 
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
-        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,false);
+        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
     }
 
     // update board state by pieces
@@ -142,14 +143,14 @@ export class Agent {
 
 
 
-    copy() { return new Agent(this.team, this.myPieces.map(x => x.copy())); }
+    copy() { return new Agent(this.team, this.myPieces.map(x => x.copy()),this.reverse); }
 
     static piecesFromDict(dict_list) {
         return dict_list.map(x => Piece.copyFromDict(x));
     }
 
     static copyFromDict(dict) {
-        return new Agent(dict.team, this.piecesFromDict(dict.myPieces));
+        return new Agent(dict.team,dict.reverse,this.piecesFromDict(dict.myPieces));
     }
 
     // get array of legalMoves: [[movePieceName, move]]

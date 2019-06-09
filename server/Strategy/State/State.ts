@@ -16,6 +16,7 @@ export class State {
         this.playingTeam = playingTeam;
         this.blackAgent.setOppoAgent(this.redAgent);
         this.redAgent.setOppoAgent(this.blackAgent);
+        this.reverse = reverse ;
     }
 
     // return playing agent in control
@@ -44,7 +45,6 @@ export class State {
         // console.log("movePieceName", movePieceName)
         agent.movePieceTo(agent.getPieceByName(movePieceName), toPos);
         return nextState;
-
     }
 
     switchTurn() { this.playingTeam = -this.playingTeam; }

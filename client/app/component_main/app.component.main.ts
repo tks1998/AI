@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     
 
     constructor(private http:Http){}
-    ngOnInit() {
+        ngOnInit() {
     }
 
     chinachess: FormControl = new FormControl();

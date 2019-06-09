@@ -4,11 +4,13 @@ var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var init_1 = require('../../ChineseChess/InitGame/init');
 var Evaluation_1 = require('../_Param/Evaluation');
 var Agent = (function () {
-    function Agent(team, myPieces) {
+    function Agent(team, reverse, myPieces) {
         if (myPieces === void 0) { myPieces = undefined; }
         // moved: EventEmitter<number> = new EventEmitter();
+        this.reverse = false;
         this.strategy = 0;
         this.team = team;
+        this.reverse = reverse;
         if (myPieces == undefined)
             this.myPieces = (team == 1 ? init_1.InitGame.getRedPieces() : init_1.InitGame.getBlackPieces());
         else {
@@ -30,7 +32,7 @@ var Agent = (function () {
     };
     // compute legals moves for my pieces after state updated
     Agent.prototype.computeLegalMoves = function () {
-        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, false);
+        this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     };
     // update board state by pieces
     Agent.prototype.updateBoardState = function () {
@@ -120,12 +122,12 @@ var Agent = (function () {
         // take random move
         return this.random_move();
     };
-    Agent.prototype.copy = function () { return new Agent(this.team, this.myPieces.map(function (x) { return x.copy(); })); };
+    Agent.prototype.copy = function () { return new Agent(this.team, this.myPieces.map(function (x) { return x.copy(); }), this.reverse); };
     Agent.piecesFromDict = function (dict_list) {
         return dict_list.map(function (x) { return Piece_1.Piece.copyFromDict(x); });
     };
     Agent.copyFromDict = function (dict) {
-        return new Agent(dict.team, this.piecesFromDict(dict.myPieces));
+        return new Agent(dict.team, dict.reverse, this.piecesFromDict(dict.myPieces));
     };
     // get array of legalMoves: [[movePieceName, move]]
     Agent.prototype.get_moves_arr = function () {

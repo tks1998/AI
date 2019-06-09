@@ -49,12 +49,6 @@ export class BoardComponent implements OnInit {
         this.initGame();
     }
 
-
-    checkTname(current_piece: Piece) {
-        return current_piece.name == current_piece.truthname;
-    }
-
-
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
@@ -104,6 +98,7 @@ export class BoardComponent implements OnInit {
         this.lastState = null;
         var redAgent;
         var blackAgent;
+        this.initDummyButtons();
         blackAgent = new Agent(this.blackTeam, this.reverse);
 
         redAgent = new Agent(this.redTeam, this.reverse);
@@ -160,9 +155,6 @@ export class BoardComponent implements OnInit {
 
     // switch game turn
     switchTurn() {
-        // stop simulation
-      //  if (!this.humanMode && this.simulation_state <= 0) return;
-        // update playing team
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
@@ -225,7 +217,6 @@ export class BoardComponent implements OnInit {
     }
     SaveState(input) {
         var xy = [input];
-        //  console.log(typeof([xy]));
         this.InputState = xy;
     }
 
@@ -280,7 +271,6 @@ export class BoardComponent implements OnInit {
         this.clear_results();
         var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
-        console.log(this.boardState);
         this.newState(objectState["red"], objectState["black"]);
     }
     // Check move && change image 

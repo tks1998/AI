@@ -95,7 +95,6 @@ export class InitGame {
     static StateRed(team, currentstate, reverse = false) {
         var allPiece = [];
         for (var element of currentstate) {
-            console.log(element[0]);
             allPiece.push(new Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
         }
         return allPiece;
@@ -106,7 +105,6 @@ export class InitGame {
     static StateBlack(team, currentstate, reverse = false) {
         var allPiece = [];
         for (var element of currentstate) {
-            console.log(element[0]);
             allPiece.push(new Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
         }
         return allPiece;

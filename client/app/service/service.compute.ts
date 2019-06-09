@@ -11,6 +11,7 @@ export class ComputeService {
     constructor(private http: Http) { }
 
     launchCompute(state) {
+        console.log("DC nhan");
         // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
         return this.http.put(this.computeURL, state)
             .toPromise()
@@ -22,6 +23,6 @@ export class ComputeService {
         return res.json();
     }
     private handleError(err: Response | any) {
-        console.log(err)
+        console.log(err);
     }
 }

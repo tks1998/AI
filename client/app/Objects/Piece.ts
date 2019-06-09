@@ -21,7 +21,6 @@ export class Piece {
 
     moveTo(newPos) {
         this.position = newPos;
-        console.log(this.name , ' ',this.truthname);
         if (this.isMove == 0) this.name = this.truthname;
         this.isMove = this.isMove + 1;
        

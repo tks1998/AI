@@ -21,8 +21,8 @@ export class ABPruning extends Agent {
     }
 
 
-    constructor(team: number, myPieces, depth) {
-        super(team, myPieces);
+    constructor(team: number, reverse, myPieces, depth) {
+        super(team, reverse , myPieces);
         this.DEPTH = depth;
     }
 
@@ -74,7 +74,7 @@ export class ABPruning extends Agent {
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
 
     static copyFromDict(dict) {
-        return new ABPruning(dict.team, this.piecesFromDict(dict.myPieces), dict.DEPTH);
+        return new ABPruning(dict.team, dict.reverse , this.piecesFromDict(dict.myPieces), dict.DEPTH);
     }
 
 }

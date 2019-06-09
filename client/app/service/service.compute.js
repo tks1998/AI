@@ -18,6 +18,7 @@ var ComputeService = (function () {
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     ComputeService.prototype.launchCompute = function (state) {
+        console.log("DC nhan");
         // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
         return this.http.put(this.computeURL, state)
             .toPromise()

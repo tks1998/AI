@@ -14,6 +14,7 @@ var State = (function () {
         this.playingTeam = playingTeam;
         this.blackAgent.setOppoAgent(this.redAgent);
         this.redAgent.setOppoAgent(this.blackAgent);
+        this.reverse = reverse;
     }
     // return playing agent in control
     State.prototype.get_playing_agent = function () { return this.playingTeam == 1 ? this.redAgent : this.blackAgent; };

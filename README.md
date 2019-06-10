@@ -1,4 +1,5 @@
-# AI
+# AI 
+# Release v0.0.1
 Run project 
 
 First step : install nodejs 10.x.x

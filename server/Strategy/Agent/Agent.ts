@@ -39,6 +39,7 @@ export class Agent {
         this.updateBoardState();
         this.updatePieceDict();
         this.computeLegalMoves();
+        console.log("da sucess");
         return this;
     }
 

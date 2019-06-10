@@ -18,7 +18,6 @@ var BoardComponent = (function () {
         this.redTeam = 1;
         this.blackTeam = -1;
         this.boardState = {};
-        this.humanMode = true;
         this.DEFAULT_TYPE = 0;
         this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
@@ -110,16 +109,15 @@ var BoardComponent = (function () {
         this.results.push(red_win);
         this.selectedPiece = undefined;
     };
-    BoardComponent.prototype.report_runtime = function (strategy, depth, time) {
-        var type = this.runtime_dict[strategy + "-" + depth];
-        if (!type)
-            this.runtime_dict[strategy + "-" + depth] = [time, 1];
-        else {
-            var new_num = type[1] + 1;
-            this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num];
-        }
-        // this.onTimeUpdated.emit();
-    };
+    /** report_runtime(strategy, depth, time) {
+         var type = this.runtime_dict[strategy + "-" + depth];
+         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
+         else {
+             var new_num = type[1] + 1;
+             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
+         }
+         // this.onTimeUpdated.emit();
+     } */
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
@@ -151,7 +149,8 @@ var BoardComponent = (function () {
                 return;
             }
             var piece = agent.getPieceByName(move[0].name);
-            agent.movePieceTo(piece, move[1]);
+            if (move[1])
+                agent.movePieceTo(piece, move[1]);
             _this.switchTurn();
         });
     };
@@ -209,11 +208,13 @@ var BoardComponent = (function () {
     BoardComponent.prototype.NumberMove = function (numbermove) {
         console.log(numbermove);
     };
+    /**********************recive any state && init it **********************/
     BoardComponent.prototype.newState = function (red, black) {
         this.selectedPiece = undefined;
         this.lastState = null;
         var redAgent;
         var blackAgent;
+        // note : defaul pastMoves = 0 in gent 
         blackAgent = new Agent_1.Agent(this.blackTeam, false, this.StateFlag, black);
         redAgent = new Agent_1.Agent(this.redTeam, false, this.StateFlag, red);
         this.state = new State_1.State(redAgent, blackAgent, false);

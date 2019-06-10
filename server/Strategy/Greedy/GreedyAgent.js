@@ -14,6 +14,7 @@ var GreedyAgent = (function (_super) {
     }
     // private method of computing next move
     GreedyAgent.prototype.comptuteNextMove = function (state) {
+        console.log("DA vao thuat toan cua sever ");
         this.updateState();
         return this.greedy_move();
     };

@@ -69,11 +69,14 @@ export class Agent {
         this.boardState = state;
     }
     movePieceTo(piece: Piece, pos, isCapture = undefined) {
-        piece.moveTo(pos);
-        this.addMove(piece.name, pos);
-        if (isCapture == undefined) isCapture = this.oppoPieces.filter(x => x.position + '' == pos + '').length > 0;
+        
+            piece.moveTo(pos);
+            this.addMove(piece.name, pos);
+        if (isCapture == undefined) 
+            isCapture = this.oppoPieces.filter(x => x.position + '' == pos + '').length > 0;
         // having oppo piece in target pos
         if (isCapture) this.captureOppoPiece(pos);
+        
     }
 
     // capture piece of opponent
@@ -108,14 +111,6 @@ export class Agent {
     getPieceByName(name) {
         return this.myPieces.filter(x => x.name == name)[0];
     }
-
-
-    // // TO BE OVERIDE BY TDLeaner
-    // update_weights(nSimulations, result) { return []; }
-    // // TO BE OVERIDE BY TDLeaner
-    // save_state(feature_vec) { }
-
-
     copy() {
         return new Agent(this.team, this.reverse,false , null ,  this.myPieces.map(x => x.copy()), this.copyMoves());
     }

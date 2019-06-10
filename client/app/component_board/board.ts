@@ -18,7 +18,6 @@ export class BoardComponent implements OnInit {
     redTeam = 1;
     blackTeam = -1;
     boardState = {}; 
-    humanMode = true;
     state: State;
     server: ComputeService;
 
@@ -142,7 +141,7 @@ export class BoardComponent implements OnInit {
     }
 
 
-    report_runtime(strategy, depth, time) {
+   /** report_runtime(strategy, depth, time) {
         var type = this.runtime_dict[strategy + "-" + depth];
         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
         else {
@@ -150,7 +149,7 @@ export class BoardComponent implements OnInit {
             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
         }
         // this.onTimeUpdated.emit();
-    }
+    } */
 
 
     // switch game turn
@@ -185,7 +184,7 @@ export class BoardComponent implements OnInit {
                 }
 
                 var piece = agent.getPieceByName(move[0].name);
-                agent.movePieceTo(piece, move[1]);
+                if (move[1])agent.movePieceTo(piece, move[1]);
                 this.switchTurn();
             }
         );
@@ -244,7 +243,7 @@ export class BoardComponent implements OnInit {
         console.log(numbermove);
     }
 
-
+    /**********************recive any state && init it **********************/
     newState(red: any, black: any) {
 
         this.selectedPiece = undefined;
@@ -252,7 +251,7 @@ export class BoardComponent implements OnInit {
 
         var redAgent;
         var blackAgent;
-
+        // note : defaul pastMoves = 0 in gent 
         blackAgent = new Agent(this.blackTeam, false, this.StateFlag, black);
         redAgent = new Agent(this.redTeam, false, this.StateFlag, red);
         this.state = new State(redAgent, blackAgent, false);

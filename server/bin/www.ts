@@ -44,17 +44,18 @@ app.put('/compute', function(request, response) {
     // recieved request and extract it 
     // make new State from request 
     state = State.copyFromDict(state);
+   
     //get time 
     var start = new Date().getTime();
     // compute next move  
     let next = state.nextMove();
- 
+    
     var now = new Date().getTime();
  
     var t = (now - start);
 
     var playing = state.get_playing_agent();
-    console.log("DA dc RPONSE");
+    console.log("DA dc RPONSE",next);
     response.end(JSON.stringify({ "move": next, "time": t}));
     var param = (playing instanceof MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");

@@ -61,6 +61,7 @@ export class State {
         var agentDict = dict.blackAgent;
         var oppo = dict.redAgent;
         var IsReverse = dict.reverse;
+        console.log("BIg BUG" , IsReverse)
         oppo = Agent.copyFromDict(oppo);
         var agent;
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);

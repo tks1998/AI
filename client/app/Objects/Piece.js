@@ -23,6 +23,9 @@ var Piece = (function () {
     Piece.prototype.update = function (name) {
         this.name = this.truthname;
     };
+    Piece.prototype.update_checkmove = function (name) {
+        this.name = this.truthname;
+    };
     return Piece;
 }());
 exports.Piece = Piece;

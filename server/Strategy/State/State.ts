@@ -61,12 +61,13 @@ export class State {
         var agentDict = dict.blackAgent;
         var oppo = dict.redAgent;
         var IsReverse = dict.reverse;
+        console.log("Loi copy dict ",dict.reverse)
         console.log("BIg BUG" , IsReverse)
         oppo = Agent.copyFromDict(oppo);
         var agent;
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
-         if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
+        if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
         var new_state;
         new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
         return new_state;

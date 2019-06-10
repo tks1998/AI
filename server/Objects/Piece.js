@@ -3,7 +3,7 @@ var Piece = (function () {
     function Piece(name, position, Reverse, Tname, isMove) {
         this.name = name;
         this.position = position;
-        this.Reverse = false;
+        this.Reverse = Reverse;
         this.truthname = Tname;
         this.isMove = 0;
     }

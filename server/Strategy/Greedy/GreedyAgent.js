@@ -19,7 +19,7 @@ var GreedyAgent = (function (_super) {
         return this.greedy_move();
     };
     GreedyAgent.copyFromDict = function (dict) {
-        return new GreedyAgent(dict.team, this.piecesFromDict(dict.myPieces));
+        return new GreedyAgent(dict.team, dict.reverse, this.piecesFromDict(dict.myPieces));
     };
     return GreedyAgent;
 }(Agent_1.Agent));

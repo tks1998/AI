@@ -51,6 +51,7 @@ var State = (function () {
         var agentDict = dict.blackAgent;
         var oppo = dict.redAgent;
         var IsReverse = dict.reverse;
+        console.log("Loi copy dict ", dict.reverse);
         console.log("BIg BUG", IsReverse);
         oppo = Agent_1.Agent.copyFromDict(oppo);
         var agent;

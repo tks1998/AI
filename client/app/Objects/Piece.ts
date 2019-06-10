@@ -8,7 +8,7 @@ export class Piece {
     constructor(name, position, Reverse, Tname, isMove) {
         this.name = name;
         this.position = position;
-        this.Reverse = true;
+        this.Reverse = Reverse;
         this.truthname = Tname;
         this.isMove = 0;
     }

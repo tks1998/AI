@@ -72,10 +72,6 @@ var Agent = (function () {
         // having oppo piece in target pos
         if (isCapture)
             this.captureOppoPiece(pos);
-        // if "reverse game " && isMove == 1 -> rename current name= truth name
-        if (piece.isMove == 1 && this.reverse) {
-            piece.name = piece.truthname;
-        }
     };
     // capture piece of opponent
     // pos: position of piece to be captured

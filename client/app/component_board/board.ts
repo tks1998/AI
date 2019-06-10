@@ -164,14 +164,10 @@ export class BoardComponent implements OnInit {
             this.end_game(endState);
             return;
         }
-
-        if (this.humanMode) {
-            this.selectedPiece = undefined;
-            // if human's turn, return
-            if (this.state.playingTeam == 1) return;
-        }
-
+        this.selectedPiece = undefined;
+        if (this.state.playingTeam == 1) return;
         // this.switchTurn();
+        // get move of sever and reder in page
         this.server.launchCompute(this.state.copy(false)).then(
             result => {
                 var move = result['move'];

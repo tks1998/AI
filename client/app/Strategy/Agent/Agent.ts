@@ -74,10 +74,6 @@ export class Agent {
         if (isCapture == undefined) isCapture = this.oppoPieces.filter(x => x.position + '' == pos + '').length > 0;
         // having oppo piece in target pos
         if (isCapture) this.captureOppoPiece(pos);
-        // if "reverse game " && isMove == 1 -> rename current name= truth name
-        if (piece.isMove == 1 && this.reverse) {
-            piece.name = piece.truthname;
-        }
     }
 
     // capture piece of opponent

@@ -29,11 +29,12 @@ export class BoardComponent implements OnInit {
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
-    lastState: State;
+    lastState: State[] = Array() ;
+    redo : State[] = Array() ;
     reverse = false;
     StateFlag = false;
     InputState: Object;
-
+    
 
     runtime_dict = {};
 
@@ -190,14 +191,28 @@ export class BoardComponent implements OnInit {
         );
     }
     // reverse game state to previous state
+   
     go2PreviousState() {
+        console.log("last ",this.lastState);
         if (!this.lastState) return;
-        this.state = this.lastState;
-        this.lastState = null;
+        // this.state = this.lastState;
+        // this.lastState = null;
+         console.log("=============2==",size)
+        var size ,prestate ;
+        size = this.lastState.length ;
+       
+        size = size - 1 ; // array begin 0->length-1
+        
+        prestate = this.lastState[size];
+        this.redo.push(this.lastState[size]);
+        this.lastState.slice(0,size-1)
     }
-
+    CheckLastState() : Boolean{
+        //console.log(this.lastState.length)
+        return true;//this.lastState.length>0
+    }
     copyCurrentState() {
-        this.lastState = this.state.copy();
+            this.lastState.push(this.state.copy())
     }
     checkReverse(): Boolean {
         return this.reverse;

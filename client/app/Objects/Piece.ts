@@ -36,4 +36,7 @@ export class Piece {
     update(name) {
         this.name = this.truthname;
     }
+    update_checkmove(name) {
+        this.name = this.truthname;
+    }
 }

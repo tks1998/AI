@@ -10,7 +10,6 @@ export class GreedyAgent extends Agent {
 
     // private method of computing next move
     comptuteNextMove(state) {
-        console.log("DA vao thuat toan cua sever ")
         this.updateState();
         return this.greedy_move();
     }

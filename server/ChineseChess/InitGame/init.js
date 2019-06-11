@@ -93,7 +93,6 @@ var InitGame = (function () {
         var allPiece = [];
         for (var _i = 0, currentstate_2 = currentstate; _i < currentstate_2.length; _i++) {
             var element = currentstate_2[_i];
-            console.log(element[0]);
             allPiece.push(new Piece_1.Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
         }
         return allPiece;

@@ -17,7 +17,7 @@ import { Agent } from '../Strategy/Agent/Agent';
 export class BoardComponent implements OnInit {
     redTeam = 1;
     blackTeam = -1;
-    boardState = {}; 
+    boardState = {};
     state: State;
     server: ComputeService;
 
@@ -29,7 +29,8 @@ export class BoardComponent implements OnInit {
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
-    lastState: State;
+    lastState: State[] = Array();
+    redo: State[] = Array();
     reverse = false;
     StateFlag = false;
     InputState: Object;
@@ -94,7 +95,8 @@ export class BoardComponent implements OnInit {
 
     initGame() {
         this.selectedPiece = undefined;
-        this.lastState = null;
+        this.lastState = [];
+        this.redo = [];
         var redAgent;
         var blackAgent;
         this.initDummyButtons();
@@ -136,20 +138,20 @@ export class BoardComponent implements OnInit {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
         this.results.push(red_win);
-      
+
         this.selectedPiece = undefined;
     }
 
 
-   /** report_runtime(strategy, depth, time) {
-        var type = this.runtime_dict[strategy + "-" + depth];
-        if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
-        else {
-            var new_num = type[1] + 1;
-            this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
-        }
-        // this.onTimeUpdated.emit();
-    } */
+    /** report_runtime(strategy, depth, time) {
+         var type = this.runtime_dict[strategy + "-" + depth];
+         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
+         else {
+             var new_num = type[1] + 1;
+             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
+         }
+         // this.onTimeUpdated.emit();
+     } */
 
 
     // switch game turn
@@ -172,7 +174,7 @@ export class BoardComponent implements OnInit {
                 var move = result['move'];
                 var time = parseInt(result['time']);
                 var state_feature = result['state_feature'];
-                
+
                 //if (state_feature) agent.save_state(state_feature);
                 if (!move) { // FAIL
                     this.end_game(-1);
@@ -184,20 +186,46 @@ export class BoardComponent implements OnInit {
                 }
 
                 var piece = agent.getPieceByName(move[0].name);
-                if (move[1])agent.movePieceTo(piece, move[1]);
+                if (move[1]) agent.movePieceTo(piece, move[1]);
                 this.switchTurn();
             }
         );
     }
     // reverse game state to previous state
-    go2PreviousState() {
-        if (!this.lastState) return;
-        this.state = this.lastState;
-        this.lastState = null;
-    }
 
+    go2PreviousState() {
+        var id = this.lastState.length - 1; //id =1 
+        if (this.state ! = this.lastState[id]) this.redo = [];
+        if (this.lastState.length <= 0) return;
+        //this.redo.push(this.lastState[size]);
+        this.redo.push(this.state)
+        this.state = this.lastState[id];
+        if (id == 0) 
+            this.lastState = [];
+        else 
+            this.lastState = this.lastState.slice(0, id);
+    }
+    CheckLastRedo(): Boolean {
+        return this.redo.length > 0
+    }
+    Redo() {
+        var id = this.redo.length - 1;
+        var size = this.lastState.length -1 ;
+        if (id >= 0) {
+            this.state = this.redo[id];
+            if (size>=0) this.lastState = this.lastState.slice(0,size)
+            else this.lastState = [];
+            this.lastState.push(this.state);
+            this.redo = this.redo.splice(0, id);
+        }
+
+    }
+    CheckLastState(): Boolean {
+        //console.log(this.lastState.length)
+        return this.lastState.length > 0;
+    }
     copyCurrentState() {
-        this.lastState = this.state.copy();
+        this.lastState.push(this.state.copy())
     }
     checkReverse(): Boolean {
         return this.reverse;
@@ -247,7 +275,7 @@ export class BoardComponent implements OnInit {
     newState(red: any, black: any) {
 
         this.selectedPiece = undefined;
-        this.lastState = null;
+        this.lastState = [];
 
         var redAgent;
         var blackAgent;

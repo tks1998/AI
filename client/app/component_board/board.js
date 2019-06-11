@@ -25,6 +25,8 @@ var BoardComponent = (function () {
         this.blackAgentSimulations = 2000;
         this.pieceSize = 67;
         this.dummyPieces = [];
+        this.lastState = Array();
+        this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
         this.runtime_dict = {};
@@ -74,7 +76,8 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.initGame = function () {
         this.selectedPiece = undefined;
-        this.lastState = null;
+        this.lastState = [];
+        this.redo = [];
         var redAgent;
         var blackAgent;
         this.initDummyButtons();
@@ -156,13 +159,41 @@ var BoardComponent = (function () {
     };
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
-        if (!this.lastState)
+        var id = this.lastState.length - 1; //id =1 
+        if (this.state = this.lastState[id])
+            this.redo = [];
+        if (this.lastState.length <= 0)
             return;
-        this.state = this.lastState;
-        this.lastState = null;
+        //this.redo.push(this.lastState[size]);
+        this.redo.push(this.state);
+        this.state = this.lastState[id];
+        if (id == 0)
+            this.lastState = [];
+        else
+            this.lastState = this.lastState.slice(0, id);
+    };
+    BoardComponent.prototype.CheckLastRedo = function () {
+        return this.redo.length > 0;
+    };
+    BoardComponent.prototype.Redo = function () {
+        var id = this.redo.length - 1;
+        var size = this.lastState.length - 1;
+        if (id >= 0) {
+            this.state = this.redo[id];
+            if (size >= 0)
+                this.lastState = this.lastState.slice(0, size);
+            else
+                this.lastState = [];
+            this.lastState.push(this.state);
+            this.redo = this.redo.splice(0, id);
+        }
+    };
+    BoardComponent.prototype.CheckLastState = function () {
+        //console.log(this.lastState.length)
+        return this.lastState.length > 0;
     };
     BoardComponent.prototype.copyCurrentState = function () {
-        this.lastState = this.state.copy();
+        this.lastState.push(this.state.copy());
     };
     BoardComponent.prototype.checkReverse = function () {
         return this.reverse;
@@ -211,7 +242,7 @@ var BoardComponent = (function () {
     /**********************recive any state && init it **********************/
     BoardComponent.prototype.newState = function (red, black) {
         this.selectedPiece = undefined;
-        this.lastState = null;
+        this.lastState = [];
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 

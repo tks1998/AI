@@ -128,8 +128,10 @@ export class BoardComponent implements OnInit {
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
+        this.redo = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
+
     }
 
 
@@ -159,6 +161,7 @@ export class BoardComponent implements OnInit {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
+
         // agent.nextMove();
         var endState = this.state.getEndState();
         if (endState != 0) {
@@ -194,15 +197,13 @@ export class BoardComponent implements OnInit {
     // reverse game state to previous state
 
     go2PreviousState() {
-        var id = this.lastState.length - 1; //id =1 
-        if (this.state ! = this.lastState[id]) this.redo = [];
+        var id = this.lastState.length - 1;  
         if (this.lastState.length <= 0) return;
-        //this.redo.push(this.lastState[size]);
         this.redo.push(this.state)
         this.state = this.lastState[id];
-        if (id == 0) 
+        if (id == 0)
             this.lastState = [];
-        else 
+        else
             this.lastState = this.lastState.slice(0, id);
     }
     CheckLastRedo(): Boolean {
@@ -210,15 +211,15 @@ export class BoardComponent implements OnInit {
     }
     Redo() {
         var id = this.redo.length - 1;
-        var size = this.lastState.length -1 ;
+        var size = this.lastState.length - 1;
+        console.log(id);
         if (id >= 0) {
             this.state = this.redo[id];
-            if (size>=0) this.lastState = this.lastState.slice(0,size)
+            if (size >= 0) this.lastState = this.lastState.slice(0, size)
             else this.lastState = [];
-            this.lastState.push(this.state);
-            this.redo = this.redo.splice(0, id);
+            //if (id >= 0) this.lastState.push(this.redo[id]);
+            this.redo = this.redo.splice(0, id-1);
         }
-
     }
     CheckLastState(): Boolean {
         //console.log(this.lastState.length)

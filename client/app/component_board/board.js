@@ -102,6 +102,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
+        this.redo = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
     };
@@ -159,12 +160,9 @@ var BoardComponent = (function () {
     };
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
-        var id = this.lastState.length - 1; //id =1 
-        if (this.state = this.lastState[id])
-            this.redo = [];
+        var id = this.lastState.length - 1;
         if (this.lastState.length <= 0)
             return;
-        //this.redo.push(this.lastState[size]);
         this.redo.push(this.state);
         this.state = this.lastState[id];
         if (id == 0)
@@ -178,14 +176,15 @@ var BoardComponent = (function () {
     BoardComponent.prototype.Redo = function () {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
+        console.log(id);
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0)
                 this.lastState = this.lastState.slice(0, size);
             else
                 this.lastState = [];
-            this.lastState.push(this.state);
-            this.redo = this.redo.splice(0, id);
+            //if (id >= 0) this.lastState.push(this.redo[id]);
+            this.redo = this.redo.splice(0, id - 1);
         }
     };
     BoardComponent.prototype.CheckLastState = function () {

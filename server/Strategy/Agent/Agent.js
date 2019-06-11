@@ -28,7 +28,6 @@ var Agent = (function () {
         this.updateBoardState();
         this.updatePieceDict();
         this.computeLegalMoves();
-        console.log("da sucess");
         return this;
     };
     // compute legals moves for my pieces after state updated

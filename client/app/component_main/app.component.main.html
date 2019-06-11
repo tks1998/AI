@@ -16,6 +16,9 @@
 			<div class="margin"></div>
 			<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium teal control " icon="undo" (click)="board.go2PreviousState() ">Undo </sm-button>
 			<div class="margin"></div>
+			<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="redo" (click)="board.Redo() ">redo </sm-button>
+			
+			<div class="margin"></div>
 			<hr/>
 
 		<div class=" margin "></div>

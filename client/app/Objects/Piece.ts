@@ -20,7 +20,7 @@ export class Piece {
 
 
     moveTo(newPos) {
-        console.log("toi loi", newPos)
+        //console.log("toi loi", newPos)
         this.position = newPos;
         this.name = this.truthname;
         this.isMove = this.isMove + 1;
@@ -32,7 +32,6 @@ export class Piece {
         return new Piece(this.name, this.position, this.Reverse, this.truthname, this.isMove);
     }
 
-    
     update(name) {
         this.name = this.truthname;
     }

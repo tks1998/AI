@@ -11,7 +11,6 @@ export class ComputeService {
     constructor(private http: Http) { }
 
     launchCompute(state) {
-        console.log("DC nhan");
         // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
         return this.http.put(this.computeURL, state)
             .toPromise()

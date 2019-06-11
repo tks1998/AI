@@ -34,7 +34,7 @@ export class State {
     // return a copy of state
     
     copy(setOppoo = true) {
-        var newState :State =  new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse , this.playingTeam, setOppoo);
+        let newState :State =  new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse , this.playingTeam, setOppoo);
         return newState;
     }
 

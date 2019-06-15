@@ -33,7 +33,7 @@ export class InitGame {
                          
                 ];
                 var max = Math.floor(19);
-                var min = Math.ceil(0)
+                var min = Math.ceil(0);
              var x = Math.floor(Math.random() * (max - min + 1)) + min; 
         return Rand[x];
     }

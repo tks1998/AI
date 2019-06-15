@@ -34,7 +34,6 @@
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
 				<option>2-MCTS</option>
-			
 			</sm-select>
 
 			<div class=" margin "></div>
@@ -96,13 +95,11 @@
 	<!-- countdown for each player -->
 	<div class="clock left">
 		<div id="blackclock">
-			<sm-button class="ui teal fluid" (click)='startTimer()'>Start Timer</sm-button>
 		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
 		</div>
 
 		<div id="redclock">
-			<sm-button class="ui teal fluid" (click)='startTimer()'>Start Timer</sm-button>
-		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}}</div>
+		<div class="ui red segment">{{board.redminute}} : {{board.redsecond}}</div>
 		</div>
 	</div>
 

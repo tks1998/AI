@@ -26,7 +26,6 @@ export class BoardComponent implements OnInit {
     blackAgentType = 0;
     DEFAULT_DEPTH = 2;
     blackAgentDepth = 2;
-    blackAgentSimulations = 2000;
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
@@ -133,7 +132,9 @@ export class BoardComponent implements OnInit {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
-
+    chooseBlackSimulations(dept){
+        this.blackAgentDepth = dept ;
+    }
 
     humanMove(piece: Piece) {
         this.copyCurrentState();

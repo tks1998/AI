@@ -44,6 +44,7 @@ export class Agent {
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
+        console.log("trong file agent.ts" , dept);
         this.DEPTH = dept;
     }
     setOppoAgent(oppoAgent) {

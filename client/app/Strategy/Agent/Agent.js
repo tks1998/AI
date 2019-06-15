@@ -39,6 +39,7 @@ var Agent = (function () {
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
+        console.log("trong file agent.ts", dept);
         this.DEPTH = dept;
     }
     Agent.prototype.setOppoAgent = function (oppoAgent) {

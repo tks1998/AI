@@ -7,13 +7,15 @@ export class MCTS extends Agent {
     strategy = 5;
     N_SIMULATION;
 
-    constructor(team, pieces, N) {
-        super(team, pieces);
+    constructor(team,reverese , strategy , pieces, N) {
+        super(team,reverese , strategy , pieces);
+        console.log("tao la aslasjldasld", N);
         this.N_SIMULATION = N;
     }
 
     static copyFromDict(dict) {
-        return new MCTS(dict.team, this.piecesFromDict(dict.myPieces), dict.N_SIMULATION);
+        console.log("---as-0=sa0-a0s=0sa" ,dict.DEPT);
+        return new MCTS(dict.team,dict.reverse, dict.strategy  , this.piecesFromDict(dict.myPieces), dict.DEPTH);
     }
 
 

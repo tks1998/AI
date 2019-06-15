@@ -22,7 +22,6 @@ var BoardComponent = (function () {
         this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
         this.blackAgentDepth = 2;
-        this.blackAgentSimulations = 2000;
         this.pieceSize = 67;
         this.dummyPieces = [];
         this.lastState = Array();
@@ -106,6 +105,9 @@ var BoardComponent = (function () {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
             return;
         this.humanMove(piece);
+    };
+    BoardComponent.prototype.chooseBlackSimulations = function (dept) {
+        this.blackAgentDepth = dept;
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();

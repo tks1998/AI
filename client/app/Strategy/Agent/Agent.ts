@@ -13,11 +13,7 @@ export class Agent {
     // myPiecesDic: {}; // {name -> pos}
     boardState: {}; // {posStr->[name, isMyPiece]}
 
-    checkmate = false;
-
-
     DEPTH = 0;
-
     reverse = false;
     typechess = false;
     InitPiece = null;
@@ -64,12 +60,9 @@ export class Agent {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     }
 
-
     checkMate() {
-        console.log(1111111111111111111111111);
-        return this.checkmate = Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
+        return Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
     }
-
 
     // update board state by pieces
     updateBoardState() {

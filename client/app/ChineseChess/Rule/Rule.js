@@ -293,20 +293,25 @@ var Rule = (function () {
         return moves;
     };
     Rule.checkMate = function (myPieces, oppoPieces, boardStates, team, reverse) {
-        console.log(1111111111111111111111111111111111111111);
-        var isLowerTeam = !(team == 1);
-        var myKing;
-        for (var i in myPieces) {
-            if (myPieces[i].name[0] == 'k') {
-                myKing = myPieces[i].position;
+        var isLowerTeam = (team == 1);
+        // console.log(isLowerTeam);
+        var oppoKing;
+        for (var i in oppoPieces) {
+            if (oppoPieces[i].name[0] == 'k') {
+                oppoKing = oppoPieces[i].position;
             }
         }
-        for (var i in oppoPieces) {
-            var piece = oppoPieces[i];
+        for (var i in myPieces) {
+            var piece = myPieces[i];
+            // console.log(piece.name);
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
-            for (var j in moves4Piece)
-                if (moves4Piece[j] == myKing)
+            for (var j in moves4Piece) {
+                // console.log(moves4Piece[j]);
+                if (moves4Piece[j][0] == oppoKing[0] && moves4Piece[j][1] == oppoKing[1]) {
+                    // console.log(oppoKing);
                     return true;
+                }
+            }
         }
         return false;
     };
@@ -326,7 +331,7 @@ var Rule = (function () {
     // @param: return
     // 0: not end
     // 1: Win
-    // -1: Lase
+    // -1: Lose
     // {posStr->[name, isMyPiece]}
     Rule.getGameEndState = function (agent) {
         var myPieces = agent.myPieces;

@@ -103,7 +103,7 @@
 		</div>
 		<br>
 
-		<button *ngIf="board.state.checkMate() == 1" class="btn" style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;"> CHIẾU TƯỚNG</button>
+		<button *ngIf="board.state.redAgent.checkMate()==true" id="demo" class="btn" style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;"> CHIẾU TƯỚNG</button>
 		
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">

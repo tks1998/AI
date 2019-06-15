@@ -6,7 +6,6 @@ export class State {
     redAgent: Agent;
     blackAgent: Agent;
     playingTeam: number;
-
     endFlag = null; // null: on going | 1: red win | -1: black win | 0: draw
     // create reverse check state piece && current support -> import data from user 
     reverse = false;
@@ -34,17 +33,14 @@ export class State {
     }
     // return a copy of state
     
-
-    checkMate() {
-        if (this.redAgent.checkMate() == true || this.blackAgent.checkMate() == true)
-            return true;
-        return false;
-    }
-
-
     copy(setOppoo = true) {
         let newState :State =  new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse , this.playingTeam, setOppoo);
         return newState;
+    }
+
+    checkMate(){
+        if (this.redAgent.checkMate()==true || this.blackAgent.checkMate()==true) 
+            return true; else return false;
     }
 
     switchTurn() {

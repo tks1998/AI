@@ -25,15 +25,16 @@ var State = (function () {
         return endState;
     };
     // return a copy of state
-    State.prototype.checkMate = function () {
-        if (this.redAgent.checkMate() == true || this.blackAgent.checkMate() == true)
-            return true;
-        return false;
-    };
     State.prototype.copy = function (setOppoo) {
         if (setOppoo === void 0) { setOppoo = true; }
         var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse, this.playingTeam, setOppoo);
         return newState;
+    };
+    State.prototype.checkMate = function () {
+        if (this.redAgent.checkMate() == true || this.blackAgent.checkMate() == true)
+            return true;
+        else
+            return false;
     };
     State.prototype.switchTurn = function () {
         this.playingTeam = -this.playingTeam;

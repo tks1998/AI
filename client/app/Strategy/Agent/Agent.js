@@ -14,7 +14,6 @@ var Agent = (function () {
         if (strategy === void 0) { strategy = 0; }
         this.strategy = 0;
         this.pastMoves = [];
-        this.checkmate = false;
         this.DEPTH = 0;
         this.reverse = false;
         this.typechess = false;
@@ -56,8 +55,7 @@ var Agent = (function () {
         this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     };
     Agent.prototype.checkMate = function () {
-        console.log(1111111111111111111111111);
-        return this.checkmate = Rule_1.Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
+        return Rule_1.Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
     };
     // update board state by pieces
     Agent.prototype.updateBoardState = function () {

@@ -257,7 +257,7 @@ var Rule = (function () {
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0) {
+        if (reverse && piece.isMove != 0) {
             if (name == 'x') {
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }
@@ -292,6 +292,29 @@ var Rule = (function () {
         moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
         return moves;
     };
+    Rule.checkMate = function (myPieces, oppoPieces, boardStates, team, reverse) {
+        var isLowerTeam = (team == 1);
+        // console.log(isLowerTeam);
+        var oppoKing;
+        for (var i in oppoPieces) {
+            if (oppoPieces[i].name[0] == 'k') {
+                oppoKing = oppoPieces[i].position;
+            }
+        }
+        for (var i in myPieces) {
+            var piece = myPieces[i];
+            // console.log(piece.name);
+            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
+            for (var j in moves4Piece) {
+                // console.log(moves4Piece[j]);
+                if (moves4Piece[j][0] == oppoKing[0] && moves4Piece[j][1] == oppoKing[1]) {
+                    // console.log(oppoKing);
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
     Rule.allPossibleMoves = function (myPieces, boardStates, team, reverse) {
@@ -301,8 +324,6 @@ var Rule = (function () {
         for (var i in myPieces) {
             var piece = myPieces[i];
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
-            // console.log("moves4Piece", piece.name, moves4Piece)
-            // move [ name ]  =   
             moves[piece.name] = moves4Piece;
         }
         return moves;
@@ -310,7 +331,7 @@ var Rule = (function () {
     // @param: return
     // 0: not end
     // 1: Win
-    // -1: Lase
+    // -1: Lose
     // {posStr->[name, isMyPiece]}
     Rule.getGameEndState = function (agent) {
         var myPieces = agent.myPieces;

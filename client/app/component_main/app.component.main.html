@@ -79,11 +79,8 @@
 	</div>
 
 	<div class="clock left">
-		<button (click)='startTimer()'>Start Timer</button>
-		<div class="ui black segment">{{minute}} : {{second}}</div>
-
-		<button (click)='startTimer()'>Start Timer</button>
-		<div class="ui black segment">{{minute}} : {{second}}</div>
+		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
+		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}}</div>
 	</div>
 
 	<div class="right ">

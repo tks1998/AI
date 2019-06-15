@@ -9,8 +9,15 @@ export class InitGame {
     static RandomPosition() {
         // prepare module combiatorics from javascript 
         // get next permutation in reserse game  
-        var Rand = [0, 5, 13, 7, 6, 4, 1, 3, 2, 10, 9, 8, 11, 12, 14];
-        return Rand;
+        var Rand = [
+                        [0, 5, 13, 7, 6, 4, 1, 3, 2, 10, 9, 8, 11, 12, 14],
+                        [0, 5, 13, 10, 9, 8, 7, 6, 4, 1, 3, 2, 11, 12, 14],
+                        [0, 5, 13, 7, 6, 4, 1, 3, 2, 10, 9, 8, 11, 12, 14]        
+                ];
+                var max = 19;
+                var min = 0
+             var x = Math.floor(Math.random()*(max-min+1)+min); 
+        return Rand[x];
     }
 
 

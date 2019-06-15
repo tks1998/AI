@@ -72,6 +72,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
+        console.log("day la aasasasasa", this.blackAgentDepth);
         this.initGame();
     };
     BoardComponent.prototype.ngOnInit = function () {
@@ -85,9 +86,11 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         this.initDummyButtons();
-        blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse);
-        redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
+        blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
+        console.log("day la blackAgent", blackAgent.DEPTH);
+        redAgent = new Agent_1.Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
+        console.log("khoi tao ", this.blackAgentType);
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
@@ -117,15 +120,6 @@ var BoardComponent = (function () {
         this.results.push(red_win);
         this.selectedPiece = undefined;
     };
-    /** report_runtime(strategy, depth, time) {
-         var type = this.runtime_dict[strategy + "-" + depth];
-         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
-         else {
-             var new_num = type[1] + 1;
-             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
-         }
-         // this.onTimeUpdated.emit();
-     } */
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
@@ -251,8 +245,8 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent_1.Agent(this.blackTeam, false, this.StateFlag, black);
-        redAgent = new Agent_1.Agent(this.redTeam, false, this.StateFlag, red);
+        blackAgent = new Agent_1.Agent(this.blackTeam, false, 0, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, false, 0, this.StateFlag, red);
         this.state = new State_1.State(redAgent, blackAgent, false);
     };
     BoardComponent.prototype.ChangeType = function () {

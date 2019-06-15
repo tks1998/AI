@@ -30,11 +30,8 @@
 				(change)="board.chooseBlackAgent($event.target.value) ">
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
-				<option>2-MoveReorder</option>
-				<option>3-TDLeaner</option>
-				<option>4-TDLean(Trained)</option>
-				<option>5-MCTS</option>
-				<option>6-Ultimate</option>
+				<option>2-MCTS</option>
+				
 			</sm-select>
 			<div class=" margin "></div>
 			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=5" placeholder="Depth (2)"

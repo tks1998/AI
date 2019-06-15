@@ -18,7 +18,7 @@ export class Agent {
     // moved: EventEmitter<number> = new EventEmitter();
     reverse = false;
     strategy = 0;
-    constructor(team: number, reverse , myPieces = undefined ) {
+    constructor(team: number, reverse , strategy , myPieces = undefined ) {
         this.team = team;
         this.reverse= reverse;
         if (myPieces == undefined)
@@ -26,6 +26,7 @@ export class Agent {
         else {
             this.myPieces = myPieces;
         }
+        this.strategy = strategy;
     }
     setOppoAgent(oppoAgent) {
         // setOppoAgent(oppoAgent, calMoves = true, updateDict = false) {
@@ -143,14 +144,14 @@ export class Agent {
 
 
 
-    copy() { return new Agent(this.team, this.myPieces.map(x => x.copy()),this.reverse); }
+    copy() { return new Agent(this.team, this.reverse , this.strategy , this.myPieces.map(x => x.copy())); }
 
     static piecesFromDict(dict_list) {
         return dict_list.map(x => Piece.copyFromDict(x));
     }
 
     static copyFromDict(dict) {
-        return new Agent(dict.team,dict.reverse,this.piecesFromDict(dict.myPieces));
+        return new Agent(dict.team,dict.reverse,dict.strategy  , this.piecesFromDict(dict.myPieces));
     }
 
     // get array of legalMoves: [[movePieceName, move]]
@@ -163,6 +164,7 @@ export class Agent {
                 moves.push([movePieceName, move]);
             }
         }
+       
         return moves;
     }
 

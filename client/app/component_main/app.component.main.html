@@ -33,11 +33,8 @@
 				(change)="board.chooseBlackAgent($event.target.value) ">
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
-				<option>2-MoveReorder</option>
-				<option>3-TDLeaner</option>
-				<option>4-TDLean(Trained)</option>
-				<option>5-MCTS</option>
-				<option>6-Ultimate</option>
+				<option>2-MCTS</option>
+			
 			</sm-select>
 
 			<div class=" margin "></div>
@@ -60,6 +57,10 @@
 				<option>3000</option>
 				<option>4000</option>
 				<option>5000</option>
+
+				<option>7000</option>
+				<option>8000</option>
+				<option>10000</option>
 			</sm-select>
 		</div>
 
@@ -96,12 +97,12 @@
 	<div class="clock left">
 		<div id="blackclock">
 			<sm-button class="ui teal fluid" (click)='startTimer()'>Start Timer</sm-button>
-			<div class="ui black segment">{{minute}} : {{second}}</div>
+		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
 		</div>
 
 		<div id="redclock">
 			<sm-button class="ui teal fluid" (click)='startTimer()'>Start Timer</sm-button>
-			<div class="ui red segment">{{minute}} : {{second}}</div>
+		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}}</div>
 		</div>
 	</div>
 

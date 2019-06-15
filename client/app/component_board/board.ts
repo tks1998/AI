@@ -26,7 +26,6 @@ export class BoardComponent implements OnInit {
     blackAgentType = 0;
     DEFAULT_DEPTH = 2;
     blackAgentDepth = 2;
-    blackAgentSimulations = 2000;
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
@@ -85,7 +84,7 @@ export class BoardComponent implements OnInit {
     }
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
-        console.log("day la aasasasasa",this.blackAgentDepth);
+       
         this.initGame();
     }
 
@@ -109,11 +108,11 @@ export class BoardComponent implements OnInit {
         var blackAgent : Agent;
         this.initDummyButtons();
         blackAgent = new Agent(this.blackTeam, this.reverse ,this.blackAgentType , this.blackAgentDepth) ;
-        console.log("day la blackAgent",blackAgent.DEPTH)
+        
         redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
 
         this.state = new State(redAgent, blackAgent, this.reverse);
-        console.log("khoi tao ", this.blackAgentType)
+       
     }
 
 
@@ -133,7 +132,9 @@ export class BoardComponent implements OnInit {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
-
+    chooseBlackSimulations(dept){
+        this.blackAgentDepth = dept ;
+    }
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
@@ -211,7 +212,7 @@ export class BoardComponent implements OnInit {
     Redo() {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-        console.log(id);
+       
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0) this.lastState = this.lastState.slice(0, size)
@@ -280,8 +281,9 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent(this.blackTeam, false,0, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, false, 0,this.StateFlag, red);
+        blackAgent = new Agent(this.blackTeam, true,0,0, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, true, 0,0,this.StateFlag, red);
+        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
         this.state = new State(redAgent, blackAgent, false);
 
     }

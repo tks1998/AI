@@ -8,6 +8,7 @@ var Agent = (function () {
     function Agent(team, reverse, strategy, dept, typechess, InitPiece, myPieces, pastMoves) {
         if (reverse === void 0) { reverse = false; }
         if (strategy === void 0) { strategy = 0; }
+        if (dept === void 0) { dept = 0; }
         if (typechess === void 0) { typechess = false; }
         if (InitPiece === void 0) { InitPiece = null; }
         if (myPieces === void 0) { myPieces = null; }

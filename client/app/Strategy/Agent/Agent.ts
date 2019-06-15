@@ -21,7 +21,7 @@ export class Agent {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    constructor(team: number, reverse = false, strategy = 0,dept , typechess = false, InitPiece = null, myPieces = null, pastMoves = [] ) {
+    constructor(team: number, reverse = false, strategy = 0,dept=0 , typechess = false, InitPiece = null, myPieces = null, pastMoves = [] ) {
         this.team = team;
         this.reverse = reverse;
        

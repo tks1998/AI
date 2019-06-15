@@ -1,33 +1,33 @@
-<button (click)='startTimer()'>Start Timer</button>	
-<div class="ui black segment">{{minute}} : {{second}}</div> 
 <div class="body_content" (keyup.Enter)="board.initGame()">
-	<board #board class="board" >
+	<board #board class="board">
 	</board>
 
 	<div class="left">
 
 		<button class="ui green basic button fluid">
-			<sm-checkbox label="{{board.reverse ? 'reverse china chess':'chinachess'}}" 
-					[control]="chinachess" 
-					type="toggle "  (change)="board.changeMode() ">
+			<sm-checkbox label="{{board.reverse ? 'reverse china chess':'chinachess'}}" [control]="chinachess"
+				type="toggle " (change)="board.changeMode() ">
 			</sm-checkbox>
 		</button>
 		<div class="margin"></div>
-			<hr>
-			<sm-button class="fluid medium negative " icon="refresh " (click)="board.initGame() ">Restart</sm-button>
-			<div class="margin"></div>
-			<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium teal control " icon="undo" (click)="board.go2PreviousState() ">Undo </sm-button>
-			<div class="margin"></div>
-			<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="redo" (click)="board.Redo() ">redo </sm-button>
-			
-			<div class="margin"></div>
-			<hr/>
+		<hr>
+		<sm-button class="fluid medium negative " icon="refresh " (click)="board.initGame() ">Restart</sm-button>
+		<div class="margin"></div>
+		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium teal control " icon="undo"
+			(click)="board.go2PreviousState() ">Undo </sm-button>
+		<div class="margin"></div>
+		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="redo"
+			(click)="board.Redo() ">redo </sm-button>
+
+		<div class="margin"></div>
+		<hr />
 
 		<div class=" margin "></div>
 
 		<div id="blackAgentSelection">
 			<h4 class="ui horizontal divider header black"><i class="Flag icon"></i>Black</h4>
-			<sm-select class="fluid" placeholder="Strategy (Greedy)" (change)="board.chooseBlackAgent($event.target.value) ">
+			<sm-select class="fluid" placeholder="Strategy (Greedy)"
+				(change)="board.chooseBlackAgent($event.target.value) ">
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
 				<option>2-MoveReorder</option>
@@ -37,7 +37,8 @@
 				<option>6-Ultimate</option>
 			</sm-select>
 			<div class=" margin "></div>
-			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=5" placeholder="Depth (2)" (change)="board.chooseBlackAgentDepth($event.target.value) ">
+			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=5" placeholder="Depth (2)"
+				(change)="board.chooseBlackAgentDepth($event.target.value) ">
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -46,7 +47,8 @@
 				<option>6</option>
 				<option>7</option>
 			</sm-select>
-			<sm-select class="fluid" *ngIf="board.blackAgentType==5" placeholder="Simulations" (change)="board.chooseBlackSimulations($event.target.value) ">
+			<sm-select class="fluid" *ngIf="board.blackAgentType==5" placeholder="Simulations"
+				(change)="board.chooseBlackSimulations($event.target.value) ">
 				<option>1000</option>
 				<option>2000</option>
 				<option>3000</option>
@@ -60,24 +62,29 @@
 
 		<!--input boardstate && number move  -->
 		<button class="ui green basic button fluid">
-			<sm-checkbox label="{{board.StateFlag ? 'StateFlag':'normal'}}" 
-					[control]="flag" 
-					type="toggle "  
-					(change)="board.ChangeType() ">
+			<sm-checkbox label="{{board.StateFlag ? 'StateFlag':'normal'}}" [control]="flag" type="toggle "
+				(change)="board.ChangeType() ">
 			</sm-checkbox>
 		</button>
 		<div>
-			<textarea placeholder="Nhập thế cờ..." (keyup.enter) = "board.SaveState($event.target.value);" rows="8" 
-			class ="textboxx"></textarea>
-			<textarea class ="textboxx" placeholder="Nhập số nước đi tối thiểu..." (keyup) = "board.NumberMove($event.target.value);"></textarea>
-			
-			<input type ="file"  (change) = "onFileSelected($event)">	
+			<textarea placeholder="Nhập thế cờ..." (keyup.enter)="board.SaveState($event.target.value);" rows="8"
+				class="textboxx"></textarea>
+			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."
+				(keyup)="board.NumberMove($event.target.value);"></textarea>
+
+			<input type="file" (change)="onFileSelected($event)">
 			<!-- <button type="button" (click) = "fileInput.click()" > Pick file </button> -->
-			<button type="button" (click) = "onUpload()"> Upload</button>
+			<button type="button" (click)="onUpload()"> Upload</button>
 		</div>
 	</div>
 
-	<div class="clock" >sdfasfsf</div>
+	<div class="clock left">
+		<button (click)='startTimer()'>Start Timer</button>
+		<div class="ui black segment">{{minute}} : {{second}}</div>
+
+		<button (click)='startTimer()'>Start Timer</button>
+		<div class="ui black segment">{{minute}} : {{second}}</div>
+	</div>
 
 	<div class="right ">
 		<div class="ui segments">
@@ -88,29 +95,35 @@
 			<div class="ui red segment">
 				<h4 class="ui red" style="color:red">Red: {{board.state.redAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
-					<img src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
+					<img
+						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
 					<h3>{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
 				</div>
-				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1 " class="ui active centered inline loader "></div>
+				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1 "
+					class="ui active centered inline loader "></div>
 			</div>
 
 			<div class="ui black segment">
 				<h4 class="ui  black">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.blackAgent.pastMoves.length>0 && board.state.playingTeam==1">
-					<img src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.png">
+					<img
+						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.png">
 					<h3>{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
 				</div>
-				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null" class="ui active centered inline loader "></div>
+				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null"
+					class="ui active centered inline loader "></div>
 			</div>
 
 
-		
-	</div>
-	
+
+		</div>
+
 		<br>
 
-		<button id="demo" class="btn" style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;"> CHIẾU TƯỚNG</button>
-		
+		<button id="demo" class="btn"
+			style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;">
+			CHIẾU TƯỚNG</button>
+
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
 				<i *ngIf="board.state.endFlag == 1" class="circular flag red icon"></i>
@@ -124,7 +137,4 @@
 		</div>
 	</div>
 
-	<button (click)='startTimer()'>Start Timer</button>	
-	<div class="ui black segment">{{minute}} : {{second}}</div> 
-	
 </div>

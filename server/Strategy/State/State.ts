@@ -36,10 +36,6 @@ export class State {
         return this.get_next_by_team(movePieceName, toPos, this.playingTeam);
     }
 
-    checkMate(){
-        if (this.redAgent.checkMate()==true || this.blackAgent.checkMate()==true) 
-            return true; else return false;
-    }
     
     get_next_by_team(movePieceName, toPos, team) {
         // make a copy a state

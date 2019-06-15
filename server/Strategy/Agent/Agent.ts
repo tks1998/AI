@@ -47,11 +47,6 @@ export class Agent {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
     }
 
-    //check mate
-    checkMate() {
-        return Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
-    }
-
     // update board state by pieces
     updateBoardState() {
         var state = {};

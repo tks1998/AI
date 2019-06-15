@@ -3,7 +3,7 @@
  * client request to sever
  * Sever reveice and extract request from client and compute next move -> reponse client
  * use method http of angular make reponse for client
- * default port = 4200
+ * default port = 3000
  * references on page  https://angular.io/guide/http
  * If you want to upgrade , you should use method nginx . Nginx is method support load balancer
  */
@@ -13,10 +13,10 @@ var app = require('../server').app;
 var debug = require('debug')('server:server');
 var http = require('http');
 var assert = require('assert');
-var port = '4200';
+var port = '3000';
 app.set('port', port);
 var server = http.createServer(app);
-server.listen('4200');
+server.listen('3000');
 server.on('listening', onListening);
 function onListening() {
     var addr = server.address();

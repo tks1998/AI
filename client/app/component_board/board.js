@@ -71,7 +71,6 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
-        console.log("day la aasasasasa", this.blackAgentDepth);
         this.initGame();
     };
     BoardComponent.prototype.ngOnInit = function () {
@@ -86,10 +85,8 @@ var BoardComponent = (function () {
         var blackAgent;
         this.initDummyButtons();
         blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
-        console.log("day la blackAgent", blackAgent.DEPTH);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
-        console.log("khoi tao ", this.blackAgentType);
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
@@ -178,7 +175,6 @@ var BoardComponent = (function () {
     BoardComponent.prototype.Redo = function () {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-        console.log(id);
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0)
@@ -247,8 +243,9 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent_1.Agent(this.blackTeam, false, 0, this.StateFlag, black);
-        redAgent = new Agent_1.Agent(this.redTeam, false, 0, this.StateFlag, red);
+        blackAgent = new Agent_1.Agent(this.blackTeam, true, 0, 0, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, true, 0, 0, this.StateFlag, red);
+        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
         this.state = new State_1.State(redAgent, blackAgent, false);
     };
     BoardComponent.prototype.ChangeType = function () {

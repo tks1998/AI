@@ -5,7 +5,7 @@ import { DummyPiece } from '../Objects/DummyPiece';
 import { State } from '../Strategy/State/State';
 import { Agent } from '../Strategy/Agent/Agent';
 import { start } from 'repl';
-
+import {NgForm} from '@angular/forms';
 
 @Component({
     selector: 'board',
@@ -344,4 +344,8 @@ export class BoardComponent implements OnInit {
             clearImmediate(this.blackinterval);
         }
     }
+    // submit form
+    SubmitForm(f: NgForm) {
+        console.log(f.value);
+      }
 }

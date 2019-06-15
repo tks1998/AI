@@ -303,6 +303,10 @@ var BoardComponent = (function () {
             clearImmediate(this.blackinterval);
         }
     };
+    // submit form
+    BoardComponent.prototype.SubmitForm = function (f) {
+        console.log(f.value);
+    };
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

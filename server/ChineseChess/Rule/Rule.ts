@@ -2,6 +2,7 @@ import { Piece } from '../../Objects/Piece';
 
 
 export class Rule {
+
     static minRow = 1;
     static maxRow = 10;
     static minCol = 1;
@@ -264,7 +265,7 @@ export class Rule {
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0) {
+        if (reverse && piece.isMove != 0) {
             if (name == 'x') {
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }
@@ -310,9 +311,6 @@ export class Rule {
         for (var i in myPieces) {
             var piece = myPieces[i];
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
-            // console.log("moves4Piece", piece.name, moves4Piece)
-
-            // move [ name ]  =   
             moves[piece.name] = moves4Piece;
         }
         return moves;
@@ -322,7 +320,7 @@ export class Rule {
     // @param: return
     // 0: not end
     // 1: Win
-    // -1: Lase
+    // -1: Lose
     // {posStr->[name, isMyPiece]}
     static getGameEndState = function (agent) {
         var myPieces: Piece[] = agent.myPieces;

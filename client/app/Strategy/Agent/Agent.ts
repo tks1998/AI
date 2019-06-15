@@ -14,7 +14,6 @@ export class Agent {
     boardState: {}; // {posStr->[name, isMyPiece]}
 
     DEPTH = 0;
-
     reverse = false;
     typechess = false;
     InitPiece = null;
@@ -22,9 +21,10 @@ export class Agent {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    constructor(team: number, reverse = false, typechess = false, InitPiece = null, myPieces = null, pastMoves = [], strategy = 0) {
+    constructor(team: number, reverse = false, strategy = 0,dept , typechess = false, InitPiece = null, myPieces = null, pastMoves = [] ) {
         this.team = team;
         this.reverse = reverse;
+       
         if (typechess == false) {
             if (myPieces == null ){
                 this.myPieces = (team == 1 ? InitGame.getRedPieces(this.reverse) : InitGame.getBlackPieces(this.reverse));
@@ -44,6 +44,7 @@ export class Agent {
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
+        this.DEPTH = dept;
     }
     setOppoAgent(oppoAgent) {
         this.oppoAgent = oppoAgent;
@@ -59,6 +60,10 @@ export class Agent {
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
+    }
+
+    checkMate() {
+        return Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
     }
 
     // update board state by pieces
@@ -112,7 +117,8 @@ export class Agent {
         return this.myPieces.filter(x => x.name == name)[0];
     }
     copy() {
-        return new Agent(this.team, this.reverse,false , null ,  this.myPieces.map(x => x.copy()), this.copyMoves());
+       
+        return new Agent(this.team, this.reverse, this.strategy ,this.DEPTH ,false , null , this.myPieces.map(x => x.copy()), this.copyMoves());
     }
 
 

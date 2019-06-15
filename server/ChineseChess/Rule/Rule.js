@@ -257,7 +257,7 @@ var Rule = (function () {
         var currCol = piece.position[1];
         var moves = [];
         // piece.isMove == 0 -> piece is not move -> fake move
-        if (reverse && piece.isMove == 0) {
+        if (reverse && piece.isMove != 0) {
             if (name == 'x') {
                 return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
             }
@@ -301,8 +301,6 @@ var Rule = (function () {
         for (var i in myPieces) {
             var piece = myPieces[i];
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
-            // console.log("moves4Piece", piece.name, moves4Piece)
-            // move [ name ]  =   
             moves[piece.name] = moves4Piece;
         }
         return moves;
@@ -310,7 +308,7 @@ var Rule = (function () {
     // @param: return
     // 0: not end
     // 1: Win
-    // -1: Lase
+    // -1: Lose
     // {posStr->[name, isMyPiece]}
     Rule.getGameEndState = function (agent) {
         var myPieces = agent.myPieces;

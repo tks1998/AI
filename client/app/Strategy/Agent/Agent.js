@@ -5,13 +5,13 @@ var Agent = (function () {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    function Agent(team, reverse, typechess, InitPiece, myPieces, pastMoves, strategy) {
+    function Agent(team, reverse, strategy, dept, typechess, InitPiece, myPieces, pastMoves) {
         if (reverse === void 0) { reverse = false; }
+        if (strategy === void 0) { strategy = 0; }
         if (typechess === void 0) { typechess = false; }
         if (InitPiece === void 0) { InitPiece = null; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
-        if (strategy === void 0) { strategy = 0; }
         this.strategy = 0;
         this.pastMoves = [];
         this.DEPTH = 0;
@@ -39,6 +39,7 @@ var Agent = (function () {
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;
+        this.DEPTH = dept;
     }
     Agent.prototype.setOppoAgent = function (oppoAgent) {
         this.oppoAgent = oppoAgent;
@@ -102,7 +103,7 @@ var Agent = (function () {
         return this.myPieces.filter(function (x) { return x.name == name; })[0];
     };
     Agent.prototype.copy = function () {
-        return new Agent(this.team, this.reverse, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new Agent(this.team, this.reverse, this.strategy, this.DEPTH, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
     };
     Agent.prototype.copyMoves = function () {
         return this.pastMoves.slice();

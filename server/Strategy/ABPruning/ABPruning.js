@@ -7,8 +7,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Agent_1 = require('../Agent/Agent');
 var ABPruning = (function (_super) {
     __extends(ABPruning, _super);
-    function ABPruning(team, reverse, myPieces, depth) {
-        _super.call(this, team, reverse, myPieces);
+    function ABPruning(team, reverse, strategy, myPieces, depth) {
+        _super.call(this, team, reverse, strategy, myPieces);
         this.DEPTH = 2;
         this.strategy = 1;
         this.DEPTH = depth;
@@ -71,7 +71,8 @@ var ABPruning = (function (_super) {
     ABPruning.prototype.get_ordered_moves = function (agent) { return agent.get_moves_arr(); };
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
     ABPruning.copyFromDict = function (dict) {
-        return new ABPruning(dict.team, dict.reverse, this.piecesFromDict(dict.myPieces), dict.DEPTH);
+        console.log("tao la tao ", dict.DEPTH);
+        return new ABPruning(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     };
     return ABPruning;
 }(Agent_1.Agent));

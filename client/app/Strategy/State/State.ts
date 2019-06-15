@@ -15,6 +15,7 @@ export class State {
     constructor(redAgent: Agent, blacAgent: Agent, reverse  ,playingTeam = 1, setOppoo = true ) {
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
+        
         this.playingTeam = playingTeam; 
         this.reverse = reverse ;
         if (setOppoo) {

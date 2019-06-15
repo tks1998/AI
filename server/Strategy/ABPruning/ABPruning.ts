@@ -11,18 +11,21 @@ export class ABPruning extends Agent {
     // private method of computing next move
     // return [piece, toPos]; null if fail
     comptuteNextMove(curr_state: State) {
+       
         var evalResult = this.recurseEvaluation(curr_state, this.DEPTH, -Infinity, Infinity);
+        
         if (evalResult[0] * this.team == -Infinity) {
             console.log("FAIL!!!!")
             return null;
         }
-        var movePiece = this.getPieceByName(evalResult[1][0]);
-        return [movePiece, evalResult[1][1]];
+    
+       var movePiece = this.getPieceByName(evalResult[1][0]);
+       return [movePiece, evalResult[1][1]];
     }
 
 
-    constructor(team: number, reverse, myPieces, depth) {
-        super(team, reverse , myPieces);
+    constructor(team: number, reverse, strategy , myPieces, depth) {
+        super(team, reverse , strategy , myPieces);
         this.DEPTH = depth;
     }
 
@@ -74,7 +77,8 @@ export class ABPruning extends Agent {
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
 
     static copyFromDict(dict) {
-        return new ABPruning(dict.team, dict.reverse , this.piecesFromDict(dict.myPieces), dict.DEPTH);
+        console.log("tao la tao ",dict.DEPTH);
+        return new ABPruning(dict.team, dict.reverse , dict.strategy ,  this.piecesFromDict(dict.myPieces)   , dict.DEPTH);
     }
 
 }

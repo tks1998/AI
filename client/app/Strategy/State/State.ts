@@ -39,6 +39,11 @@ export class State {
         return newState;
     }
 
+    checkMate(){
+        if (this.redAgent.checkMate()==true || this.blackAgent.checkMate()==true) 
+            return true; else return false;
+    }
+
     switchTurn() {
         this.playingTeam = -this.playingTeam;
     }

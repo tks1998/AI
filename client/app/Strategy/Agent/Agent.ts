@@ -14,7 +14,6 @@ export class Agent {
     boardState: {}; // {posStr->[name, isMyPiece]}
 
     DEPTH = 0;
-
     reverse = false;
     typechess = false;
     InitPiece = null;
@@ -61,6 +60,10 @@ export class Agent {
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
+    }
+
+    checkMate() {
+        return Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
     }
 
     // update board state by pieces

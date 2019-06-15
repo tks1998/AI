@@ -30,6 +30,12 @@ var State = (function () {
         var newState = new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse, this.playingTeam, setOppoo);
         return newState;
     };
+    State.prototype.checkMate = function () {
+        if (this.redAgent.checkMate() == true || this.blackAgent.checkMate() == true)
+            return true;
+        else
+            return false;
+    };
     State.prototype.switchTurn = function () {
         this.playingTeam = -this.playingTeam;
     };

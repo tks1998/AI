@@ -55,6 +55,9 @@ var Agent = (function () {
     Agent.prototype.computeLegalMoves = function () {
         this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     };
+    Agent.prototype.checkMate = function () {
+        return Rule_1.Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
+    };
     // update board state by pieces
     Agent.prototype.updateBoardState = function () {
         var state = {};

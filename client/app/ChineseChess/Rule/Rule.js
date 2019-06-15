@@ -292,6 +292,24 @@ var Rule = (function () {
         moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
         return moves;
     };
+    Rule.checkMate = function (myPieces, oppoPieces, boardStates, team, reverse) {
+        console.log(1111111111111111111111111111111111111111);
+        var isLowerTeam = !(team == 1);
+        var myKing;
+        for (var i in myPieces) {
+            if (myPieces[i].name[0] == 'k') {
+                myKing = myPieces[i].position;
+            }
+        }
+        for (var i in oppoPieces) {
+            var piece = oppoPieces[i];
+            var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
+            for (var j in moves4Piece)
+                if (moves4Piece[j] == myKing)
+                    return true;
+        }
+        return false;
+    };
     // return a list of all possible moves
     // boardStates: {posStr->[name, isMyPiece]}
     Rule.allPossibleMoves = function (myPieces, boardStates, team, reverse) {

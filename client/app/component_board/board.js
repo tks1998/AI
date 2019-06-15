@@ -29,6 +29,10 @@ var BoardComponent = (function () {
         this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
         this.runtime_dict = {};
         this.results = [];
         this.server = server;
@@ -122,6 +126,8 @@ var BoardComponent = (function () {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
+        this.pauseTimer(-this.state.playingTeam);
+        this.startTimer(this.state.playingTeam);
         // agent.nextMove();
         var endState = this.state.getEndState();
         if (endState != 0) {
@@ -251,6 +257,52 @@ var BoardComponent = (function () {
         var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
         this.newState(objectState["red"], objectState["black"]);
+    };
+    // Check move && change image 
+    BoardComponent.prototype.startTimer = function (team) {
+        var _this = this;
+        if (team == 1) {
+            this.redinterval = setInterval(function () {
+                if (_this.redminute >= 0) {
+                    if (_this.redsecond >= 0) {
+                        _this.redsecond--;
+                    }
+                    if (_this.redsecond == -1) {
+                        _this.redminute--;
+                        _this.redsecond = 59;
+                    }
+                }
+                else {
+                    _this.redminute = 15;
+                    _this.redsecond == 0;
+                }
+            }, 1000);
+        }
+        else {
+            this.blackinterval = setInterval(function () {
+                if (_this.blackminute >= 0) {
+                    if (_this.blacksecond >= 0) {
+                        _this.blacksecond--;
+                    }
+                    if (_this.blacksecond == -1) {
+                        _this.blackminute--;
+                        _this.blacksecond = 59;
+                    }
+                }
+                else {
+                    _this.blackminute = 15;
+                    _this.blacksecond == 0;
+                }
+            }, 1000);
+        }
+    };
+    BoardComponent.prototype.pauseTimer = function (team) {
+        if (team == 1) {
+            clearInterval(this.redinterval);
+        }
+        else {
+            clearImmediate(this.blackinterval);
+        }
     };
     BoardComponent = __decorate([
         core_1.Component({

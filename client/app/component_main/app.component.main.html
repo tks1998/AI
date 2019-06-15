@@ -1,3 +1,5 @@
+<button (click)='startTimer()'>Start Timer</button>	
+<div class="ui black segment">{{minute}} : {{second}}</div> 
 <div class="body_content" (keyup.Enter)="board.initGame()">
 	<board #board class="board" >
 	</board>
@@ -75,7 +77,7 @@
 		</div>
 	</div>
 
-
+	<div class="clock" >sdfasfsf</div>
 
 	<div class="right ">
 		<div class="ui segments">
@@ -100,7 +102,11 @@
 				</div>
 				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null" class="ui active centered inline loader "></div>
 			</div>
-		</div>
+
+
+		
+	</div>
+	
 		<br>
 
 		<button id="demo" class="btn" style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;"> CHIẾU TƯỚNG</button>
@@ -117,5 +123,8 @@
 			</div>
 		</div>
 	</div>
+
+	<button (click)='startTimer()'>Start Timer</button>	
+	<div class="ui black segment">{{minute}} : {{second}}</div> 
 	
 </div>

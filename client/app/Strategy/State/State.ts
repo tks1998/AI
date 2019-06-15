@@ -15,6 +15,7 @@ export class State {
     constructor(redAgent: Agent, blacAgent: Agent, reverse  ,playingTeam = 1, setOppoo = true ) {
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
+        
         this.playingTeam = playingTeam; 
         this.reverse = reverse ;
         if (setOppoo) {
@@ -36,6 +37,11 @@ export class State {
     copy(setOppoo = true) {
         let newState :State =  new State(this.redAgent.copy(), this.blackAgent.copy(), this.reverse , this.playingTeam, setOppoo);
         return newState;
+    }
+
+    checkMate(){
+        if (this.redAgent.checkMate()==true || this.blackAgent.checkMate()==true) 
+            return true; else return false;
     }
 
     switchTurn() {

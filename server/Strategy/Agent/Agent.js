@@ -4,7 +4,7 @@ var Rule_1 = require('../../ChineseChess/Rule/Rule');
 var init_1 = require('../../ChineseChess/InitGame/init');
 var Evaluation_1 = require('../_Param/Evaluation');
 var Agent = (function () {
-    function Agent(team, reverse, myPieces) {
+    function Agent(team, reverse, strategy, myPieces) {
         if (myPieces === void 0) { myPieces = undefined; }
         // moved: EventEmitter<number> = new EventEmitter();
         this.reverse = false;
@@ -16,6 +16,7 @@ var Agent = (function () {
         else {
             this.myPieces = myPieces;
         }
+        this.strategy = strategy;
     }
     Agent.prototype.setOppoAgent = function (oppoAgent) {
         // setOppoAgent(oppoAgent, calMoves = true, updateDict = false) {
@@ -122,12 +123,12 @@ var Agent = (function () {
         // take random move
         return this.random_move();
     };
-    Agent.prototype.copy = function () { return new Agent(this.team, this.myPieces.map(function (x) { return x.copy(); }), this.reverse); };
+    Agent.prototype.copy = function () { return new Agent(this.team, this.reverse, this.strategy, this.myPieces.map(function (x) { return x.copy(); })); };
     Agent.piecesFromDict = function (dict_list) {
         return dict_list.map(function (x) { return Piece_1.Piece.copyFromDict(x); });
     };
     Agent.copyFromDict = function (dict) {
-        return new Agent(dict.team, dict.reverse, this.piecesFromDict(dict.myPieces));
+        return new Agent(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces));
     };
     // get array of legalMoves: [[movePieceName, move]]
     Agent.prototype.get_moves_arr = function () {

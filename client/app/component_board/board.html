@@ -2,13 +2,11 @@
 	<div class="grid">
 		<div *ngIf="checkReverse()">
 			<div *ngIf="selectedPiece && state.playingTeam ==1">
-				<button *ngFor="let piece of dummyPieces" 
-							(click)="clickDummyPiece(piece)" 
-							class="dummyPiece"
-							[class.possibleMove]='isPossibleMove(piece.position)'
-							[style.left]="(piece.position[1]-1.5)*pieceSize+'px'"
-							[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
-							{{piece.position}}
+				<button *ngFor="let piece of dummyPieces" (click)="clickDummyPiece(piece)" class="dummyPiece"
+					[class.possibleMove]='isPossibleMove(piece.position)'
+					[style.left]="(piece.position[1]-1.5)*pieceSize+'px'"
+					[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
+					{{piece.position}}
 				</button>
 			</div>
 			<!--RedTeam-->
@@ -30,21 +28,17 @@
 
 
 			</div>
-			<div *ngFor="let piece of state.blackAgent.myPieces" >
-				<div *ngIf = "checkMove(piece)"> 
-					<button 
-					[class.selected]='selectedPiece && selectedPiece.position==piece.position' 
-					(click)="clickBlackPiece(piece)" 
-					[style.left]="(piece.position[1]-1.5)*pieceSize+'px'" 
-					[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
+			<div *ngFor="let piece of state.blackAgent.myPieces">
+				<div *ngIf="checkMove(piece)">
+					<button [class.selected]='selectedPiece && selectedPiece.position==piece.position'
+						(click)="clickBlackPiece(piece)" [style.left]="(piece.position[1]-1.5)*pieceSize+'px'"
+						[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
 						<img src="resource/img/pieces/-1/{{piece.name[0]}}.png" alt="">
 					</button>
 				</div>
 				<div *ngIf="!checkMove(piece)">
-					<button 
-						[class.selected]='selectedPiece && selectedPiece.position==piece.position' 
-						(click)="clickBlackPiece(piece)" 
-						[style.left]="(piece.position[1]-1.5)*pieceSize+'px'" 
+					<button [class.selected]='selectedPiece && selectedPiece.position==piece.position'
+						(click)="clickBlackPiece(piece)" [style.left]="(piece.position[1]-1.5)*pieceSize+'px'"
 						[style.bottom]="((piece.position[0]-1.5)*pieceSize + (piece.position[0] > 5 ? 15 : 0))+'px'">
 						<img src="resource/img/black_reverse.png" alt="">
 					</button>

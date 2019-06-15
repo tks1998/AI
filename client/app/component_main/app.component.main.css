@@ -1,76 +1,94 @@
-#t{
+#t {
   font-size: 150px;
 }
 
-
-
-.left, .right{
- width:15%;
+.left,
+.right {
+  width: 15%;
   float: top;
-   height: 100%;
-   display: inline-block;
+  height: 100%;
+  display: inline-block;
+  margin: 10px;
 }
 
-.left{
+.left {
   float: left;
 }
 
-.right{
+.right {
   float: right;
 
 }
 
-.header{
+.header {
   height: 10%;
 }
 
-.header h1{
+.header h1 {
   /*margin-left: 18%;*/
   color: white;
   width: 100%;
   margin: auto;
 }
-.title{
+
+.title {
   margin-left: 1em;
 }
-.separator{
+
+.separator {
   color: #f8f6ea;
   margin-left: 1em;
 }
 
-.board{
-  width: 60%;
+.board {
+  width: 50%;
   display: inline-block;
+  margin-left: 10px;
+  padding: 10px;
 }
 
-.body_content{
-  padding-top:8px;
+.body_content {
+  padding-top: 8px;
 }
-.margin{
+
+.margin {
   height: 1em;
 }
 
-.simu_num{
+.simu_num {
   font-style: bold;
   font-size: 2em;
   color: red;
 }
-.nMove{
+
+.nMove {
   margin: auto;
   text-align: center;
   width: 100%;
   display: block;
 }
+
 .textboxx {
   width: 100%;
 }
+
 .textbox2 {
   border-radius: 10px;
   border: 7px solid rgb(216, 5, 23);
   width: 250px;
-  height: 50px;  
+  height: 50px;
 }
 
-.clock{
+.clock {
   width: 10%;
+  margin-left: 40px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }

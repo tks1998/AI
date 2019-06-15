@@ -22,13 +22,16 @@ var BoardComponent = (function () {
         this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
         this.blackAgentDepth = 2;
-        this.blackAgentSimulations = 2000;
         this.pieceSize = 67;
         this.dummyPieces = [];
         this.lastState = Array();
         this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
         this.runtime_dict = {};
         this.results = [];
         this.server = server;
@@ -81,8 +84,8 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         this.initDummyButtons();
-        blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse);
-        redAgent = new Agent_1.Agent(this.redTeam, this.reverse);
+        blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
+        redAgent = new Agent_1.Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
@@ -100,6 +103,9 @@ var BoardComponent = (function () {
             return;
         this.humanMove(piece);
     };
+    BoardComponent.prototype.chooseBlackSimulations = function (dept) {
+        this.blackAgentDepth = dept;
+    };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
         this.redo = [];
@@ -113,21 +119,14 @@ var BoardComponent = (function () {
         this.results.push(red_win);
         this.selectedPiece = undefined;
     };
-    /** report_runtime(strategy, depth, time) {
-         var type = this.runtime_dict[strategy + "-" + depth];
-         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
-         else {
-             var new_num = type[1] + 1;
-             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
-         }
-         // this.onTimeUpdated.emit();
-     } */
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
+        this.pauseTimer(-this.state.playingTeam);
+        this.startTimer(this.state.playingTeam);
         // agent.nextMove();
         var endState = this.state.getEndState();
         if (endState != 0) {
@@ -176,7 +175,6 @@ var BoardComponent = (function () {
     BoardComponent.prototype.Redo = function () {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-        console.log(id);
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0)
@@ -245,8 +243,9 @@ var BoardComponent = (function () {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent_1.Agent(this.blackTeam, false, this.StateFlag, black);
-        redAgent = new Agent_1.Agent(this.redTeam, false, this.StateFlag, red);
+        blackAgent = new Agent_1.Agent(this.blackTeam, true, 0, 0, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, true, 0, 0, this.StateFlag, red);
+        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
         this.state = new State_1.State(redAgent, blackAgent, false);
     };
     BoardComponent.prototype.ChangeType = function () {
@@ -257,6 +256,52 @@ var BoardComponent = (function () {
         var objectState = this.SolveState();
         this.boardState = objectState["CurrentBoardState"];
         this.newState(objectState["red"], objectState["black"]);
+    };
+    // Check move && change image 
+    BoardComponent.prototype.startTimer = function (team) {
+        var _this = this;
+        if (team == 1) {
+            this.redinterval = setInterval(function () {
+                if (_this.redminute >= 0) {
+                    if (_this.redsecond >= 0) {
+                        _this.redsecond--;
+                    }
+                    if (_this.redsecond == -1) {
+                        _this.redminute--;
+                        _this.redsecond = 59;
+                    }
+                }
+                else {
+                    _this.redminute = 15;
+                    _this.redsecond == 0;
+                }
+            }, 1000);
+        }
+        else {
+            this.blackinterval = setInterval(function () {
+                if (_this.blackminute >= 0) {
+                    if (_this.blacksecond >= 0) {
+                        _this.blacksecond--;
+                    }
+                    if (_this.blacksecond == -1) {
+                        _this.blackminute--;
+                        _this.blacksecond = 59;
+                    }
+                }
+                else {
+                    _this.blackminute = 15;
+                    _this.blacksecond == 0;
+                }
+            }, 1000);
+        }
+    };
+    BoardComponent.prototype.pauseTimer = function (team) {
+        if (team == 1) {
+            clearInterval(this.redinterval);
+        }
+        else {
+            clearImmediate(this.blackinterval);
+        }
     };
     BoardComponent = __decorate([
         core_1.Component({

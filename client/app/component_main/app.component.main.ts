@@ -14,10 +14,6 @@ export class AppComponent implements OnInit {
     reverse = false; // check chinachess ? reverse chinachess
     any_state : any;
     selectedFile :File=null;
-    minute: number = 15;
-    second: number = 0;
-    interval;
-    
 
     constructor(private http:Http){}
         ngOnInit() {
@@ -42,21 +38,4 @@ export class AppComponent implements OnInit {
             x.style.display = "none";
         }
     }
-
-    startTimer() {
-        this.interval = setInterval(() => {
-            if (this.minute >= 0){
-                if (this.second >= 0){
-                    this.second--;
-                }
-                if (this.second == -1){
-                    this.minute--;
-                    this.second = 59;
-                }
-            }
-            else {
-                this.minute = 15;
-                this.second == 0;
-            }
-        }, 1000)
-    }
+}

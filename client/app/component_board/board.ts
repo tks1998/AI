@@ -4,6 +4,7 @@ import { Piece } from '../Objects/Piece';
 import { DummyPiece } from '../Objects/DummyPiece';
 import { State } from '../Strategy/State/State';
 import { Agent } from '../Strategy/Agent/Agent';
+import { start } from 'repl';
 
 
 @Component({
@@ -25,7 +26,6 @@ export class BoardComponent implements OnInit {
     blackAgentType = 0;
     DEFAULT_DEPTH = 2;
     blackAgentDepth = 2;
-    blackAgentSimulations = 2000;
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
@@ -35,6 +35,12 @@ export class BoardComponent implements OnInit {
     StateFlag = false;
     InputState: Object;
 
+    redminute: number = 15;
+    blackminute: number = 15;
+    redsecond: number = 0;
+    blacksecond: number = 0;
+    redinterval;
+    blackinterval;
 
     runtime_dict = {};
 
@@ -78,6 +84,7 @@ export class BoardComponent implements OnInit {
     }
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
+       
         this.initGame();
     }
 
@@ -97,14 +104,15 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        var redAgent;
-        var blackAgent;
+        var redAgent : Agent; 
+        var blackAgent : Agent;
         this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, this.reverse);
-
-        redAgent = new Agent(this.redTeam, this.reverse);
+        blackAgent = new Agent(this.blackTeam, this.reverse ,this.blackAgentType , this.blackAgentDepth) ;
+        
+        redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
 
         this.state = new State(redAgent, blackAgent, this.reverse);
+       
     }
 
 
@@ -124,7 +132,9 @@ export class BoardComponent implements OnInit {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
-
+    chooseBlackSimulations(dept){
+        this.blackAgentDepth = dept ;
+    }
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
@@ -143,24 +153,14 @@ export class BoardComponent implements OnInit {
 
         this.selectedPiece = undefined;
     }
-
-
-    /** report_runtime(strategy, depth, time) {
-         var type = this.runtime_dict[strategy + "-" + depth];
-         if (!type) this.runtime_dict[strategy + "-" + depth] = [time, 1];
-         else {
-             var new_num = type[1] + 1;
-             this.runtime_dict[strategy + "-" + depth] = [Math.ceil((type[0] * type[1] + time) / new_num), new_num]
-         }
-         // this.onTimeUpdated.emit();
-     } */
-
-
     // switch game turn
     switchTurn() {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
+
+        this.pauseTimer(-this.state.playingTeam);
+        this.startTimer(this.state.playingTeam);
 
         // agent.nextMove();
         var endState = this.state.getEndState();
@@ -212,7 +212,7 @@ export class BoardComponent implements OnInit {
     Redo() {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-        console.log(id);
+       
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0) this.lastState = this.lastState.slice(0, size)
@@ -281,8 +281,9 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent(this.blackTeam, false, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, false, this.StateFlag, red);
+        blackAgent = new Agent(this.blackTeam, true,0,0, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, true, 0,0,this.StateFlag, red);
+        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
         this.state = new State(redAgent, blackAgent, false);
 
     }
@@ -299,4 +300,48 @@ export class BoardComponent implements OnInit {
     }
     // Check move && change image 
 
+    startTimer(team) {
+        if (team == 1){
+            this.redinterval = setInterval(() => {
+                if (this.redminute >= 0){
+                    if (this.redsecond >= 0){
+                        this.redsecond--;
+                    }
+                    if (this.redsecond == -1){
+                        this.redminute--;
+                        this.redsecond = 59;
+                    }
+                }
+                else {
+                    this.redminute = 15;
+                    this.redsecond == 0;
+                }
+            }, 1000)
+         } else {
+            this.blackinterval = setInterval(() => {
+                if (this.blackminute >= 0){
+                    if (this.blacksecond >= 0){
+                        this.blacksecond--;
+                    }
+                    if (this.blacksecond == -1){
+                        this.blackminute--;
+                        this.blacksecond = 59;
+                    }
+                }
+                else {
+                    this.blackminute = 15;
+                    this.blacksecond == 0;
+                }
+            }, 1000)
+         }
+    }
+
+    pauseTimer(team) {
+        if (team == 1){
+        clearInterval(this.redinterval);
+        }
+        else {
+            clearImmediate(this.blackinterval);
+        }
+    }
 }

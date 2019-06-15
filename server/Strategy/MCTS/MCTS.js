@@ -8,13 +8,15 @@ var Agent_1 = require('../Agent/Agent');
 var MCTS_State_1 = require('./MCTS_State');
 var MCTS = (function (_super) {
     __extends(MCTS, _super);
-    function MCTS(team, pieces, N) {
-        _super.call(this, team, pieces);
+    function MCTS(team, reverese, strategy, pieces, N) {
+        _super.call(this, team, reverese, strategy, pieces);
         this.strategy = 5;
+        console.log("tao la aslasjldasld", N);
         this.N_SIMULATION = N;
     }
     MCTS.copyFromDict = function (dict) {
-        return new MCTS(dict.team, this.piecesFromDict(dict.myPieces), dict.N_SIMULATION);
+        console.log("---as-0=sa0-a0s=0sa", dict.DEPT);
+        return new MCTS(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     };
     // return [piece:Piece, toPos];
     // MCTS main 

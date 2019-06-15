@@ -8,7 +8,7 @@ export class State {
     redAgent: Agent;
     blackAgent: Agent;
     playingTeam: number;
-
+  //  is_repeating = false;
     reverse = false;
     constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1,reverse, updateDict = false) {
         this.redAgent = redAgent;
@@ -42,8 +42,6 @@ export class State {
         var nextState = this.copy();
         nextState.switchTurn();
         var agent = nextState.get_playing_agent().oppoAgent;
-        // console.log(agent)
-        // console.log("movePieceName", movePieceName)
         agent.movePieceTo(agent.getPieceByName(movePieceName), toPos);
         return nextState;
     }
@@ -56,22 +54,35 @@ export class State {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
 
-
-    static copyFromDict(dict) {
+    // static check_repeating(agent): boolean {
+    //     var moves = agent.pastMoves;
+    //     var n = moves.length;
+    //     if (n < 10) return false;
+    //     if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+    //         console.log(moves)
+    //         return true;
+    //     };
+    //     return false;
+    // }
+    static  copyFromDict(dict) {
         var agentDict;
         var agentDict = dict.blackAgent;
         var oppo = dict.redAgent;
         var IsReverse = dict.reverse;
-        console.log("Loi copy dict ",dict.reverse)
-        console.log("BIg BUG" , IsReverse)
+        
         oppo = Agent.copyFromDict(oppo);
         var agent;
+      
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 5) agent = MCTS.copyFromDict(agentDict);
+        console.log("asdasdadssad",agentDict.DEPT)
+        if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+        
         var new_state;
-        new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
-        return new_state;
+        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
+        else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
+           return new_state;
+      
     }
     nextMove() {
         var agent = this.get_playing_agent();
@@ -80,5 +91,7 @@ export class State {
             r = agent.comptuteNextMove(this);
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
+      
     }
+    
 }

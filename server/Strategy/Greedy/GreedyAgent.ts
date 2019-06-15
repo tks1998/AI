@@ -17,7 +17,7 @@ export class GreedyAgent extends Agent {
 
 
     static copyFromDict(dict) {
-        return new GreedyAgent(dict.team,dict.reverse, this.piecesFromDict(dict.myPieces));
+        return new GreedyAgent(dict.team,dict.reverse, dict.strategy , this.piecesFromDict(dict.myPieces));
     }
 
 }

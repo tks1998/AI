@@ -25,7 +25,7 @@ export class InitGame {
         var Tname = Newname;
 
         var rand = [];
-
+       
         if (reverse) {
             rand = this.RandomPosition();
             for (var ele = 0; ele < RedTeam.length; ele++) {

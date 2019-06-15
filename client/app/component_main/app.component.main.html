@@ -12,7 +12,7 @@
 
 		<div class="margin"></div>
 
-		<sm-button class="fluid medium negative" icon="refresh" (click)="board.initGame() ">Restart</sm-button>
+		<sm-button class="fluid medium negative" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 
 		<div class="margin"></div>
 
@@ -66,7 +66,7 @@
 		<hr>
 
 		<!--input boardstate && number move  -->
-		<sm-button class="huge ui inverted black basic fluid slider checkbox">
+		<sm-button class="fluid huge ui inverted black basic slider checkbox">
 			<sm-checkbox label="{{board.StateFlag ? 'State Flag':'Normal'}}" [control]="flag" type="checkbox"
 				(change)="board.ChangeType()">
 			</sm-checkbox>
@@ -91,16 +91,11 @@
 		<sm-button class="fluid ui large teal" (click)="onUpload()"> Upload</sm-button>
 	</div>
 
-
 	<!-- countdown for each player -->
 	<div class="clock left">
-		<div id="blackclock">
-		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
-		</div>
-
-		<div id="redclock">
-		<div class="ui red segment">{{board.redminute}} : {{board.redsecond}}</div>
-		</div>
+		<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} : {{board.blacksecond}}
+		</h3>
+		<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}</h3>
 	</div>
 
 	<div class="right">
@@ -137,11 +132,10 @@
 
 		<br>
 
-		<sm-button *ngIf="(board.state.getEndState() || board.state.checkMate()==true) && board.state.endFlag==null"
-			id="demo" class="btn"
-			style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;">CHIẾU
-			TƯỚNG
-		</sm-button>
+		<div *ngIf="(board.state.getEndState() || board.state.checkMate()==true) && board.state.endFlag==null" id="demo" class="cm_func">
+				<div>CHIẾU TƯỚNG</div>
+		</div>
+
 
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">

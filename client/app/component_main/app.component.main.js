@@ -40,6 +40,10 @@ var AppComponent = (function () {
             x.style.display = "none";
         }
     };
+    //reload page
+    AppComponent.prototype.refresh = function () {
+        window.location.reload();
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

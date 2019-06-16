@@ -18,6 +18,9 @@ app.set('port', port);
 var server = http.createServer(app);
 server.listen('3000');
 server.on('listening', onListening);
+function setcm(value) {
+    this.cm = value;
+}
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string'
@@ -45,7 +48,8 @@ app.put('/compute', function (request, response) {
     var now = new Date().getTime();
     var t = (now - start);
     var playing = state.get_playing_agent();
-    response.end(JSON.stringify({ "move": next, "time": t }));
+    var checkmate = state.checkMate();
+    response.end(JSON.stringify({ "move": next, "time": t, "checkmate": checkmate }));
     var param = (playing instanceof MCTS_1.MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");
 });

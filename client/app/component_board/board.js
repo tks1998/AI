@@ -19,6 +19,7 @@ var BoardComponent = (function () {
         this.redTeam = 1;
         this.blackTeam = -1;
         this.boardState = {};
+        this.checkmate = false;
         this.DEFAULT_TYPE = 0;
         this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
@@ -97,6 +98,7 @@ var BoardComponent = (function () {
         this.blackmilisec = 0;
         this.redinterval;
         this.blackinterval;
+        this.checkmate = false;
         this.pauseTimer(-1);
         this.pauseTimer(1);
         this.initDummyButtons();
@@ -138,6 +140,9 @@ var BoardComponent = (function () {
         this.pauseTimer(-1);
     };
     // switch game turn
+    BoardComponent.prototype.setCheckMate = function (value) {
+        this.checkmate = value;
+    };
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         this.state.switchTurn();
@@ -172,6 +177,10 @@ var BoardComponent = (function () {
             var piece = agent.getPieceByName(move[0].name);
             if (move[1])
                 agent.movePieceTo(piece, move[1]);
+            _this.server.launchCompute(_this.state.copy(false)).then(function (result) {
+                var checkmateS = result['checkmate'];
+                _this.setCheckMate(checkmateS);
+            });
             _this.switchTurn();
         });
     };

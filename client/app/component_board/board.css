@@ -4,7 +4,7 @@
   height: 700px;
   width: 700px;
   display: block;
-  box-shadow: 15px 10px 20px #888888;
+  box-shadow: 15px 10px 20px #939393;
 }
 
 button {
@@ -28,12 +28,11 @@ button:focus {
   outline: 0;
 }
 
-
-.RefreshButton {
+/* .RefreshButton {
   background-color: yellow;
   display: block;
   height: 50px;
-}
+} */
 
 .dummyPiece {
   box-shadow: none;
@@ -45,7 +44,7 @@ button:focus {
 
 .selected,
 .selected:hover {
-  box-shadow: 15px 10px 5px #3f11bd;
+  /* box-shadow: 15px 10px 5px #3f11bd; */
 }
 
 .grid {
@@ -57,6 +56,9 @@ button:focus {
 }
 
 .possibleMove {
-  background-color: lightgreen;
-  opacity: 0.5;
+  background-color: rgba(144, 238, 144, 0.452);
+}
+
+img{
+  padding: 0px;
 }

@@ -40,6 +40,7 @@ export class State {
     }
 
     checkMate(){
+        if (this.playingTeam == -1) return false;
         return this.redAgent.checkMate();
     }
 

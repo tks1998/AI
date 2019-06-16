@@ -296,7 +296,6 @@ var Rule = (function () {
         var isLowerTeam = (team == 1);
         // console.log(isLowerTeam);
         var oppoKing;
-        // var myKing;
         for (var i in oppoPieces) {
             if (oppoPieces[i].name[0] == 'k') {
                 oppoKing = oppoPieces[i].position;
@@ -306,10 +305,11 @@ var Rule = (function () {
         // console.log(oppoKing);
         for (var i in myPieces) {
             var piece = myPieces[i];
-            // console.log(piece.name);
+            console.log(piece.name);
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
             for (var j in moves4Piece) {
-                // console.log(moves4Piece[j]);
+                if (piece.name == 'p1' || piece.name == 'p2')
+                    console.log(moves4Piece[j]);
                 if ((moves4Piece[j][0] == oppoKing[0]) && (moves4Piece[j][1] == oppoKing[1])) {
                     // console.log(oppoKing);
                     return true;

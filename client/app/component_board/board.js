@@ -98,6 +98,7 @@ var BoardComponent = (function () {
         this.blackmilisec = 0;
         this.redinterval;
         this.blackinterval;
+        this.checkmate = false;
         this.pauseTimer(-1);
         this.pauseTimer(1);
         this.initDummyButtons();

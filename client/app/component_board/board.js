@@ -28,10 +28,13 @@ var BoardComponent = (function () {
         this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
+        this.timemode = false;
         this.redminute = 15;
         this.blackminute = 15;
         this.redsecond = 0;
         this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
         this.runtime_dict = {};
         this.results = [];
         this.server = server;
@@ -83,6 +86,16 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
         this.initDummyButtons();
         blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
@@ -118,6 +131,8 @@ var BoardComponent = (function () {
         this.state.endFlag = red_win;
         this.results.push(red_win);
         this.selectedPiece = undefined;
+        this.pauseTimer(1);
+        this.pauseTimer(-1);
     };
     // switch game turn
     BoardComponent.prototype.switchTurn = function () {
@@ -258,49 +273,69 @@ var BoardComponent = (function () {
         this.newState(objectState["red"], objectState["black"]);
     };
     // Check move && change image 
+    BoardComponent.prototype.TimeMode = function () {
+        this.timemode = !this.timemode;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
-        if (team == 1) {
-            this.redinterval = setInterval(function () {
-                if (_this.redminute >= 0) {
-                    if (_this.redsecond >= 0) {
-                        _this.redsecond--;
+        if (this.timemode) {
+            if (team == 1) {
+                this.redinterval = setInterval(function () {
+                    if (_this.redminute >= 0) {
+                        if (_this.redmilisec >= 0) {
+                            _this.redmilisec--;
+                        }
+                        if (_this.redmilisec == -1) {
+                            _this.redsecond--;
+                            _this.redmilisec = 99;
+                        }
+                        if (_this.redsecond == -1) {
+                            _this.redminute--;
+                            _this.redsecond = 59;
+                        }
                     }
-                    if (_this.redsecond == -1) {
-                        _this.redminute--;
-                        _this.redsecond = 59;
+                    else {
+                        _this.redminute = 0;
+                        _this.redsecond = 0;
+                        _this.redmilisec = 0;
+                        _this.end_game(-team);
                     }
-                }
-                else {
-                    _this.redminute = 15;
-                    _this.redsecond == 0;
-                }
-            }, 1000);
-        }
-        else {
-            this.blackinterval = setInterval(function () {
-                if (_this.blackminute >= 0) {
-                    if (_this.blacksecond >= 0) {
-                        _this.blacksecond--;
+                }, 10);
+            }
+            else {
+                this.blackinterval = setInterval(function () {
+                    if (_this.blackminute >= 0) {
+                        if (_this.blackmilisec >= 0) {
+                            _this.blackmilisec--;
+                        }
+                        if (_this.blackmilisec == -1) {
+                            _this.blacksecond--;
+                            _this.blackmilisec = 99;
+                        }
+                        if (_this.blacksecond == -1) {
+                            _this.blackminute--;
+                            _this.blacksecond = 59;
+                        }
                     }
-                    if (_this.blacksecond == -1) {
-                        _this.blackminute--;
-                        _this.blacksecond = 59;
+                    else {
+                        _this.blackminute = 0;
+                        _this.blacksecond = 0;
+                        _this.blackmilisec = 0;
+                        _this.end_game(team);
                     }
-                }
-                else {
-                    _this.blackminute = 15;
-                    _this.blacksecond == 0;
-                }
-            }, 1000);
+                }, 10);
+            }
         }
     };
     BoardComponent.prototype.pauseTimer = function (team) {
-        if (team == 1) {
-            clearInterval(this.redinterval);
-        }
-        else {
-            clearImmediate(this.blackinterval);
+        if (this.timemode) {
+            if (team == 1) {
+                clearInterval(this.redinterval);
+            }
+            else {
+                clearImmediate(this.blackinterval);
+            }
         }
     };
     BoardComponent = __decorate([

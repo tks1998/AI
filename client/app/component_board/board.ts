@@ -35,10 +35,13 @@ export class BoardComponent implements OnInit {
     StateFlag = false;
     InputState: Object;
 
+    timemode = false;
     redminute: number = 15;
     blackminute: number = 15;
     redsecond: number = 0;
     blacksecond: number = 0;
+    redmilisec: number = 0;
+    blackmilisec: number = 0;
     redinterval;
     blackinterval;
 
@@ -106,6 +109,16 @@ export class BoardComponent implements OnInit {
         this.redo = [];
         var redAgent : Agent; 
         var blackAgent : Agent;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
         this.initDummyButtons();
         blackAgent = new Agent(this.blackTeam, this.reverse ,this.blackAgentType , this.blackAgentDepth) ;
         
@@ -152,6 +165,9 @@ export class BoardComponent implements OnInit {
         this.results.push(red_win);
 
         this.selectedPiece = undefined;
+
+        this.pauseTimer(1);
+        this.pauseTimer(-1);
     }
     // switch game turn
     switchTurn() {
@@ -300,48 +316,69 @@ export class BoardComponent implements OnInit {
     }
     // Check move && change image 
 
+    TimeMode(){
+        this.timemode = !this.timemode;
+        this.initGame();
+    }
+
     startTimer(team) {
-        if (team == 1){
-            this.redinterval = setInterval(() => {
-                if (this.redminute >= 0){
-                    if (this.redsecond >= 0){
-                        this.redsecond--;
+        if (this.timemode){
+            if (team == 1){
+                this.redinterval = setInterval(() => {
+                    if (this.redminute >= 0){
+                        if (this.redmilisec >= 0){
+                            this.redmilisec--;
+                        }
+                        if (this.redmilisec == -1){
+                            this.redsecond--;
+                            this.redmilisec = 99;
+                        }
+                        if (this.redsecond == -1){
+                            this.redminute--;
+                            this.redsecond = 59;
+                        }
                     }
-                    if (this.redsecond == -1){
-                        this.redminute--;
-                        this.redsecond = 59;
+                    else {
+                        this.redminute = 0;
+                        this.redsecond = 0;
+                        this.redmilisec = 0;
+                        this.end_game(-team);
                     }
-                }
-                else {
-                    this.redminute = 15;
-                    this.redsecond == 0;
-                }
-            }, 1000)
-         } else {
-            this.blackinterval = setInterval(() => {
-                if (this.blackminute >= 0){
-                    if (this.blacksecond >= 0){
-                        this.blacksecond--;
+                }, 10)
+             } else {
+                this.blackinterval = setInterval(() => {
+                    if (this.blackminute >= 0){
+                        if (this.blackmilisec >= 0){
+                            this.blackmilisec--;
+                        }
+                        if (this.blackmilisec == -1){
+                            this.blacksecond--;
+                            this.blackmilisec = 99;
+                        }
+                        if (this.blacksecond == -1){
+                            this.blackminute--;
+                            this.blacksecond = 59;
+                        }
                     }
-                    if (this.blacksecond == -1){
-                        this.blackminute--;
-                        this.blacksecond = 59;
+                    else {
+                        this.blackminute = 0;
+                        this.blacksecond = 0;
+                        this.blackmilisec = 0;
+                        this.end_game(team);
                     }
-                }
-                else {
-                    this.blackminute = 15;
-                    this.blacksecond == 0;
-                }
-            }, 1000)
-         }
+                }, 10)
+             }
+        }
     }
 
     pauseTimer(team) {
-        if (team == 1){
-        clearInterval(this.redinterval);
-        }
-        else {
-            clearImmediate(this.blackinterval);
+        if (this.timemode){
+            if (team == 1){
+            clearInterval(this.redinterval);
+            }
+            else {
+                clearImmediate(this.blackinterval);
+            }
         }
     }
 }

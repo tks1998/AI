@@ -8,11 +8,11 @@
  */
 import { State } from '../Strategy/State/State'
 import { MCTS } from '../Strategy/MCTS/MCTS'
+import { StyleCompiler } from '@angular/compiler';
 
 var app = require('../server').app;
 var debug = require('debug')('server:server');
 var http = require('http');
-
 var assert = require('assert');
 
 var port = '3000';
@@ -22,6 +22,10 @@ var server = http.createServer(app);
 
 server.listen('3000');
 server.on('listening', onListening);
+
+function setcm(value){
+    this.cm = value;
+}
 
 function onListening() {
     var addr = server.address();
@@ -44,7 +48,7 @@ app.put('/compute', function(request, response) {
     // recieved request and extract it 
     // make new State from request 
     state = State.copyFromDict(state);
-   
+    
     //get time 
     var start = new Date().getTime();
     // compute next move  
@@ -56,7 +60,6 @@ app.put('/compute', function(request, response) {
 
     var playing = state.get_playing_agent();
     var checkmate = state.checkMate();
-    console.log(checkmate);
     response.end(JSON.stringify({ "move": next, "time": t, "checkmate" : checkmate}));
     var param = (playing instanceof MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");

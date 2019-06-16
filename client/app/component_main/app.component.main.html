@@ -131,7 +131,7 @@
 
 		<br>
 
-		<button *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" id="demo" class="btn"
+		<button *ngIf="board.state.getEndState()==false && (board.state.checkMate()==true || board.checkmate==true)" id="demo" class="btn"
 			style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;">
 			CHIẾU
 			TƯỚNG</button>

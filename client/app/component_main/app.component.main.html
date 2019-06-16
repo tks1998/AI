@@ -10,6 +10,12 @@
 			</sm-checkbox>
 		</button>
 
+		<button class="huge ui inverted black basic button fluid slider checkbox">
+				<sm-checkbox label="{{board.timemode ? 'TimeMode: On':'TimeMode: Off'}}" [control]="chinachess"
+					type="checkbox" (change)="board.TimeMode() ">
+				</sm-checkbox>
+		</button>
+
 		<div class="margin"></div>
 
 		<sm-button class="fluid medium negative " icon="refresh " (click)="board.initGame() ">Restart</sm-button>
@@ -93,8 +99,8 @@
 	</div>
 
 	<div class="clock left">
-		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
-		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}}</div>
+		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}} : {{board.blackmilisec}}</div>
+		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}} : {{board.redmilisec}}</div>
 	</div>
 
 	<div class="right ">

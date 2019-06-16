@@ -4,20 +4,20 @@
 
 	<div class="left">
 
-		<button class="huge ui inverted black basic button fluid slider checkbox">
+		<sm-button class="huge ui inverted black basic fluid slider checkbox">
 			<sm-checkbox label="{{board.reverse ? 'Reverse Chinese Chess':'Chinese Chess'}}" [control]="chinachess"
 				type="checkbox" (change)="board.changeMode() ">
 			</sm-checkbox>
-		</button>
+		</sm-button>
 
 		<div class="margin"></div>
 
-		<sm-button class="fluid medium negative " icon="refresh " (click)="board.initGame() ">Restart</sm-button>
+		<sm-button class="fluid medium negative" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 
 		<div class="margin"></div>
 
 		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium teal control " icon="undo"
-			(click)="board.go2PreviousState() ">Undo </sm-button>
+			(click)="board.go2PreviousState()">Undo </sm-button>
 
 		<div class="margin"></div>
 
@@ -36,10 +36,11 @@
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
 				<option>2-MCTS</option>
-			
 			</sm-select>
+
 			<div class=" margin "></div>
-			<sm-select class="fluid" *ngIf="board.blackAgentType==1" placeholder="Depth (2)"
+
+			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=5" placeholder="Depth (2)"
 				(change)="board.chooseBlackAgentDepth($event.target.value) ">
 				<option>1</option>
 				<option>2</option>
@@ -49,8 +50,9 @@
 				<option>6</option>
 				<option>7</option>
 			</sm-select>
-			<sm-select class="fluid" *ngIf="board.blackAgentType==2" placeholder="Simulations"
-				(change)="board.chooseBlackAgentDepth($event.target.value) ">
+
+			<sm-select class="fluid" *ngIf="board.blackAgentType==5" placeholder="Simulations"
+				(change)="board.chooseBlackSimulations($event.target.value) ">
 				<option>1000</option>
 				<option>2000</option>
 				<option>3000</option>
@@ -65,11 +67,11 @@
 		<hr>
 
 		<!--input boardstate && number move  -->
-		<button class="huge ui inverted black basic button fluid slider checkbox">
+		<sm-button class="fluid huge ui inverted black basic slider checkbox">
 			<sm-checkbox label="{{board.StateFlag ? 'State Flag':'Normal'}}" [control]="flag" type="checkbox"
-				(change)="board.ChangeType() ">
+				(change)="board.ChangeType()">
 			</sm-checkbox>
-		</button>
+		</sm-button>
 
 		<div class="margin "></div>
 
@@ -87,54 +89,51 @@
 			<button>Submit</button>
 		</form>
 
-		
-		
-		
-
-		<input type="file" name="file" id="file" class="inputfile" (change)="onFileSelected($event)" />
-		<button class="fluid ui large teal button" style="margin: 0" for="file">Choose a file</button>
-		<!-- <button type="button" (click) = "fileInput.click()" > Pick file </button> -->
-
-		<div class="margin"></div>
-		<button class="fluid ui large teal button" type="button" (click)="onUpload()"> Upload</button>
-
 	</div>
 
+	<!-- countdown for each player -->
 	<div class="clock left">
-		<div class="ui black segment">{{board.blackminute}} : {{board.blacksecond}}</div>
-		<div class="ui black segment">{{board.redminute}} : {{board.redsecond}}</div>
+		<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} : {{board.blacksecond}}
+		</h3>
+		<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}</h3>
 	</div>
 
-	<div class="right ">
+	<div class="right">
 		<div class="ui segments">
 			<div class="ui segment center aligned icon">
-				<i class="paw icon"></i>
+				<i class="large user icon"></i>
 			</div>
 
-			<div class="ui red segment">
-				<h4 class="ui red" style="color:red">Red: {{board.state.redAgent.pastMoves.length}}</h4>
-				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
-					<img
-						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
-					<h3>{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
-				</div>
-				
-			</div>
-
-			<div class="ui black segment">
-				<h4 class="ui  black">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
+			<div class="ui black segment ">
+				<h4 class="ui black header center aligned">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.blackAgent.pastMoves.length>0 && board.state.playingTeam==1">
 					<img
 						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.png">
-					<h3>{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
+					<h3 class="ui black header">
+						{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
 				</div>
 				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null"
 					class="ui active centered inline loader ">
 				</div>
 			</div>
 
+			<div class="ui red segment">
+				<h4 class="ui red header center aligned">Red: {{board.state.redAgent.pastMoves.length}}</h4>
+				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
+					<img
+						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
+					<h3 class="ui red header">
+						{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
+				</div>
+				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1 "
+					class="ui active centered inline loader "></div>
+			</div>
+		</div>
 
+		<br>
 
+		<div *ngIf="(board.state.getEndState() || board.state.checkMate()==true) && board.state.endFlag==null" id="demo" class="cm_func">
+				<div>CHIẾU TƯỚNG</div>
 		</div>
 		<div class="margin"></div>
 		<sm-button class="fluid medium teal control " 
@@ -142,16 +141,13 @@
 		</sm-button>
 		<br>
 
-		<button *ngIf="board.state.getEndState() || board.state.checkMate()==true" id="demo" class="btn"
-			style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;">
-			CHIẾU
-			TƯỚNG</button>
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
-				<i *ngIf="board.state.endFlag == 1" class="circular flag red icon"></i>
-				<i *ngIf="board.state.endFlag != 1" class="circular flag black icon"></i>
-				<h4 class="ui aligned center red" style="color:red">{{board.state.endFlag==0? 'DRAW' : 'WIN'}}</h4>
+				<i *ngIf="board.state.endFlag == 1" class="massive trophy red icon"></i>
+				<i *ngIf="board.state.endFlag != 1" class="massive trophy black icon"></i>
+				<h1 class="ui aligned center red header">{{board.state.endFlag==0? 'DRAW' : 'WIN'}}</h1>
 			</div>
+
 			<div class="ui red segment center aligned">
 				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.png" alt="">
 				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.png" alt="">

@@ -22,9 +22,11 @@
 		<div class="margin"></div>
 
 		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="repeat"
-			(click)="board.Redo()">Redo </sm-button>
+			(click)="board.Redo() ">Redo </sm-button>
+		
+		
 
-		<hr>
+		<hr> 
 		<div class="margin"></div>
 
 		<div id="blackAgentSelection">
@@ -56,7 +58,6 @@
 				<option>3000</option>
 				<option>4000</option>
 				<option>5000</option>
-
 				<option>7000</option>
 				<option>8000</option>
 				<option>10000</option>
@@ -74,21 +75,20 @@
 
 		<div class="margin "></div>
 
+		<form class="ui form" #f="ngForm"  (ngSubmit) = "board.SolveState(f)" novalidate >
 
-		<form class="ui form">
-			<textarea placeholder="Nhập thế cờ..." (keyup.enter)="board.SaveState($event.target.value);" rows="3"
-				class="textboxx"></textarea></form>
+			<textarea placeholder="Nhập thế cờ..."  rows="3"
+				class="textboxx"   row="5" name = "anystate" ngModel   >
+			</textarea>
+			
+			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."
+				name = "LimitMove" ngModel
+			rows="2"
+			>
+			</textarea>
+			<button>Submit</button>
+		</form>
 
-		<form class="ui form">
-			<textarea placeholder="Nhập số nước đi tối thiểu..." (keyup)="board.NumberMove($event.target.value);"
-				rows="2" class="textboxx"></textarea></form>
-
-		<input type="file" name="file" id="file" class="inputfile" (change)="onFileSelected($event)" />
-		<sm-button class="fluid ui large teal" style="margin: 0" for="file">Choose a file</sm-button>
-		<!-- <button type="button" (click) = "fileInput.click()" > Pick file </button> -->
-
-		<div class="margin"></div>
-		<sm-button class="fluid ui large teal" (click)="onUpload()"> Upload</sm-button>
 	</div>
 
 	<!-- countdown for each player -->
@@ -135,7 +135,12 @@
 		<div *ngIf="board.state.getEndState()==false && (board.state.checkMate()==true || board.checkmate==true)" id="demo" class="cm_func">
 				<div>CHIẾU TƯỚNG</div>
 		</div>
-		
+		<div class="margin"></div>
+		<sm-button class="fluid medium teal control " 
+			(click)="board.SupportSwitchTurn() ">Switch Turn 
+		</sm-button>
+		<br>
+
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
 				<i *ngIf="board.state.endFlag == 1" class="massive trophy red icon"></i>

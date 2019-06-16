@@ -15,6 +15,7 @@ var app_component_main_1 = require('./component_main/app.component.main');
 var http_1 = require('@angular/http');
 var board_1 = require('./component_board/board');
 var MapToIterable_1 = require('./pipe/MapToIterable');
+var forms_1 = require('@angular/forms');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -23,7 +24,8 @@ var AppModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 ng_semantic_1.NgSemanticModule,
-                http_1.HttpModule
+                http_1.HttpModule,
+                forms_1.FormsModule
             ],
             bootstrap: [
                 app_component_main_1.AppComponent

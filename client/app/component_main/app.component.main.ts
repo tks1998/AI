@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {Http} from '@angular/http';
+import { NgForm } from '@angular/forms'
 @Component({
     selector: 'app',
     templateUrl: '../client/app/component_main/app.component.main.html',

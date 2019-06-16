@@ -12,7 +12,7 @@ export class Agent {
     oppoAgent: Agent;
     // myPiecesDic: {}; // {name -> pos}
     boardState: {}; // {posStr->[name, isMyPiece]}
-
+ 
     DEPTH = 0;
     reverse = false;
     typechess = false;
@@ -33,14 +33,7 @@ export class Agent {
             }
         } 
         if (typechess){
-            if (myPieces ==null )
-            {
-                this.InitPiece = InitPiece;
-                this.myPieces = (team == 1 ? InitGame.StateRed(this.reverse,this.InitPiece) : InitGame.StateBlack(this.reverse,this.InitPiece));    
-            }
-            else {
-                this.myPieces = myPieces ;
-            }
+                this.myPieces = InitPiece ;
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;

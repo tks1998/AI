@@ -5,6 +5,7 @@ import { DummyPiece } from '../Objects/DummyPiece';
 import { State } from '../Strategy/State/State';
 import { Agent } from '../Strategy/Agent/Agent';
 import { start } from 'repl';
+import {NgForm} from '@angular/forms';
 
 
 @Component({
@@ -49,6 +50,10 @@ export class BoardComponent implements OnInit {
 
 
     results = [];
+
+    InputRed : Piece[];
+    InputBlack : Piece[];
+    InputCurrentState = {}
     clear_results() {
         this.results = [];
     }
@@ -60,7 +65,9 @@ export class BoardComponent implements OnInit {
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
+        
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
+        console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
     initDummyButtons() {
@@ -156,6 +163,7 @@ export class BoardComponent implements OnInit {
         this.switchTurn();
 
     }
+   
 
 
     // end_state: -1: lose | 0: draw | 1: win
@@ -193,7 +201,7 @@ export class BoardComponent implements OnInit {
                 var move = result['move'];
                 var time = parseInt(result['time']);
                 var state_feature = result['state_feature'];
-
+                
                 //if (state_feature) agent.save_state(state_feature);
                 if (!move) { // FAIL
                     this.end_game(-1);
@@ -261,27 +269,7 @@ export class BoardComponent implements OnInit {
     }
 
 
-    SolveState() {
-        var newstate = [];//this.InputState;
-        var extract;
-        var red = [], black = [], currentState = {};
-        var key = null;
-
-        for (var x of newstate) {
-            extract = x.split(' ');
-            if (extract[3] == "1") red.push(extract);
-            if (extract[3] == "-1") black.push(extract);
-            key = [extract[1], extract[2]].toString();
-            if (!(key in currentState)) {
-                currentState[key] = [extract[0], extract[3]];
-            }
-        }
-        return {
-            "red": red,
-            "black": black,
-            "CurrentBoardState": currentState
-        };
-    }
+    
 
 
     NumberMove(numbermove) {
@@ -289,31 +277,26 @@ export class BoardComponent implements OnInit {
     }
 
     /**********************recive any state && init it **********************/
-    newState(red: any, black: any) {
-
+    /** default stategy = 2 && dept = 4 */
+   
+    newState(red: Piece[], black: Piece[]) {
         this.selectedPiece = undefined;
         this.lastState = [];
 
-        var redAgent;
-        var blackAgent;
-        // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent(this.blackTeam, true,0,0, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, true, 0,0,this.StateFlag, red);
-        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
-        this.state = new State(redAgent, blackAgent, false);
-
+        var redAgent:Agent;
+        var blackAgent:Agent;
+        this.initDummyButtons();
+        blackAgent = new Agent(this.blackTeam, false,1,4, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, false, 1,4,this.StateFlag, red);
+        // default turn = 1, 
+      //  var turn = -1 ;
+        this.state = new State(redAgent, blackAgent, false , 1);
+       // if (turn == -1) this.switchTurn();
     }
+    /** --------------------------------------------------------------------*/
 
 
-    ChangeType() {
-        this.reverse = false;
-        this.StateFlag = !this.StateFlag;
-        // this.onClear.emit();
-        this.clear_results();
-        var objectState = this.SolveState();
-        this.boardState = objectState["CurrentBoardState"];
-        this.newState(objectState["red"], objectState["black"]);
-    }
+   
     // Check move && change image 
 
     TimeMode(){
@@ -379,4 +362,46 @@ export class BoardComponent implements OnInit {
              clearImmediate(this.blackinterval);
          }
     }
+    /** submit form && extract data && make current state */
+   
+    SolveState(f : NgForm) {
+        var newstate = f.value['anystate'] ;
+        newstate = newstate.split(',');
+        var extract;
+        var red = [], black = [], currentState = {};
+        var key = null;
+      
+        for (var x of newstate) {
+            extract = x.split(' ');
+            key = [extract[1], extract[2]].toString();
+            console.log("day la extract ",extract);
+            if (extract[3] == "1") 
+            {
+               red.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
+            }
+            if (extract[3] == "-1") 
+            {
+                black.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
+            }               
+            
+            if (!(key in currentState)) {
+                currentState[key] = [extract[0], extract[3]];
+            }
+        }
+        this.InputRed = red ;
+        this.InputBlack = black ; 
+        this.InputCurrentState = currentState;
+        
+    }
+    ChangeType() {
+        this.reverse = false;
+        this.StateFlag = !this.StateFlag;
+        if (!this.StateFlag) return ;
+        this.boardState = this.InputCurrentState ;
+        this.newState(this.InputRed, this.InputBlack);
+    }
+    SupportSwitchTurn(){
+        this.switchTurn();
+    }
+   
 }

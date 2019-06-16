@@ -5,12 +5,14 @@ import { AppComponent } from './component_main/app.component.main';
 import { HttpModule } from '@angular/http';
 import { BoardComponent } from './component_board/board';
 import { MapToIterable} from './pipe/MapToIterable';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         BrowserModule,
         NgSemanticModule,
-        HttpModule
+        HttpModule,
+        FormsModule
     ],
 
     bootstrap: [

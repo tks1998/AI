@@ -12,7 +12,7 @@ export class Agent {
     oppoAgent: Agent;
     // myPiecesDic: {}; // {name -> pos}
     boardState: {}; // {posStr->[name, isMyPiece]}
-
+ 
     DEPTH = 0;
     reverse = false;
     typechess = false;

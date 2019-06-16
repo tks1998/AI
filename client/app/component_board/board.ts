@@ -46,6 +46,10 @@ export class BoardComponent implements OnInit {
 
 
     results = [];
+
+    InputRed = []
+    InputBlack = []
+    InputCurrentState = {}
     clear_results() {
         this.results = [];
     }
@@ -177,7 +181,7 @@ export class BoardComponent implements OnInit {
                 var move = result['move'];
                 var time = parseInt(result['time']);
                 var state_feature = result['state_feature'];
-
+                
                 //if (state_feature) agent.save_state(state_feature);
                 if (!move) { // FAIL
                     this.end_game(-1);
@@ -245,27 +249,7 @@ export class BoardComponent implements OnInit {
     }
 
 
-    SolveState() {
-        var newstate = [];//this.InputState;
-        var extract;
-        var red = [], black = [], currentState = {};
-        var key = null;
-
-        for (var x of newstate) {
-            extract = x.split(' ');
-            if (extract[3] == "1") red.push(extract);
-            if (extract[3] == "-1") black.push(extract);
-            key = [extract[1], extract[2]].toString();
-            if (!(key in currentState)) {
-                currentState[key] = [extract[0], extract[3]];
-            }
-        }
-        return {
-            "red": red,
-            "black": black,
-            "CurrentBoardState": currentState
-        };
-    }
+    
 
 
     NumberMove(numbermove) {
@@ -273,6 +257,7 @@ export class BoardComponent implements OnInit {
     }
 
     /**********************recive any state && init it **********************/
+    /** default stategy = 2 && dept = 4 */
     newState(red: any, black: any) {
 
         this.selectedPiece = undefined;
@@ -281,23 +266,15 @@ export class BoardComponent implements OnInit {
         var redAgent;
         var blackAgent;
         // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent(this.blackTeam, true,0,0, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, true, 0,0,this.StateFlag, red);
-        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
+        blackAgent = new Agent(this.blackTeam, true,1,4, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, true, 1,4,this.StateFlag, red);
         this.state = new State(redAgent, blackAgent, false);
 
     }
+    /** --------------------------------------------------------------------*/
 
 
-    ChangeType() {
-        this.reverse = false;
-        this.StateFlag = !this.StateFlag;
-        // this.onClear.emit();
-        this.clear_results();
-        var objectState = this.SolveState();
-        this.boardState = objectState["CurrentBoardState"];
-        this.newState(objectState["red"], objectState["black"]);
-    }
+   
     // Check move && change image 
 
     startTimer(team) {
@@ -344,8 +321,39 @@ export class BoardComponent implements OnInit {
             clearImmediate(this.blackinterval);
         }
     }
-    // submit form
-    SubmitForm(eventform: NgForm) {
-        console.log(eventform.value);
-      }
+    /** submit form && extract data && make current state */
+   
+    SolveState(f : NgForm) {
+        var newstate = f.value['anystate'] ;
+        console.log(newstate);
+        newstate = newstate.split(',');
+        var extract;
+        var red = [], black = [], currentState = {};
+        var key = null;
+      
+        for (var x of newstate) {
+            extract = x.split(' ');
+            console.log("day la extract ",extract);
+            if (extract[3] == "1") red.push(extract);
+            if (extract[3] == "-1") black.push(extract);
+            key = [extract[1], extract[2]].toString();
+            if (!(key in currentState)) {
+                currentState[key] = [extract[0], extract[3]];
+            }
+        }
+        console.log("day la red team ",red);
+        this.InputRed = red ;
+        this.InputBlack = black ; 
+        this.InputCurrentState = currentState;
+        
+    }
+    ChangeType() {
+        this.reverse = false;
+        this.StateFlag = !this.StateFlag;
+        // this.onClear.emit();
+        this.clear_results();
+        this.boardState = this.InputCurrentState ;
+        this.newState(this.InputRed, this.InputBlack);
+    }
+   
 }

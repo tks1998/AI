@@ -54,7 +54,6 @@
 				<option>3000</option>
 				<option>4000</option>
 				<option>5000</option>
-
 				<option>7000</option>
 				<option>8000</option>
 				<option>10000</option>
@@ -72,17 +71,23 @@
 
 		<div class="margin "></div>
 
-		<form class="ui form" #f="ngForm" (ngSubmit) = "board.SubmitForm(f)" novalidate >
+		<form class="ui form" #f="ngForm"  (ngSubmit) = "board.SolveState(f)" novalidate >
 
 			<textarea placeholder="Nhập thế cờ..."  rows="3"
-				class="textboxx" row="5" name = "anystate"  ngModel  ></textarea>
+				class="textboxx"   row="5" name = "anystate" ngModel   >
+			</textarea>
+			
+			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."
+				name = "LimitMove" ngModel
+			rows="2"
+			>
+			</textarea>
+			<button>Submit</button>
 		</form>
 
-		<form class="ui form">
-			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."
-				(keyup)="board.NumberMove($event.target.value);" rows="2">
-				</textarea>
-		</form>
+		
+		
+		
 
 		<input type="file" name="file" id="file" class="inputfile" (change)="onFileSelected($event)" />
 		<button class="fluid ui large teal button" style="margin: 0" for="file">Choose a file</button>

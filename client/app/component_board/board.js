@@ -125,8 +125,8 @@ var BoardComponent = (function () {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
-        this.pauseTimer(-this.state.playingTeam);
-        this.startTimer(this.state.playingTeam);
+        // this.pauseTimer(-this.state.playingTeam);
+        // this.startTimer(this.state.playingTeam);
         // agent.nextMove();
         var endState = this.state.getEndState();
         if (endState != 0) {

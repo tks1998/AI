@@ -294,9 +294,9 @@ var Rule = (function () {
     };
     Rule.checkMate = function (myPieces, oppoPieces, boardStates, team, reverse) {
         var isLowerTeam = (team == 1);
-        //console.log(isLowerTeam);
+        // console.log(isLowerTeam);
         var oppoKing;
-        var myKing;
+        // var myKing;
         for (var i in oppoPieces) {
             if (oppoPieces[i].name[0] == 'k') {
                 oppoKing = oppoPieces[i].position;

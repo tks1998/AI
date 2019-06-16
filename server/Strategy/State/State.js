@@ -31,6 +31,9 @@ var State = (function () {
     State.prototype.next_state = function (movePieceName, toPos) {
         return this.get_next_by_team(movePieceName, toPos, this.playingTeam);
     };
+    State.prototype.checkMate = function () {
+        return this.blackAgent.checkMate();
+    };
     State.prototype.get_next_by_team = function (movePieceName, toPos, team) {
         // make a copy a state
         var nextState = this.copy();

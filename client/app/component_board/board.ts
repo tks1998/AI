@@ -159,8 +159,8 @@ export class BoardComponent implements OnInit {
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
 
-        this.pauseTimer(-this.state.playingTeam);
-        this.startTimer(this.state.playingTeam);
+        // this.pauseTimer(-this.state.playingTeam);
+        // this.startTimer(this.state.playingTeam);
 
         // agent.nextMove();
         var endState = this.state.getEndState();

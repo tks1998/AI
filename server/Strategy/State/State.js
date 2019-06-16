@@ -66,7 +66,6 @@ var State = (function () {
             agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1)
             agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
-        console.log("asdasdadssad", agentDict.DEPT);
         if (agentDict.strategy == 2)
             agent = MCTS_1.MCTS.copyFromDict(agentDict);
         var new_state;

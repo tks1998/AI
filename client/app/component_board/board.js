@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var service_compute_1 = require('../service/service.compute');
+var Piece_1 = require('../Objects/Piece');
 var DummyPiece_1 = require('../Objects/DummyPiece');
 var State_1 = require('../Strategy/State/State');
 var Agent_1 = require('../Strategy/Agent/Agent');
@@ -34,6 +35,7 @@ var BoardComponent = (function () {
         this.blacksecond = 0;
         this.runtime_dict = {};
         this.results = [];
+        this.InputCurrentState = {};
         this.server = server;
     }
     BoardComponent.prototype.clear_results = function () {
@@ -48,6 +50,7 @@ var BoardComponent = (function () {
         if (!this.selectedPiece)
             return false;
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
+        console.log("TOI la isposioble", this.selectedPiece.name);
         return moves.map(function (x) { return x + ''; }).indexOf(pos + '') >= 0;
     };
     BoardComponent.prototype.initDummyButtons = function () {
@@ -210,53 +213,25 @@ var BoardComponent = (function () {
         var xy = [input];
         this.InputState = xy;
     };
-    BoardComponent.prototype.SolveState = function () {
-        var newstate = []; //this.InputState;
-        var extract;
-        var red = [], black = [], currentState = {};
-        var key = null;
-        for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
-            var x = newstate_1[_i];
-            extract = x.split(' ');
-            if (extract[3] == "1")
-                red.push(extract);
-            if (extract[3] == "-1")
-                black.push(extract);
-            key = [extract[1], extract[2]].toString();
-            if (!(key in currentState)) {
-                currentState[key] = [extract[0], extract[3]];
-            }
-        }
-        return {
-            "red": red,
-            "black": black,
-            "CurrentBoardState": currentState
-        };
-    };
     BoardComponent.prototype.NumberMove = function (numbermove) {
         console.log(numbermove);
     };
     /**********************recive any state && init it **********************/
+    /** default stategy = 2 && dept = 4 */
     BoardComponent.prototype.newState = function (red, black) {
         this.selectedPiece = undefined;
         this.lastState = [];
         var redAgent;
         var blackAgent;
-        // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent_1.Agent(this.blackTeam, true, 0, 0, this.StateFlag, black);
-        redAgent = new Agent_1.Agent(this.redTeam, true, 0, 0, this.StateFlag, red);
-        //redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
-        this.state = new State_1.State(redAgent, blackAgent, false);
+        this.initDummyButtons();
+        blackAgent = new Agent_1.Agent(this.blackTeam, false, 1, 4, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, false, 1, 4, this.StateFlag, red);
+        // default turn = 1, 
+        //  var turn = -1 ;
+        this.state = new State_1.State(redAgent, blackAgent, false, 1);
+        // if (turn == -1) this.switchTurn();
     };
-    BoardComponent.prototype.ChangeType = function () {
-        this.reverse = false;
-        this.StateFlag = !this.StateFlag;
-        // this.onClear.emit();
-        this.clear_results();
-        var objectState = this.SolveState();
-        this.boardState = objectState["CurrentBoardState"];
-        this.newState(objectState["red"], objectState["black"]);
-    };
+    /** --------------------------------------------------------------------*/
     // Check move && change image 
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
@@ -302,6 +277,43 @@ var BoardComponent = (function () {
         else {
             clearImmediate(this.blackinterval);
         }
+    };
+    /** submit form && extract data && make current state */
+    BoardComponent.prototype.SolveState = function (f) {
+        var newstate = f.value['anystate'];
+        newstate = newstate.split(',');
+        var extract;
+        var red = [], black = [], currentState = {};
+        var key = null;
+        for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
+            var x = newstate_1[_i];
+            extract = x.split(' ');
+            key = [extract[1], extract[2]].toString();
+            console.log("day la extract ", extract);
+            if (extract[3] == "1") {
+                red.push(new Piece_1.Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
+            }
+            if (extract[3] == "-1") {
+                black.push(new Piece_1.Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
+            }
+            if (!(key in currentState)) {
+                currentState[key] = [extract[0], extract[3]];
+            }
+        }
+        this.InputRed = red;
+        this.InputBlack = black;
+        this.InputCurrentState = currentState;
+    };
+    BoardComponent.prototype.ChangeType = function () {
+        this.reverse = false;
+        this.StateFlag = !this.StateFlag;
+        if (!this.StateFlag)
+            return;
+        this.boardState = this.InputCurrentState;
+        this.newState(this.InputRed, this.InputBlack);
+    };
+    BoardComponent.prototype.SupportSwitchTurn = function () {
+        this.switchTurn();
     };
     BoardComponent = __decorate([
         core_1.Component({

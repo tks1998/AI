@@ -23,8 +23,10 @@
 
 		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="repeat"
 			(click)="board.Redo() ">Redo </sm-button>
+		
+		
 
-		<hr>
+		<hr> 
 		<div class="margin"></div>
 
 		<div id="blackAgentSelection">
@@ -134,7 +136,10 @@
 
 
 		</div>
-
+		<div class="margin"></div>
+		<sm-button class="fluid medium teal control " 
+			(click)="board.SupportSwitchTurn() ">Switch Turn 
+		</sm-button>
 		<br>
 
 		<button *ngIf="board.state.getEndState() || board.state.checkMate()==true" id="demo" class="btn"

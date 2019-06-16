@@ -226,7 +226,10 @@ var BoardComponent = (function () {
         this.initDummyButtons();
         blackAgent = new Agent_1.Agent(this.blackTeam, false, 1, 4, this.StateFlag, black);
         redAgent = new Agent_1.Agent(this.redTeam, false, 1, 4, this.StateFlag, red);
+        // default turn = 1, 
+        //  var turn = -1 ;
         this.state = new State_1.State(redAgent, blackAgent, false, 1);
+        // if (turn == -1) this.switchTurn();
     };
     /** --------------------------------------------------------------------*/
     // Check move && change image 
@@ -308,6 +311,9 @@ var BoardComponent = (function () {
             return;
         this.boardState = this.InputCurrentState;
         this.newState(this.InputRed, this.InputBlack);
+    };
+    BoardComponent.prototype.SupportSwitchTurn = function () {
+        this.switchTurn();
     };
     BoardComponent = __decorate([
         core_1.Component({

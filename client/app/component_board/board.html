@@ -51,6 +51,7 @@
 
 		<div *ngIf="!checkReverse()">
 			<div *ngIf="selectedPiece && state.playingTeam ==1">
+			
 				<button *ngFor="let piece of dummyPieces" (click)="clickDummyPiece(piece)" class="dummyPiece"
 					[class.possibleMove]='isPossibleMove(piece.position)'
 					[style.left]="(piece.position[1]-1.5)*pieceSize+'px'"

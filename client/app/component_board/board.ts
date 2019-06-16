@@ -7,6 +7,7 @@ import { Agent } from '../Strategy/Agent/Agent';
 import { start } from 'repl';
 import {NgForm} from '@angular/forms';
 
+
 @Component({
     selector: 'board',
     templateUrl: '../client/app/component_board/board.html',
@@ -47,8 +48,8 @@ export class BoardComponent implements OnInit {
 
     results = [];
 
-    InputRed = []
-    InputBlack = []
+    InputRed : Piece[];
+    InputBlack : Piece[];
     InputCurrentState = {}
     clear_results() {
         this.results = [];
@@ -61,7 +62,9 @@ export class BoardComponent implements OnInit {
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
+        
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
+        console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
     initDummyButtons() {
@@ -258,17 +261,17 @@ export class BoardComponent implements OnInit {
 
     /**********************recive any state && init it **********************/
     /** default stategy = 2 && dept = 4 */
-    newState(red: any, black: any) {
-
+   
+    newState(red: Piece[], black: Piece[]) {
         this.selectedPiece = undefined;
         this.lastState = [];
 
-        var redAgent;
-        var blackAgent;
-        // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent(this.blackTeam, true,1,4, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, true, 1,4,this.StateFlag, red);
-        this.state = new State(redAgent, blackAgent, false);
+        var redAgent:Agent;
+        var blackAgent:Agent;
+        this.initDummyButtons();
+        blackAgent = new Agent(this.blackTeam, false,1,4, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, false, 1,4,this.StateFlag, red);
+        this.state = new State(redAgent, blackAgent, false , 1);
 
     }
     /** --------------------------------------------------------------------*/
@@ -325,7 +328,6 @@ export class BoardComponent implements OnInit {
    
     SolveState(f : NgForm) {
         var newstate = f.value['anystate'] ;
-        console.log(newstate);
         newstate = newstate.split(',');
         var extract;
         var red = [], black = [], currentState = {};
@@ -333,15 +335,21 @@ export class BoardComponent implements OnInit {
       
         for (var x of newstate) {
             extract = x.split(' ');
-            console.log("day la extract ",extract);
-            if (extract[3] == "1") red.push(extract);
-            if (extract[3] == "-1") black.push(extract);
             key = [extract[1], extract[2]].toString();
+            console.log("day la extract ",extract);
+            if (extract[3] == "1") 
+            {
+               red.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
+            }
+            if (extract[3] == "-1") 
+            {
+                black.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
+            }               
+            
             if (!(key in currentState)) {
                 currentState[key] = [extract[0], extract[3]];
             }
         }
-        console.log("day la red team ",red);
         this.InputRed = red ;
         this.InputBlack = black ; 
         this.InputCurrentState = currentState;
@@ -350,8 +358,7 @@ export class BoardComponent implements OnInit {
     ChangeType() {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
-        // this.onClear.emit();
-        this.clear_results();
+        if (!this.StateFlag) return ;
         this.boardState = this.InputCurrentState ;
         this.newState(this.InputRed, this.InputBlack);
     }

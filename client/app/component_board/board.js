@@ -54,7 +54,7 @@ var BoardComponent = (function () {
         if (!this.selectedPiece)
             return false;
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-        console.log("TOI la isposioble", this.selectedPiece.name);
+        // console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(function (x) { return x + ''; }).indexOf(pos + '') >= 0;
     };
     BoardComponent.prototype.initDummyButtons = function () {

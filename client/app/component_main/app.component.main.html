@@ -137,13 +137,12 @@
 		</div>
 
 		<br>
-
 		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" id="demo" class="cm_func">
 				<div>CHIẾU TƯỚNG ĐEN</div>
 		</div>
-		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" id="demo" class="cm_func">
+		<!-- <div *ngIf="board.state.getEndState()==false && board.checkmate==true" id="demo" class="cm_func">
 			<div>CHIẾU TƯỚNG ĐỎ</div>
-		</div>
+		</div> -->
 		<div class="margin"></div>
 		<sm-button class="fluid medium teal control " 
 			(click)="board.SupportSwitchTurn() ">Switch Turn 

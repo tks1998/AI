@@ -68,7 +68,7 @@ export class BoardComponent implements OnInit {
         if (!this.selectedPiece) return false;
         
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-        console.log("TOI la isposioble",this.selectedPiece.name);
+        // console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
     initDummyButtons() {

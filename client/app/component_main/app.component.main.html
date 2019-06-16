@@ -132,15 +132,10 @@
 
 		<br>
 
-		<div *ngIf="(board.state.getEndState() || board.state.checkMate()==true) && board.state.endFlag==null" id="demo" class="cm_func">
+		<div *ngIf="board.state.getEndState()==false && (board.state.checkMate()==true || board.checkmate==true)" id="demo" class="cm_func">
 				<div>CHIẾU TƯỚNG</div>
 		</div>
-
-
-		<button *ngIf="board.state.getEndState()==false && (board.state.checkMate()==true || board.checkmate==true)" id="demo" class="btn"
-			style="border-radius: 50%;height:150px; width: 100%;font-size: 20;background-color: red; color: white;">
-			CHIẾU
-			TƯỚNG</button>
+		
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
 				<i *ngIf="board.state.endFlag == 1" class="massive trophy red icon"></i>

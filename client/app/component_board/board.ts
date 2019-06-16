@@ -345,7 +345,7 @@ export class BoardComponent implements OnInit {
         }
     }
     // submit form
-    SubmitForm(f: NgForm) {
-        console.log(f.value);
+    SubmitForm(eventform: NgForm) {
+        console.log(eventform.value);
       }
 }

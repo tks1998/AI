@@ -304,8 +304,8 @@ var BoardComponent = (function () {
         }
     };
     // submit form
-    BoardComponent.prototype.SubmitForm = function (f) {
-        console.log(f.value);
+    BoardComponent.prototype.SubmitForm = function (eventform) {
+        console.log(eventform.value);
     };
     BoardComponent = __decorate([
         core_1.Component({

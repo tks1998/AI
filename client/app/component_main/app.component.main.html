@@ -72,12 +72,11 @@
 
 		<div class="margin "></div>
 
+		<form class="ui form" #f="ngForm" (ngSubmit) = "board.SubmitForm(f)" novalidate >
 
-		<!-- <form class="ui form" #eventform="ngForm" (ngSubmit) = "board.SubmitForm(eventform)" novalidate >
-
-			<textarea name = "anystate" placeholder="Nhập thế cờ..." ngModel rows="3"
-				class="textboxx" row="5"></textarea>
-		</form> -->
+			<textarea placeholder="Nhập thế cờ..."  rows="3"
+				class="textboxx" row="5" name = "anystate"  ngModel  ></textarea>
+		</form>
 
 		<form class="ui form">
 			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."

@@ -275,6 +275,7 @@ var BoardComponent = (function () {
     // Check move && change image 
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
+        this.initGame();
     };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;

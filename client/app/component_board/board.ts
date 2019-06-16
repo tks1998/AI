@@ -318,6 +318,7 @@ export class BoardComponent implements OnInit {
 
     TimeMode(){
         this.timemode = !this.timemode;
+        this.initGame();
     }
 
     startTimer(team) {

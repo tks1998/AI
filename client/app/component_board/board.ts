@@ -372,13 +372,11 @@ export class BoardComponent implements OnInit {
     }
 
     pauseTimer(team) {
-        if (this.timemode){
-            if (team == 1){
-            clearInterval(this.redinterval);
-            }
-            else {
-                clearImmediate(this.blackinterval);
-            }
-        }
+         if (team == 1){
+         clearInterval(this.redinterval);
+         }
+         else {
+             clearImmediate(this.blackinterval);
+         }
     }
 }

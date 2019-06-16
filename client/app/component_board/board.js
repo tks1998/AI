@@ -329,13 +329,11 @@ var BoardComponent = (function () {
         }
     };
     BoardComponent.prototype.pauseTimer = function (team) {
-        if (this.timemode) {
-            if (team == 1) {
-                clearInterval(this.redinterval);
-            }
-            else {
-                clearImmediate(this.blackinterval);
-            }
+        if (team == 1) {
+            clearInterval(this.redinterval);
+        }
+        else {
+            clearImmediate(this.blackinterval);
         }
     };
     BoardComponent = __decorate([

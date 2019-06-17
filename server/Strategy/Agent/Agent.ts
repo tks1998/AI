@@ -43,6 +43,11 @@ export class Agent {
         return this;
     }
 
+    //checkMate
+    checkMate() {
+        return Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
+    }
+
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);

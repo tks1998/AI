@@ -3,51 +3,50 @@
 	</board>
 
 	<div class="left">
-
+		<!-- choose normal mode or reverse mode -->
 		<sm-button class="huge ui inverted black basic fluid slider checkbox">
-			<sm-checkbox label="{{board.reverse ? 'Reverse Chinese Chess':'Chinese Chess'}}" [control]="chinachess"
-				type="checkbox" (change)="board.changeMode() ">
+			<sm-checkbox label="{{board.reverse ? 'Reverse Chinese Chess':'Normal Chinese Chess'}}"
+				[control]="chinachess" type="checkbox" (change)="board.changeMode()">
 			</sm-checkbox>
 		</sm-button>
 
+		<!-- choose set time for 1 round or not -->
 		<button class="huge ui inverted black basic button fluid slider checkbox">
-				<sm-checkbox label="{{board.timemode ? 'TimeMode: On':'TimeMode: Off'}}" [control]="chinachess"
-					type="checkbox" (change)="board.TimeMode() ">
-				</sm-checkbox>
+			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="chinachess" type="checkbox"
+				(change)="board.TimeMode()">
+			</sm-checkbox>
 		</button>
 
+		<!-- function restart - undo - redo -->
 		<div class="margin"></div>
-
-		<sm-button class="fluid medium negative" icon="refresh" (click)="board.initGame()">Restart</sm-button>
-
+		<sm-button class="fluid medium blue" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 		<div class="margin"></div>
-
-		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium teal control " icon="undo"
-			(click)="board.go2PreviousState()">Undo </sm-button>
-
+		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium blue control" icon="undo"
+			(click)="board.go2PreviousState()">Undo</sm-button>
 		<div class="margin"></div>
+		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium blue control" icon="repeat"
+			(click)="board.Redo()">Redo</sm-button>
 
-		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium teal control " icon="repeat"
-			(click)="board.Redo() ">Redo </sm-button>
-		
-		
+		<hr>
 
-		<hr> 
+		<!-- choose team -->
+		<!-- TODO: change color to oppo team when click -->
+		<sm-button class="fluid medium blue control" (click)="board.SupportSwitchTurn()">Switch Team</sm-button>
+
+		<!-- choose AI agent -->
 		<div class="margin"></div>
-
 		<div id="blackAgentSelection">
 			<h4 class="ui horizontal divider header black"><i class="Flag icon"></i>Black</h4>
 			<sm-select class="fluid" placeholder="Strategy (Greedy)"
-				(change)="board.chooseBlackAgent($event.target.value) ">
+				(change)="board.chooseBlackAgent($event.target.value)">
 				<option>0-Greedy </option>
 				<option>1-ABPruning</option>
 				<option>2-MCTS</option>
 			</sm-select>
-
-			<div class=" margin "></div>
-
-			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=5" placeholder="Depth (2)"
-				(change)="board.chooseBlackAgentDepth($event.target.value) ">
+			<div class=" margin"></div>
+			<!-- depth for other -->
+			<sm-select class="fluid" *ngIf="board.blackAgentType>0 && board.blackAgentType!=2" placeholder="Depth (2)"
+				(change)="board.chooseBlackAgentDepth($event.target.value)">
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -56,61 +55,64 @@
 				<option>6</option>
 				<option>7</option>
 			</sm-select>
-
-			<sm-select class="fluid" *ngIf="board.blackAgentType==5" placeholder="Simulations"
-				(change)="board.chooseBlackSimulations($event.target.value) ">
+			<!-- number of simulation for MCTS -->
+			<sm-select class="fluid" *ngIf="board.blackAgentType==2" placeholder="Simulations"
+				(change)="board.chooseBlackSimulations($event.target.value)">
 				<option>1000</option>
 				<option>2000</option>
 				<option>3000</option>
 				<option>4000</option>
 				<option>5000</option>
+				<!-- <option>6000</option> -->
 				<option>7000</option>
 				<option>8000</option>
+				<!-- <option>9000</option> -->
 				<option>10000</option>
 			</sm-select>
 		</div>
 
 		<hr>
 
-		<!--input boardstate && number move  -->
+		<!--input boardstate && number move -->
+		<form class="ui form" #f="ngForm" (ngSubmit)="board.SolveState(f)" novalidate>
+			<textarea placeholder="Nhập thế cờ..." rows="3" class="textboxx" name="anystate" ngModel></textarea>
+			<div class="margin"></div>
+			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..." rows="2" name="LimitMove"
+				ngModel></textarea>
+			<div class="margin"></div>
+			<sm-button class="fluid medium blue control">Submit</sm-button>
+		</form>
+
 		<sm-button class="fluid huge ui inverted black basic slider checkbox">
-			<sm-checkbox label="{{board.StateFlag ? 'State Flag':'Normal'}}" [control]="flag" type="checkbox"
+			<sm-checkbox label="{{board.StateFlag ? 'Normal Mode':'Customize Mode'}}" [control]="flag" type="checkbox"
 				(change)="board.ChangeType()">
 			</sm-checkbox>
 		</sm-button>
-
-		<div class="margin "></div>
-
-		<form class="ui form" #f="ngForm"  (ngSubmit) = "board.SolveState(f)" novalidate >
-
-			<textarea placeholder="Nhập thế cờ..."  rows="3"
-				class="textboxx"   row="5" name = "anystate" ngModel   >
-			</textarea>
-			
-			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..."
-				name = "LimitMove" ngModel
-			rows="2"
-			>
-			</textarea>
-			<button>Submit</button>
-		</form>
-
 	</div>
 
-	<!-- countdown for each player -->
-	<div class="clock left">
-		<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} : {{board.blacksecond}} : {{board.blackmilisec}}
-		</h3>
-		<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}} : {{board.redmilisec}}</h3>
+	<div class="left">
+		<!-- countdown for each player -->
+		<div class="clock">
+			<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} :
+				{{board.blacksecond}}
+				: {{board.blackmilisec}}</h3>
+			<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}
+				: {{board.redmilisec}}</h3>
+		</div>
+		<!-- appears when a team being checkmated -->
+		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" id="demo" class="cm_func" id="cm_b">
+			<div>CHIẾU TƯỚNG ĐEN</div>
+		</div>
+		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" id="demo" class="cm_func" id="cm_r">
+			<div>CHIẾU TƯỚNG ĐỎ</div>
+		</div>
 	</div>
 
 	<div class="right">
 		<div class="ui segments">
-			<div class="ui segment center aligned icon">
-				<i class="large user icon"></i>
-			</div>
-
-			<div class="ui black segment ">
+			<div class="margin"></div>
+			<div class="ui black segment center aligned icon">
+				<i class="large user black icon"></i>
 				<h4 class="ui black header center aligned">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.blackAgent.pastMoves.length>0 && board.state.playingTeam==1">
 					<img
@@ -119,11 +121,12 @@
 						{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
 				</div>
 				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null"
-					class="ui active centered inline loader ">
+					class="ui active centered inline loader">
 				</div>
 			</div>
 
-			<div class="ui red segment">
+			<div class="ui red segment center aligned icon">
+				<i class="large user red icon"></i>
 				<h4 class="ui red header center aligned">Red: {{board.state.redAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
 					<img
@@ -131,29 +134,23 @@
 					<h3 class="ui red header">
 						{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
 				</div>
-				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1 "
-					class="ui active centered inline loader "></div>
+				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1"
+					class="ui active centered inline loader"></div>
 			</div>
 		</div>
 
 		<br>
 
-		<div *ngIf="(board.state.getEndState() || board.state.checkMate()==true) && board.state.endFlag==null" id="demo" class="cm_func">
-				<div>CHIẾU TƯỚNG</div>
-		</div>
 		<div class="margin"></div>
-		<sm-button class="fluid medium teal control " 
-			(click)="board.SupportSwitchTurn() ">Switch Turn 
-		</sm-button>
+
 		<br>
 
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
-				<i *ngIf="board.state.endFlag == 1" class="massive trophy red icon"></i>
-				<i *ngIf="board.state.endFlag != 1" class="massive trophy black icon"></i>
+				<i *ngIf="board.state.endFlag == 1" class="huge trophy red icon"></i>
+				<i *ngIf="board.state.endFlag != 1" class="huge trophy black icon"></i>
 				<h1 class="ui aligned center red header">{{board.state.endFlag==0? 'DRAW' : 'WIN'}}</h1>
 			</div>
-
 			<div class="ui red segment center aligned">
 				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.png" alt="">
 				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.png" alt="">

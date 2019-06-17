@@ -40,8 +40,8 @@ export class State {
     }
 
     checkMate(){
-        if (this.redAgent.checkMate()==true || this.blackAgent.checkMate()==true) 
-            return true; else return false;
+        if (this.playingTeam == -1) return false;
+        return this.redAgent.checkMate();
     }
 
     switchTurn() {

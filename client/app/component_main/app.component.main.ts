@@ -39,4 +39,10 @@ export class AppComponent implements OnInit {
             x.style.display = "none";
         }
     }
+
+    
+    //reload page
+    refresh(): void {
+        window.location.reload();
+    }
 }

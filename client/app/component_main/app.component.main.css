@@ -46,6 +46,11 @@
 
 .body_content {
   padding-top: 8px;
+  background: url("resource/img/background.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .margin {
@@ -122,5 +127,6 @@
 }
 
 #cm_b {
-  background-color: rgba(0, 0, 0, 0.95);
+  background-image: url("resource/img/cm_b.png");
+  background-size: 180px 150px;
 }

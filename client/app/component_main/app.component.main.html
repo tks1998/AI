@@ -9,8 +9,9 @@
 				[control]="chinachess" type="checkbox" (change)="board.changeMode()">
 			</sm-checkbox>
 		</sm-button>
-
+		
 		<!-- choose set time for 1 round or not -->
+		<div class="margin"></div>
 		<button class="huge ui inverted black basic button fluid slider checkbox">
 			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="chinachess" type="checkbox"
 				(change)="board.TimeMode()">
@@ -63,10 +64,10 @@
 				<option>3000</option>
 				<option>4000</option>
 				<option>5000</option>
-				<!-- <option>6000</option> -->
+				<option>6000</option>
 				<option>7000</option>
 				<option>8000</option>
-				<!-- <option>9000</option> -->
+				<option>9000</option>
 				<option>10000</option>
 			</sm-select>
 		</div>
@@ -75,9 +76,9 @@
 
 		<!--input boardstate && number move -->
 		<form class="ui form" #f="ngForm" (ngSubmit)="board.SolveState(f)" novalidate>
-			<textarea placeholder="Nhập thế cờ..." rows="3" class="textboxx" name="anystate" ngModel></textarea>
+			<textarea placeholder="Nhập thế cờ..." rows="2" class="textboxx" name="anystate" ngModel></textarea>
 			<div class="margin"></div>
-			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..." rows="2" name="LimitMove"
+			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..." rows="1" name="LimitMove"
 				ngModel></textarea>
 			<div class="margin"></div>
 			<sm-button class="fluid medium blue control">Submit</sm-button>
@@ -92,7 +93,7 @@
 
 	<div class="left">
 		<!-- countdown for each player -->
-		<div class="clock">
+		<div *ngIf="board.hiddentimer()" class="clock">
 			<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} :
 				{{board.blacksecond}}
 				: {{board.blackmilisec}}</h3>
@@ -100,12 +101,8 @@
 				: {{board.redmilisec}}</h3>
 		</div>
 		<!-- appears when a team being checkmated -->
-		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" id="demo" class="cm_func" id="cm_b">
-			<div>CHIẾU TƯỚNG ĐEN</div>
-		</div>
-		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" id="demo" class="cm_func" id="cm_r">
-			<div>CHIẾU TƯỚNG ĐỎ</div>
-		</div>
+		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" class="cm_func" id="cm_r"></div>
+		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" class="cm_func" id="cm_b"></div>
 	</div>
 
 	<div class="right">
@@ -138,12 +135,8 @@
 					class="ui active centered inline loader"></div>
 			</div>
 		</div>
-
-		<br>
-
+		
 		<div class="margin"></div>
-
-		<br>
 
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">

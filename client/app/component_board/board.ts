@@ -317,6 +317,10 @@ export class BoardComponent implements OnInit {
         this.initGame();
     }
 
+    hiddentimer(): boolean {
+        return this.timemode;
+    }
+
     startTimer(team) {
         if (this.timemode){
             if (team == 1){

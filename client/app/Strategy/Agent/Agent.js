@@ -8,6 +8,7 @@ var Agent = (function () {
     function Agent(team, reverse, strategy, dept, typechess, InitPiece, myPieces, pastMoves) {
         if (reverse === void 0) { reverse = false; }
         if (strategy === void 0) { strategy = 0; }
+        if (dept === void 0) { dept = 0; }
         if (typechess === void 0) { typechess = false; }
         if (InitPiece === void 0) { InitPiece = null; }
         if (myPieces === void 0) { myPieces = null; }
@@ -29,13 +30,7 @@ var Agent = (function () {
             }
         }
         if (typechess) {
-            if (myPieces == null) {
-                this.InitPiece = InitPiece;
-                this.myPieces = (team == 1 ? init_1.InitGame.StateRed(this.reverse, this.InitPiece) : init_1.InitGame.StateBlack(this.reverse, this.InitPiece));
-            }
-            else {
-                this.myPieces = myPieces;
-            }
+            this.myPieces = InitPiece;
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;

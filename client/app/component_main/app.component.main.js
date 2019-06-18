@@ -17,8 +17,6 @@ var AppComponent = (function () {
         this.logined = false;
         this.reverse = false; // check chinachess ? reverse chinachess
         this.selectedFile = null;
-        this.minute = 15;
-        this.second = 0;
         this.chinachess = new forms_1.FormControl();
         this.flag = new forms_1.FormControl();
     }
@@ -42,23 +40,9 @@ var AppComponent = (function () {
             x.style.display = "none";
         }
     };
-    AppComponent.prototype.startTimer = function () {
-        var _this = this;
-        this.interval = setInterval(function () {
-            if (_this.minute >= 0) {
-                if (_this.second >= 0) {
-                    _this.second--;
-                }
-                if (_this.second == -1) {
-                    _this.minute--;
-                    _this.second = 59;
-                }
-            }
-            else {
-                _this.minute = 15;
-                _this.second == 0;
-            }
-        }, 1000);
+    //reload page
+    AppComponent.prototype.refresh = function () {
+        window.location.reload();
     };
     AppComponent = __decorate([
         core_1.Component({

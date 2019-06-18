@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var service_compute_1 = require('../service/service.compute');
+var Piece_1 = require('../Objects/Piece');
 var DummyPiece_1 = require('../Objects/DummyPiece');
 var State_1 = require('../Strategy/State/State');
 var Agent_1 = require('../Strategy/Agent/Agent');
@@ -18,19 +19,27 @@ var BoardComponent = (function () {
         this.redTeam = 1;
         this.blackTeam = -1;
         this.boardState = {};
+        this.checkmate = false;
         this.DEFAULT_TYPE = 0;
         this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
         this.blackAgentDepth = 2;
-        this.blackAgentSimulations = 2000;
         this.pieceSize = 67;
         this.dummyPieces = [];
         this.lastState = Array();
         this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
+        this.timemode = false;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
         this.runtime_dict = {};
         this.results = [];
+        this.InputCurrentState = {};
         this.server = server;
     }
     BoardComponent.prototype.clear_results = function () {
@@ -45,6 +54,7 @@ var BoardComponent = (function () {
         if (!this.selectedPiece)
             return false;
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
+        console.log("TOI la isposioble", this.selectedPiece.name);
         return moves.map(function (x) { return x + ''; }).indexOf(pos + '') >= 0;
     };
     BoardComponent.prototype.initDummyButtons = function () {
@@ -68,7 +78,6 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
-        console.log("day la aasasasasa", this.blackAgentDepth);
         this.initGame();
     };
     BoardComponent.prototype.ngOnInit = function () {
@@ -81,12 +90,21 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
+        this.redminute = 15;
+        this.blackminute = 15;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
+        this.checkmate = false;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
         this.initDummyButtons();
         blackAgent = new Agent_1.Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
-        console.log("day la blackAgent", blackAgent.DEPTH);
         redAgent = new Agent_1.Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         this.state = new State_1.State(redAgent, blackAgent, this.reverse);
-        console.log("khoi tao ", this.blackAgentType);
     };
     BoardComponent.prototype.clickDummyPiece = function (piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
@@ -103,6 +121,9 @@ var BoardComponent = (function () {
             return;
         this.humanMove(piece);
     };
+    BoardComponent.prototype.chooseBlackSimulations = function (dept) {
+        this.blackAgentDepth = dept;
+    };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
         this.redo = [];
@@ -115,13 +136,20 @@ var BoardComponent = (function () {
         this.state.endFlag = red_win;
         this.results.push(red_win);
         this.selectedPiece = undefined;
+        this.pauseTimer(1);
+        this.pauseTimer(-1);
     };
     // switch game turn
+    BoardComponent.prototype.setCheckMate = function (value) {
+        this.checkmate = value;
+    };
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
+        this.pauseTimer(-this.state.playingTeam);
+        this.startTimer(this.state.playingTeam);
         // agent.nextMove();
         var endState = this.state.getEndState();
         if (endState != 0) {
@@ -149,6 +177,10 @@ var BoardComponent = (function () {
             var piece = agent.getPieceByName(move[0].name);
             if (move[1])
                 agent.movePieceTo(piece, move[1]);
+            _this.server.launchCompute(_this.state.copy(false)).then(function (result) {
+                var checkmateS = result['checkmate'];
+                _this.setCheckMate(checkmateS);
+            });
             _this.switchTurn();
         });
     };
@@ -170,7 +202,6 @@ var BoardComponent = (function () {
     BoardComponent.prototype.Redo = function () {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-        console.log(id);
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0)
@@ -206,51 +237,128 @@ var BoardComponent = (function () {
         var xy = [input];
         this.InputState = xy;
     };
-    BoardComponent.prototype.SolveState = function () {
-        var newstate = []; //this.InputState;
+    BoardComponent.prototype.NumberMove = function (numbermove) {
+        console.log(numbermove);
+    };
+    /**********************recive any state && init it **********************/
+    /** default stategy = 2 && dept = 4 */
+    BoardComponent.prototype.newState = function (red, black) {
+        this.selectedPiece = undefined;
+        this.lastState = [];
+        var redAgent;
+        var blackAgent;
+        this.initDummyButtons();
+        blackAgent = new Agent_1.Agent(this.blackTeam, false, 1, 4, this.StateFlag, black);
+        redAgent = new Agent_1.Agent(this.redTeam, false, 1, 4, this.StateFlag, red);
+        // default turn = 1, 
+        //  var turn = -1 ;
+        this.state = new State_1.State(redAgent, blackAgent, false, 1);
+        // if (turn == -1) this.switchTurn();
+    };
+    /** --------------------------------------------------------------------*/
+    // Check move && change image 
+    BoardComponent.prototype.TimeMode = function () {
+        this.timemode = !this.timemode;
+        this.initGame();
+    };
+    BoardComponent.prototype.hiddentimer = function () {
+        return this.timemode;
+    };
+    BoardComponent.prototype.startTimer = function (team) {
+        var _this = this;
+        if (this.timemode) {
+            if (team == 1) {
+                this.redinterval = setInterval(function () {
+                    if (_this.redminute >= 0) {
+                        if (_this.redmilisec >= 0) {
+                            _this.redmilisec--;
+                        }
+                        if (_this.redmilisec == -1) {
+                            _this.redsecond--;
+                            _this.redmilisec = 99;
+                        }
+                        if (_this.redsecond == -1) {
+                            _this.redminute--;
+                            _this.redsecond = 59;
+                        }
+                    }
+                    else {
+                        _this.redminute = 0;
+                        _this.redsecond = 0;
+                        _this.redmilisec = 0;
+                        _this.end_game(-team);
+                    }
+                }, 10);
+            }
+            else {
+                this.blackinterval = setInterval(function () {
+                    if (_this.blackminute >= 0) {
+                        if (_this.blackmilisec >= 0) {
+                            _this.blackmilisec--;
+                        }
+                        if (_this.blackmilisec == -1) {
+                            _this.blacksecond--;
+                            _this.blackmilisec = 99;
+                        }
+                        if (_this.blacksecond == -1) {
+                            _this.blackminute--;
+                            _this.blacksecond = 59;
+                        }
+                    }
+                    else {
+                        _this.blackminute = 0;
+                        _this.blacksecond = 0;
+                        _this.blackmilisec = 0;
+                        _this.end_game(team);
+                    }
+                }, 10);
+            }
+        }
+    };
+    BoardComponent.prototype.pauseTimer = function (team) {
+        if (team == 1) {
+            clearInterval(this.redinterval);
+        }
+        else {
+            clearImmediate(this.blackinterval);
+        }
+    };
+    /** submit form && extract data && make current state */
+    BoardComponent.prototype.SolveState = function (f) {
+        var newstate = f.value['anystate'];
+        newstate = newstate.split(',');
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
         for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
             var x = newstate_1[_i];
             extract = x.split(' ');
-            if (extract[3] == "1")
-                red.push(extract);
-            if (extract[3] == "-1")
-                black.push(extract);
             key = [extract[1], extract[2]].toString();
+            console.log("day la extract ", extract);
+            if (extract[3] == "1") {
+                red.push(new Piece_1.Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
+            }
+            if (extract[3] == "-1") {
+                black.push(new Piece_1.Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
+            }
             if (!(key in currentState)) {
                 currentState[key] = [extract[0], extract[3]];
             }
         }
-        return {
-            "red": red,
-            "black": black,
-            "CurrentBoardState": currentState
-        };
-    };
-    BoardComponent.prototype.NumberMove = function (numbermove) {
-        console.log(numbermove);
-    };
-    /**********************recive any state && init it **********************/
-    BoardComponent.prototype.newState = function (red, black) {
-        this.selectedPiece = undefined;
-        this.lastState = [];
-        var redAgent;
-        var blackAgent;
-        // note : defaul pastMoves = 0 in gent 
-        blackAgent = new Agent_1.Agent(this.blackTeam, false, 0, this.StateFlag, black);
-        redAgent = new Agent_1.Agent(this.redTeam, false, 0, this.StateFlag, red);
-        this.state = new State_1.State(redAgent, blackAgent, false);
+        this.InputRed = red;
+        this.InputBlack = black;
+        this.InputCurrentState = currentState;
     };
     BoardComponent.prototype.ChangeType = function () {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
-        // this.onClear.emit();
-        this.clear_results();
-        var objectState = this.SolveState();
-        this.boardState = objectState["CurrentBoardState"];
-        this.newState(objectState["red"], objectState["black"]);
+        if (!this.StateFlag)
+            return;
+        this.boardState = this.InputCurrentState;
+        this.newState(this.InputRed, this.InputBlack);
+    };
+    BoardComponent.prototype.SupportSwitchTurn = function () {
+        this.switchTurn();
     };
     BoardComponent = __decorate([
         core_1.Component({

@@ -100,12 +100,12 @@
 				: {{board.redmilisec}}</h3>
 		</div>
 		<!-- appears when a team being checkmated -->
-		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" id="demo" class="cm_func" id="cm_r">
+		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" class="cm_func" id="cm_r">
 			<div>CHIẾU TƯỚNG ĐEN</div>
 		</div>
-		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" id="demo" class="cm_func" id="cm_b">
+		<!-- <div *ngIf="board.state.getEndState()==false && board.checkmate==true" class="cm_func" id="cm_b">
 			<div>CHIẾU TƯỚNG ĐỎ</div>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="right">

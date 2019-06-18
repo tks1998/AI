@@ -9,16 +9,15 @@
   display: inline-block;
   margin: 10px;
   position: relative;
+  width: 15%;
 }
 
 .left {
   float: left;
-  width: 15%;
 }
 
 .right {
   float: right;
-  width: 13%;
   position: relative;
   top: 50px;
 }
@@ -42,7 +41,7 @@
 .board {
   width: 50%;
   display: inline-block;
-  padding: 10px;
+  padding-top: 10px;
 }
 
 .body_content {
@@ -82,21 +81,25 @@
   height: 50px;
 }
 
+.side {
+  float: left;
+  width: 14%;
+  padding: 15px;
+}
+
 .clock {
-  margin: 10px 20px 0px 40px;
+  margin: 10px;
   width: 80%;
 }
 
 #blackclock {
   position: relative;
   top: 150px;
-  left: -30px;
 }
 
 #redclock {
   position: relative;
   top: 400px;
-  left: -30px;
 }
 
 .inputfile {
@@ -115,7 +118,7 @@
   animation: shake 2s cubic-bezier(.36, .07, .19, .97) both;
   transform: translate3d(0, 0, 0);
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 10%;
 }
 

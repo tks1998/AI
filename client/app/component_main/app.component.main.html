@@ -9,7 +9,7 @@
 				[control]="chinachess" type="checkbox" (change)="board.changeMode()">
 			</sm-checkbox>
 		</sm-button>
-		
+
 		<!-- choose set time for 1 round or not -->
 		<div class="margin"></div>
 		<button class="huge ui inverted black basic button fluid slider checkbox">
@@ -91,7 +91,7 @@
 		</sm-button>
 	</div>
 
-	<div class="left">
+	<div class="side">
 		<!-- countdown for each player -->
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} :
@@ -100,9 +100,6 @@
 			<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}
 				: {{board.redmilisec}}</h3>
 		</div>
-		<!-- appears when a team being checkmated -->
-		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" class="cm_func" id="cm_r"></div>
-		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" class="cm_func" id="cm_b"></div>
 	</div>
 
 	<div class="right">
@@ -135,8 +132,11 @@
 					class="ui active centered inline loader"></div>
 			</div>
 		</div>
-		
+
 		<div class="margin"></div>
+		<!-- appears when a team being checkmated -->
+		<div *ngIf="board.state.getEndState()==false && board.state.checkMate()==true" class="cm_func" id="cm_r"></div>
+		<div *ngIf="board.state.getEndState()==false && board.checkmate==true" class="cm_func" id="cm_b"></div>
 
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">

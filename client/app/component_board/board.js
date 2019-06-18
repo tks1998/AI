@@ -261,6 +261,9 @@ var BoardComponent = (function () {
         this.timemode = !this.timemode;
         this.initGame();
     };
+    BoardComponent.prototype.hiddentimer = function () {
+        return this.timemode;
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
         if (this.timemode) {

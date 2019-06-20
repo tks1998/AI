@@ -110,7 +110,7 @@
 				<h4 class="ui black header center aligned">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.blackAgent.pastMoves.length>0 && board.state.playingTeam==1">
 					<img
-						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.png">
+						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.svg">
 					<h3 class="ui black header">
 						{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
 				</div>
@@ -124,7 +124,7 @@
 				<h4 class="ui red header center aligned">Red: {{board.state.redAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
 					<img
-						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
+						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.svg">
 					<h3 class="ui red header">
 						{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
 				</div>
@@ -145,8 +145,8 @@
 				<h1 class="ui aligned center red header">{{board.state.endFlag==0? 'DRAW' : 'WIN'}}</h1>
 			</div>
 			<div class="ui red segment center aligned">
-				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.png" alt="">
-				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.png" alt="">
+				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.svg" alt="">
+				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.svg" alt="">
 			</div>
 		</div>
 	</div>

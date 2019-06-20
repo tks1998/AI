@@ -5,7 +5,7 @@ import { DummyPiece } from '../Objects/DummyPiece';
 import { State } from '../Strategy/State/State';
 import { Agent } from '../Strategy/Agent/Agent';
 import { start } from 'repl';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -38,8 +38,8 @@ export class BoardComponent implements OnInit {
     InputState: Object;
 
     timemode = false;
-    redminute: number = 15;
-    blackminute: number = 15;
+    redminute: number = 1;
+    blackminute: number = 1;
     redsecond: number = 0;
     blacksecond: number = 0;
     redmilisec: number = 0;
@@ -52,8 +52,8 @@ export class BoardComponent implements OnInit {
 
     results = [];
 
-    InputRed : Piece[];
-    InputBlack : Piece[];
+    InputRed: Piece[];
+    InputBlack: Piece[];
     InputCurrentState = {}
     clear_results() {
         this.results = [];
@@ -66,9 +66,9 @@ export class BoardComponent implements OnInit {
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
-        
+
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-        console.log("TOI la isposioble",this.selectedPiece.name);
+        console.log("TOI la isposioble", this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
     initDummyButtons() {
@@ -95,7 +95,7 @@ export class BoardComponent implements OnInit {
     }
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
-       
+
         this.initGame();
     }
 
@@ -115,10 +115,10 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        var redAgent : Agent; 
-        var blackAgent : Agent;
-        this.redminute = 15;
-        this.blackminute = 15;
+        var redAgent: Agent;
+        var blackAgent: Agent;
+        this.redminute = 1;
+        this.blackminute = 1;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -129,12 +129,12 @@ export class BoardComponent implements OnInit {
         this.pauseTimer(-1);
         this.pauseTimer(1);
         this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, this.reverse ,this.blackAgentType , this.blackAgentDepth) ;
-        
-        redAgent = new Agent(this.redTeam, this.reverse , this.blackAgentType , this.blackAgentDepth  ) ;
+        blackAgent = new Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
+
+        redAgent = new Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
 
         this.state = new State(redAgent, blackAgent, this.reverse);
-       
+
     }
 
 
@@ -154,8 +154,8 @@ export class BoardComponent implements OnInit {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
-    chooseBlackSimulations(dept){
-        this.blackAgentDepth = dept ;
+    chooseBlackSimulations(dept) {
+        this.blackAgentDepth = dept;
     }
 
     humanMove(piece: Piece) {
@@ -165,7 +165,7 @@ export class BoardComponent implements OnInit {
         this.switchTurn();
 
     }
-   
+
 
 
     // end_state: -1: lose | 0: draw | 1: win
@@ -180,15 +180,14 @@ export class BoardComponent implements OnInit {
         this.pauseTimer(-1);
     }
     // switch game turn
-    setCheckMate(value)
-    {
+    setCheckMate(value) {
         this.checkmate = value;
     }
     switchTurn() {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
-        
+
         this.pauseTimer(-this.state.playingTeam);
         this.startTimer(this.state.playingTeam);
 
@@ -207,7 +206,7 @@ export class BoardComponent implements OnInit {
                 var move = result['move'];
                 var time = parseInt(result['time']);
                 var state_feature = result['state_feature'];
-                
+
                 //if (state_feature) agent.save_state(state_feature);
                 if (!move) { // FAIL
                     this.end_game(-1);
@@ -220,7 +219,7 @@ export class BoardComponent implements OnInit {
 
                 var piece = agent.getPieceByName(move[0].name);
                 if (move[1]) agent.movePieceTo(piece, move[1]);
-                
+
                 this.server.launchCompute(this.state.copy(false)).then(
                     result => {
                         var checkmateS = result['checkmate'];
@@ -234,7 +233,7 @@ export class BoardComponent implements OnInit {
     // reverse game state to previous state
 
     go2PreviousState() {
-        var id = this.lastState.length - 1;  
+        var id = this.lastState.length - 1;
         if (this.lastState.length <= 0) return;
         this.redo.push(this.state)
         this.state = this.lastState[id];
@@ -249,13 +248,13 @@ export class BoardComponent implements OnInit {
     Redo() {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
-       
+
         if (id >= 0) {
             this.state = this.redo[id];
             if (size >= 0) this.lastState = this.lastState.slice(0, size)
             else this.lastState = [];
             //if (id >= 0) this.lastState.push(this.redo[id]);
-            this.redo = this.redo.splice(0, id-1);
+            this.redo = this.redo.splice(0, id - 1);
         }
     }
     CheckLastState(): Boolean {
@@ -282,7 +281,7 @@ export class BoardComponent implements OnInit {
     }
 
 
-    
+
 
 
     NumberMove(numbermove) {
@@ -291,28 +290,28 @@ export class BoardComponent implements OnInit {
 
     /**********************recive any state && init it **********************/
     /** default stategy = 2 && dept = 4 */
-   
+
     newState(red: Piece[], black: Piece[]) {
         this.selectedPiece = undefined;
         this.lastState = [];
 
-        var redAgent:Agent;
-        var blackAgent:Agent;
+        var redAgent: Agent;
+        var blackAgent: Agent;
         this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, false,1,4, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, false, 1,4,this.StateFlag, red);
+        blackAgent = new Agent(this.blackTeam, false, 1, 4, this.StateFlag, black);
+        redAgent = new Agent(this.redTeam, false, 1, 4, this.StateFlag, red);
         // default turn = 1, 
-      //  var turn = -1 ;
-        this.state = new State(redAgent, blackAgent, false , 1);
-       // if (turn == -1) this.switchTurn();
+        //  var turn = -1 ;
+        this.state = new State(redAgent, blackAgent, false, 1);
+        // if (turn == -1) this.switchTurn();
     }
     /** --------------------------------------------------------------------*/
 
 
-   
+
     // Check move && change image 
 
-    TimeMode(){
+    TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
     }
@@ -322,18 +321,18 @@ export class BoardComponent implements OnInit {
     }
 
     startTimer(team) {
-        if (this.timemode){
-            if (team == 1){
+        if (this.timemode) {
+            if (team == 1) {
                 this.redinterval = setInterval(() => {
-                    if (this.redminute >= 0){
-                        if (this.redmilisec >= 0){
+                    if (this.redminute >= 0) {
+                        if (this.redmilisec >= 0) {
                             this.redmilisec--;
                         }
-                        if (this.redmilisec == -1){
+                        if (this.redmilisec == -1) {
                             this.redsecond--;
                             this.redmilisec = 99;
                         }
-                        if (this.redsecond == -1){
+                        if (this.redsecond == -1) {
                             this.redminute--;
                             this.redsecond = 59;
                         }
@@ -345,17 +344,17 @@ export class BoardComponent implements OnInit {
                         this.end_game(-team);
                     }
                 }, 10)
-             } else {
+            } else {
                 this.blackinterval = setInterval(() => {
-                    if (this.blackminute >= 0){
-                        if (this.blackmilisec >= 0){
+                    if (this.blackminute >= 0) {
+                        if (this.blackmilisec >= 0) {
                             this.blackmilisec--;
                         }
-                        if (this.blackmilisec == -1){
+                        if (this.blackmilisec == -1) {
                             this.blacksecond--;
                             this.blackmilisec = 99;
                         }
-                        if (this.blacksecond == -1){
+                        if (this.blacksecond == -1) {
                             this.blackminute--;
                             this.blacksecond = 59;
                         }
@@ -367,58 +366,56 @@ export class BoardComponent implements OnInit {
                         this.end_game(team);
                     }
                 }, 10)
-             }
+            }
         }
     }
 
     pauseTimer(team) {
-         if (team == 1){
-         clearInterval(this.redinterval);
-         }
-         else {
-             clearImmediate(this.blackinterval);
-         }
+        if (team == 1) {
+            clearInterval(this.redinterval);
+        }
+        else {
+            clearInterval(this.blackinterval);
+        }
     }
     /** submit form && extract data && make current state */
-   
-    SolveState(f : NgForm) {
-        var newstate = f.value['anystate'] ;
+
+    SolveState(f: NgForm) {
+        var newstate = f.value['anystate'];
         newstate = newstate.split(',');
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
-      
+
         for (var x of newstate) {
             extract = x.split(' ');
             key = [extract[1], extract[2]].toString();
-            console.log("day la extract ",extract);
-            if (extract[3] == "1") 
-            {
-               red.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
+            console.log("day la extract ", extract);
+            if (extract[3] == "1") {
+                red.push(new Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
             }
-            if (extract[3] == "-1") 
-            {
-                black.push(new Piece(extract[0],[Number(extract[1]), Number(extract[2])],false,extract[0],0));
-            }               
-            
+            if (extract[3] == "-1") {
+                black.push(new Piece(extract[0], [Number(extract[1]), Number(extract[2])], false, extract[0], 0));
+            }
+
             if (!(key in currentState)) {
                 currentState[key] = [extract[0], extract[3]];
             }
         }
-        this.InputRed = red ;
-        this.InputBlack = black ; 
+        this.InputRed = red;
+        this.InputBlack = black;
         this.InputCurrentState = currentState;
-        
+
     }
     ChangeType() {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
-        if (!this.StateFlag) return ;
-        this.boardState = this.InputCurrentState ;
+        if (!this.StateFlag) return;
+        this.boardState = this.InputCurrentState;
         this.newState(this.InputRed, this.InputBlack);
     }
-    SupportSwitchTurn(){
+    SupportSwitchTurn() {
         this.switchTurn();
     }
-   
+
 }

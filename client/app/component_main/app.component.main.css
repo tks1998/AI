@@ -124,9 +124,9 @@
 
 #cm_r {
   /* background-color: rgba(255, 68, 68, 0.95); */
-  background: url("resource/img/cm_b.png") no-repeat;
+  background: url("resource/img/cm_b.svg") no-repeat;
 }
 
 #cm_b {
-  background: url("resource/img/cm_r.png") no-repeat;
+  background: url("resource/img/cm_r.svg") no-repeat;
 }

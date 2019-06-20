@@ -31,8 +31,8 @@ var BoardComponent = (function () {
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
-        this.redminute = 15;
-        this.blackminute = 15;
+        this.redminute = 1;
+        this.blackminute = 1;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -90,8 +90,8 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 15;
-        this.blackminute = 15;
+        this.redminute = 1;
+        this.blackminute = 1;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -320,7 +320,7 @@ var BoardComponent = (function () {
             clearInterval(this.redinterval);
         }
         else {
-            clearImmediate(this.blackinterval);
+            clearInterval(this.blackinterval);
         }
     };
     /** submit form && extract data && make current state */

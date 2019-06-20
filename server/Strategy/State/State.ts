@@ -36,6 +36,10 @@ export class State {
         return this.get_next_by_team(movePieceName, toPos, this.playingTeam);
     }
 
+    checkMate(){
+        return this.blackAgent.checkMate();
+    }
+
     
     get_next_by_team(movePieceName, toPos, team) {
         // make a copy a state
@@ -76,6 +80,7 @@ export class State {
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
         if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+        
         var new_state;
         if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
         else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);

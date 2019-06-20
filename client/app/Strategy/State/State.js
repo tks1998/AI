@@ -31,10 +31,7 @@ var State = (function () {
         return newState;
     };
     State.prototype.checkMate = function () {
-        if (this.redAgent.checkMate() == true || this.blackAgent.checkMate() == true)
-            return true;
-        else
-            return false;
+        return this.redAgent.checkMate();
     };
     State.prototype.switchTurn = function () {
         this.playingTeam = -this.playingTeam;

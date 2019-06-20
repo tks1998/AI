@@ -1,76 +1,132 @@
-#t{
+#t {
   font-size: 150px;
 }
 
-
-
-.left, .right{
- width:15%;
+.left,
+.right {
   float: top;
-   height: 100%;
-   display: inline-block;
+  height: 100%;
+  display: inline-block;
+  margin: 10px;
+  position: relative;
+  width: 15%;
 }
 
-.left{
+.left {
   float: left;
 }
 
-.right{
+.right {
   float: right;
-
+  position: relative;
+  top: 50px;
 }
 
-.header{
-  height: 10%;
-}
-
-.header h1{
+.header h1 {
   /*margin-left: 18%;*/
   color: white;
   width: 100%;
   margin: auto;
 }
-.title{
+
+.title {
   margin-left: 1em;
 }
-.separator{
+
+.separator {
   color: #f8f6ea;
   margin-left: 1em;
 }
 
-.board{
-  width: 60%;
+.board {
+  width: 50%;
   display: inline-block;
+  padding-top: 10px;
 }
 
-.body_content{
-  padding-top:8px;
+.body_content {
+  padding-top: 8px;
+  background: url("resource/img/background.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-.margin{
+
+.margin {
   height: 1em;
 }
 
-.simu_num{
+.simu_num {
   font-style: bold;
   font-size: 2em;
   color: red;
 }
-.nMove{
+
+.nMove {
   margin: auto;
   text-align: center;
   width: 100%;
   display: block;
 }
+
 .textboxx {
   width: 100%;
 }
+
 .textbox2 {
   border-radius: 10px;
   border: 7px solid rgb(216, 5, 23);
   width: 250px;
-  height: 50px;  
+  height: 50px;
 }
 
-.clock{
-  width: 10%;
+.side {
+  float: left;
+  width: 14%;
+  padding: 15px;
+}
+
+.clock {
+  margin: 10px;
+  width: 80%;
+}
+
+#blackclock {
+  position: relative;
+  top: 150px;
+}
+
+#redclock {
+  position: relative;
+  top: 400px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.cm_func {
+  margin: auto;
+  width: 80%;
+  height: 110px;
+  animation: shake 2s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(0, 0, 0);
+  position: absolute;
+  top: 50%;
+  left: 10%;
+}
+
+#cm_r {
+  /* background-color: rgba(255, 68, 68, 0.95); */
+  background: url("resource/img/cm_b.png") no-repeat;
+}
+
+#cm_b {
+  background: url("resource/img/cm_r.png") no-repeat;
 }

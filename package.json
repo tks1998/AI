@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "private": true,
   "scripts": {
-    "start": "concurrently \"tsc -w -p ./server\" \"tsc -w -p ./client\" \"nodemon ./server/bin/www.js\" \"open http:localhost:4200\" ",
+    "start": "concurrently \"tsc -w -p ./server\" \"tsc -w -p ./client\" \"nodemon ./server/bin/www.js\" \"open http:localhost:3000\" ",
     "twc:client:w": "tsc -w -p ./client",
     "twc:server:w": "tsc -w -p ./server",
     "typings": "typings install",

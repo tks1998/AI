@@ -12,7 +12,7 @@ export class Agent {
     oppoAgent: Agent;
     // myPiecesDic: {}; // {name -> pos}
     boardState: {}; // {posStr->[name, isMyPiece]}
-
+ 
     DEPTH = 0;
     reverse = false;
     typechess = false;
@@ -21,7 +21,7 @@ export class Agent {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    constructor(team: number, reverse = false, strategy = 0,dept , typechess = false, InitPiece = null, myPieces = null, pastMoves = [] ) {
+    constructor(team: number, reverse = false, strategy = 0,dept=0 , typechess = false, InitPiece = null, myPieces = null, pastMoves = [] ) {
         this.team = team;
         this.reverse = reverse;
        
@@ -33,14 +33,7 @@ export class Agent {
             }
         } 
         if (typechess){
-            if (myPieces ==null )
-            {
-                this.InitPiece = InitPiece;
-                this.myPieces = (team == 1 ? InitGame.StateRed(this.reverse,this.InitPiece) : InitGame.StateBlack(this.reverse,this.InitPiece));    
-            }
-            else {
-                this.myPieces = myPieces ;
-            }
+                this.myPieces = InitPiece ;
         }
         this.pastMoves = pastMoves;
         this.strategy = strategy;

@@ -209,7 +209,7 @@ var BoardComponent = (function () {
             else
                 this.lastState = [];
             //if (id >= 0) this.lastState.push(this.redo[id]);
-            this.redo = this.redo.splice(0, id - 1);
+            this.redo = this.redo.splice(0, id);
         }
     };
     BoardComponent.prototype.CheckLastState = function () {

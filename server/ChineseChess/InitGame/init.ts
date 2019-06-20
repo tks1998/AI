@@ -108,3 +108,6 @@ export class InitGame {
         return allPiece;
     }
 }
+
+
+

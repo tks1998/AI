@@ -191,3 +191,6 @@ export class Agent {
         return Evaluation.posValue(piece.name, piece.position, team) + Evaluation.pieceValue(piece.name);
     }
 }
+
+
+

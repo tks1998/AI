@@ -97,6 +97,15 @@ var InitGame = (function () {
         }
         return allPiece;
     };
+    InitGame.StateBlack2 = function (team, currentstate, reverse) {
+        if (reverse === void 0) { reverse = false; }
+        var allPiece = [];
+        for (var _i = 0, currentstate_3 = currentstate; _i < currentstate_3.length; _i++) {
+            var element = currentstate_3[_i];
+            allPiece.push(new Piece_1.Piece(element[0], [element[1], element[2]], reverse, element[0], 0));
+        }
+        return allPiece;
+    };
     return InitGame;
 }());
 exports.InitGame = InitGame;

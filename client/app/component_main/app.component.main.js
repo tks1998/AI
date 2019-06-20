@@ -40,6 +40,15 @@ var AppComponent = (function () {
             x.style.display = "none";
         }
     };
+    AppComponent.prototype.myFunction3 = function () {
+        var x = document.getElementById("demo");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        }
+        else {
+            x.style.display = "none";
+        }
+    };
     //reload page
     AppComponent.prototype.refresh = function () {
         window.location.reload();

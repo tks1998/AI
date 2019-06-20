@@ -115,8 +115,8 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        var redAgent: Agent;
-        var blackAgent: Agent;
+        var redAgent : Agent; 
+        var blackAgent : Agent;
         this.redminute = 1;
         this.blackminute = 1;
         this.redsecond = 0;

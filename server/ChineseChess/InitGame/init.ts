@@ -108,13 +108,9 @@ export class InitGame {
         return allPiece;
     }
 
-    static StateBlack2(team , currentstate,reverse=false){
-        var allPiece = [];
-        for (var element of currentstate){
-            allPiece.push(new Piece(element[0],[element[1],element[2]],reverse,element[0],0));
-        }  
-        return allPiece;
-    }
+
+
+    
 }
 
 

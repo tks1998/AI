@@ -375,55 +375,6 @@ export class BoardComponent implements OnInit {
         }
     }
 
-    startTimer1(team) {
-        if (this.timemode){
-            if (team == 1){
-                this.redinterval = setInterval(() => {
-                    if (this.redminute >= 0){
-                        if (this.redmilisec >= 0){
-                            this.redmilisec--;
-                        }
-                        if (this.redmilisec == -1){
-                            this.redsecond--;
-                            this.redmilisec = 99;
-                        }
-                        if (this.redsecond == -1){
-                            this.redminute--;
-                            this.redsecond = 59;
-                        }
-                    }
-                    else {
-                        this.redminute = 0;
-                        this.redsecond = 0;
-                        this.redmilisec = 0;
-                        this.end_game(-team);
-                    }
-                }, 10)
-             } else {
-                this.blackinterval = setInterval(() => {
-                    if (this.blackminute >= 0){
-                        if (this.blackmilisec >= 0){
-                            this.blackmilisec--;
-                        }
-                        if (this.blackmilisec == -1){
-                            this.blacksecond--;
-                            this.blackmilisec = 99;
-                        }
-                        if (this.blacksecond == -1){
-                            this.blackminute--;
-                            this.blacksecond = 59;
-                        }
-                    }
-                    else {
-                        this.blackminute = 0;
-                        this.blacksecond = 0;
-                        this.blackmilisec = 0;
-                        this.end_game(team);
-                    }
-                }, 10)
-             }
-        }
-    }
 
     pauseTimer(team) {
          if (team == 1){

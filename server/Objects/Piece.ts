@@ -26,12 +26,6 @@ export class Piece {
        
     }
 
-    moveTo1(newPos) {
-        this.position = newPos;
-        this.name = this.truthname;
-        this.isMove = this.isMove + 1;
-       
-    }
 
     // return a copy of a piece
     copy() {

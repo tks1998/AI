@@ -315,57 +315,6 @@ var BoardComponent = (function () {
             }
         }
     };
-    BoardComponent.prototype.startTimer1 = function (team) {
-        var _this = this;
-        if (this.timemode) {
-            if (team == 1) {
-                this.redinterval = setInterval(function () {
-                    if (_this.redminute >= 0) {
-                        if (_this.redmilisec >= 0) {
-                            _this.redmilisec--;
-                        }
-                        if (_this.redmilisec == -1) {
-                            _this.redsecond--;
-                            _this.redmilisec = 99;
-                        }
-                        if (_this.redsecond == -1) {
-                            _this.redminute--;
-                            _this.redsecond = 59;
-                        }
-                    }
-                    else {
-                        _this.redminute = 0;
-                        _this.redsecond = 0;
-                        _this.redmilisec = 0;
-                        _this.end_game(-team);
-                    }
-                }, 10);
-            }
-            else {
-                this.blackinterval = setInterval(function () {
-                    if (_this.blackminute >= 0) {
-                        if (_this.blackmilisec >= 0) {
-                            _this.blackmilisec--;
-                        }
-                        if (_this.blackmilisec == -1) {
-                            _this.blacksecond--;
-                            _this.blackmilisec = 99;
-                        }
-                        if (_this.blacksecond == -1) {
-                            _this.blackminute--;
-                            _this.blacksecond = 59;
-                        }
-                    }
-                    else {
-                        _this.blackminute = 0;
-                        _this.blacksecond = 0;
-                        _this.blackmilisec = 0;
-                        _this.end_game(team);
-                    }
-                }, 10);
-            }
-        }
-    };
     BoardComponent.prototype.pauseTimer = function (team) {
         if (team == 1) {
             clearInterval(this.redinterval);

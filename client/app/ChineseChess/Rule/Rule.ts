@@ -379,24 +379,6 @@ export class Rule {
         return 1;
     }
 
-    static getGameEndStateByState2 = function (myPieces: Piece[], oppoPieces: Piece[], boardState, team) {
-        var myKing = myPieces.filter(x => x.name == 'k')[0];
-        var oppoKing = oppoPieces.filter(x => x.name == 'k')[0];
-        if (!myKing) return -1;
-        if (!oppoKing) return 1;
-        var myKingCol = myKing.position[1];
-        // not on the same col
-        if (myKingCol != oppoKing.position[1]) return 0;
-        if (team == 1) {
-            var minRow = myKing.position[0] + 1;
-            var maxRow = oppoKing.position[0] - 1;
-        } else {
-            var minRow = oppoKing.position[0] + 1;
-            var maxRow = myKing.position[0] - 1;
-        }
-        if (this.hasPieceOnRows(myKingCol, minRow, maxRow, boardState)) return 0;
-        return 1;
-    }
 
 }
                             

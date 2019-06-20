@@ -15,11 +15,6 @@ var Piece = (function () {
         this.name = this.truthname;
         this.isMove = this.isMove + 1;
     };
-    Piece.prototype.moveTo1 = function (newPos) {
-        this.position = newPos;
-        this.name = this.truthname;
-        this.isMove = this.isMove + 1;
-    };
     // return a copy of a piece
     Piece.prototype.copy = function () {
         return new Piece(this.name, this.position, this.Reverse, this.truthname, this.isMove);

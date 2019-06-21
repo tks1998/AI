@@ -312,34 +312,7 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
-    newState7(red: Piece[], black: Piece[]) {
-        this.selectedPiece = undefined;
-        this.lastState = [];
-
-        var redAgent:Agent;
-        var blackAgent:Agent;
-        this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, false,1,4, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, false, 1,4,this.StateFlag, red);
-        // default turn = 1, 
-      //  var turn = -1 ;
-        this.state = new State(redAgent, blackAgent, false , 1);
-       // if (turn == -1) this.switchTurn();
-    }
-    newState3(red: Piece[], black: Piece[]) {
-        this.selectedPiece = undefined;
-        this.lastState = [];
-
-        var redAgent:Agent;
-        var blackAgent:Agent;
-        this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, false,1,4, this.StateFlag, black);
-        redAgent = new Agent(this.redTeam, false, 1,4,this.StateFlag, red);
-        // default turn = 1, 
-      //  var turn = -1 ;
-        this.state = new State(redAgent, blackAgent, false , 1);
-       // if (turn == -1) this.switchTurn();
-    }
+    
    
     // Check move && change image 
 

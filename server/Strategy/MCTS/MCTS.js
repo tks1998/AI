@@ -80,27 +80,7 @@ var MCTS = (function (_super) {
         mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
         return mcts_new_state;
     };
-    MCTS.prototype.simulate2 = function (root_state, selected) {
-        var move = selected.state.get_playing_agent().updateState().greedy_move();
-        if (move.length == 0)
-            return null;
-        var nextState = selected.state.next_state(move[0].name, move[1]);
-        var mcts_new_state = new MCTS_State_1.MCTS_State(nextState, move);
-        mcts_new_state.visits += 1;
-        mcts_new_state.set_parent(selected);
-        mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
-        return mcts_new_state;
-    };
     MCTS.prototype.back_propagate = function (simulated_state) {
-        var temp = simulated_state;
-        var added_score = simulated_state.sum_score;
-        while (temp.parent) {
-            temp.parent.visits += 1;
-            temp.parent.sum_score += added_score;
-            temp = temp.parent;
-        }
-    };
-    MCTS.prototype.back_propagate3 = function (simulated_state) {
         var temp = simulated_state;
         var added_score = simulated_state.sum_score;
         while (temp.parent) {

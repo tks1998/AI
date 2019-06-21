@@ -87,6 +87,47 @@ export class State {
            return new_state;
       
     }
+
+    static  copyFromDict4(dict) {
+        var agentDict;
+        var agentDict = dict.blackAgent;
+        var oppo = dict.redAgent;
+        var IsReverse = dict.reverse;
+        
+        oppo = Agent.copyFromDict(oppo);
+        var agent;
+      
+        if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
+        if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
+        if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+        
+        var new_state;
+        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
+        else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
+           return new_state;
+      
+    }
+
+    static  copyFromDict2(dict) {
+        var agentDict;
+        var agentDict = dict.blackAgent;
+        var oppo = dict.redAgent;
+        var IsReverse = dict.reverse;
+        
+        oppo = Agent.copyFromDict(oppo);
+        var agent;
+      
+        if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
+        if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
+        if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+        
+        var new_state;
+        if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
+        else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
+           return new_state;
+      
+    }
+
     nextMove() {
         var agent = this.get_playing_agent();
         var r = null;

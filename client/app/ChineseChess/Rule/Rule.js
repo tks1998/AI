@@ -292,6 +292,88 @@ var Rule = (function () {
         moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
         return moves;
     };
+    Rule.possibleMoves3 = function (piece, boardStates, isLowerTeam, reverse) {
+        var name = piece.name[0];
+        var currRow = piece.position[0];
+        var currCol = piece.position[1];
+        var moves = [];
+        // piece.isMove == 0 -> piece is not move -> fake move
+        if (reverse && piece.isMove != 0) {
+            if (name == 'x') {
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+            }
+            if (name == 's') {
+                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+            }
+        }
+        switch (name) {
+            case 'j':
+                moves = this.possibleMovesForJu(currRow, currCol, boardStates);
+                break;
+            case 'm':
+                moves = this.possibleMovesForMa(currRow, currCol, boardStates);
+                break;
+            case 'x':
+                moves = this.possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam);
+                break;
+            case 's':
+                moves = this.possibleMovesForShi(currRow, currCol, boardStates, isLowerTeam);
+                break;
+            case 'k':
+                moves = this.possibleMovesForKing(currRow, currCol, boardStates);
+                break;
+            case 'p':
+                moves = this.possibleMovesForPao(currRow, currCol, boardStates);
+                break;
+            case 'z':
+                moves = this.possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam);
+                break;
+        }
+        // console.log(piece.name, moves);
+        moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
+        return moves;
+    };
+    Rule.possibleMoves2 = function (piece, boardStates, isLowerTeam, reverse) {
+        var name = piece.name[0];
+        var currRow = piece.position[0];
+        var currCol = piece.position[1];
+        var moves = [];
+        // piece.isMove == 0 -> piece is not move -> fake move
+        if (reverse && piece.isMove != 0) {
+            if (name == 'x') {
+                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+            }
+            if (name == 's') {
+                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+            }
+        }
+        switch (name) {
+            case 'j':
+                moves = this.possibleMovesForJu(currRow, currCol, boardStates);
+                break;
+            case 'm':
+                moves = this.possibleMovesForMa(currRow, currCol, boardStates);
+                break;
+            case 'x':
+                moves = this.possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam);
+                break;
+            case 's':
+                moves = this.possibleMovesForShi(currRow, currCol, boardStates, isLowerTeam);
+                break;
+            case 'k':
+                moves = this.possibleMovesForKing(currRow, currCol, boardStates);
+                break;
+            case 'p':
+                moves = this.possibleMovesForPao(currRow, currCol, boardStates);
+                break;
+            case 'z':
+                moves = this.possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam);
+                break;
+        }
+        // console.log(piece.name, moves);
+        moves = this.filterBoundedMoves(currRow, currCol, moves, boardStates);
+        return moves;
+    };
     Rule.checkMate = function (myPieces, oppoPieces, boardStates, team, reverse) {
         var isLowerTeam = (team == 1);
         // console.log(isLowerTeam);

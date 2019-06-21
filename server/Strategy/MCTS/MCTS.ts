@@ -79,7 +79,28 @@ export class MCTS extends Agent {
         return mcts_new_state;
     }
 
+    simulate2(root_state: MCTS_State, selected: MCTS_State) {
+        var move = selected.state.get_playing_agent().updateState().greedy_move();
+        if (move.length == 0) return null;
+        var nextState = selected.state.next_state(move[0].name, move[1]);
+        var mcts_new_state = new MCTS_State(nextState, move);
+        mcts_new_state.visits += 1;
+        mcts_new_state.set_parent(selected);
+        mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
+        return mcts_new_state;
+    }
+
     back_propagate(simulated_state: MCTS_State) {
+        var temp = simulated_state;
+        var added_score = simulated_state.sum_score;
+        while (temp.parent) {
+            temp.parent.visits += 1;
+            temp.parent.sum_score += added_score;
+            temp = temp.parent;
+        }
+    }
+
+    back_propagate3(simulated_state: MCTS_State) {
         var temp = simulated_state;
         var added_score = simulated_state.sum_score;
         while (temp.parent) {

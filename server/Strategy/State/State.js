@@ -78,6 +78,46 @@ var State = (function () {
             new_state = new State(oppo, agent, dict.playingTeam, IsReverse);
         return new_state;
     };
+    State.copyFromDict4 = function (dict) {
+        var agentDict;
+        var agentDict = dict.blackAgent;
+        var oppo = dict.redAgent;
+        var IsReverse = dict.reverse;
+        oppo = Agent_1.Agent.copyFromDict(oppo);
+        var agent;
+        if (agentDict.strategy == 0)
+            agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
+        if (agentDict.strategy == 1)
+            agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
+        if (agentDict.strategy == 2)
+            agent = MCTS_1.MCTS.copyFromDict(agentDict);
+        var new_state;
+        if (dict.playingTeam == 1)
+            new_state = new State(agent, oppo, dict.playingTeam, IsReverse);
+        else
+            new_state = new State(oppo, agent, dict.playingTeam, IsReverse);
+        return new_state;
+    };
+    State.copyFromDict2 = function (dict) {
+        var agentDict;
+        var agentDict = dict.blackAgent;
+        var oppo = dict.redAgent;
+        var IsReverse = dict.reverse;
+        oppo = Agent_1.Agent.copyFromDict(oppo);
+        var agent;
+        if (agentDict.strategy == 0)
+            agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
+        if (agentDict.strategy == 1)
+            agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
+        if (agentDict.strategy == 2)
+            agent = MCTS_1.MCTS.copyFromDict(agentDict);
+        var new_state;
+        if (dict.playingTeam == 1)
+            new_state = new State(agent, oppo, dict.playingTeam, IsReverse);
+        else
+            new_state = new State(oppo, agent, dict.playingTeam, IsReverse);
+        return new_state;
+    };
     State.prototype.nextMove = function () {
         var agent = this.get_playing_agent();
         var r = null;

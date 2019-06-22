@@ -48,16 +48,18 @@ var State = (function () {
     State.samveMove = function (move1, move2) {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     };
-    // static check_repeating(agent): boolean {
-    //     var moves = agent.pastMoves;
-    //     var n = moves.length;
-    //     if (n < 10) return false;
-    //     if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-    //         console.log(moves)
-    //         return true;
-    //     };
-    //     return false;
-    // }
+    State.check_repeating = function (agent) {
+        var moves = agent.pastMoves;
+        var n = moves.length;
+        if (n < 10)
+            return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+            console.log(moves);
+            return true;
+        }
+        ;
+        return false;
+    };
     State.copyFromDict = function (dict) {
         var agentDict;
         var agentDict = dict.blackAgent;
@@ -65,6 +67,7 @@ var State = (function () {
         var IsReverse = dict.reverse;
         oppo = Agent_1.Agent.copyFromDict(oppo);
         var agent;
+        var is_repeating = this.check_repeating(agentDict);
         if (agentDict.strategy == 0)
             agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1)
@@ -76,6 +79,7 @@ var State = (function () {
             new_state = new State(agent, oppo, dict.playingTeam, IsReverse);
         else
             new_state = new State(oppo, agent, dict.playingTeam, IsReverse);
+        new_state.is_repeating = is_repeating;
         return new_state;
     };
     State.prototype.nextMove = function () {

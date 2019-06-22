@@ -58,16 +58,16 @@ export class State {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
 
-    // static check_repeating(agent): boolean {
-    //     var moves = agent.pastMoves;
-    //     var n = moves.length;
-    //     if (n < 10) return false;
-    //     if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-    //         console.log(moves)
-    //         return true;
-    //     };
-    //     return false;
-    // }
+    static check_repeating(agent): boolean {
+        var moves = agent.pastMoves;
+        var n = moves.length;
+        if (n < 10) return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+            console.log(moves)
+            return true;
+        };
+        return false;
+    }
     static  copyFromDict(dict) {
         var agentDict;
         var agentDict = dict.blackAgent;
@@ -76,7 +76,7 @@ export class State {
         
         oppo = Agent.copyFromDict(oppo);
         var agent;
-      
+        var is_repeating = this.check_repeating(agentDict);
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
         if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
@@ -84,7 +84,8 @@ export class State {
         var new_state;
         if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
         else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
-           return new_state;
+        new_state.is_repeating = is_repeating;
+        return new_state;
       
     }
 

@@ -6,13 +6,15 @@ import { HttpModule } from '@angular/http';
 import { BoardComponent } from './component_board/board';
 import { MapToIterable} from './pipe/MapToIterable';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     imports: [
         BrowserModule,
         NgSemanticModule,
         HttpModule,
-        FormsModule
+        FormsModule,
+        ChartsModule
     ],
 
     bootstrap: [

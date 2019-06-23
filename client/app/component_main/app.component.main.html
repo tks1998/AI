@@ -1,5 +1,6 @@
 <div class="body_content" (keyup.Enter)="board.initGame()">
-	<board #board class="board">
+	<!--  -->
+	<board #board class="board" (onResultsUpdated)="update_result(board.results, board.humanMode, [board.redAgentType, board.redAgentDepth, board.blackAgentType, board.blackAgentDepth])">
 	</board>
 
 	<div class="left">
@@ -150,5 +151,8 @@
 			</div>
 		</div>
 	</div>
+</div>
 
+<div class="analysis">
+	<winRater></winRater>
 </div>

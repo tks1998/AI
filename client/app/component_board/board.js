@@ -18,7 +18,7 @@ var BoardComponent = (function () {
     function BoardComponent(server) {
         this.redTeam = 1;
         this.blackTeam = -1;
-        this.boardState = {};
+        this.boardState = {}; // {postion => piece}  || NOT including dummy pieces
         this.checkmate = false;
         this.DEFAULT_TYPE = 0;
         this.blackAgentType = 0;
@@ -37,13 +37,19 @@ var BoardComponent = (function () {
         this.blacksecond = 0;
         this.redmilisec = 0;
         this.blackmilisec = 0;
+        this.InputCurrentState = {};
+        //
+        /***************** EVENT *******************/
+        // new game result obtained
+        this.onResultsUpdated = new core_1.EventEmitter();
         this.runtime_dict = {};
         this.results = [];
-        this.InputCurrentState = {};
         this.server = server;
     }
     BoardComponent.prototype.clear_results = function () {
         this.results = [];
+        //
+        this.report_result();
     };
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
@@ -135,14 +141,16 @@ var BoardComponent = (function () {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
         this.results.push(red_win);
+        //
+        this.report_result();
         this.selectedPiece = undefined;
         this.pauseTimer(1);
         this.pauseTimer(-1);
     };
-    // switch game turn
     BoardComponent.prototype.setCheckMate = function (value) {
         this.checkmate = value;
     };
+    // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         this.state.switchTurn();
@@ -360,6 +368,15 @@ var BoardComponent = (function () {
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
     };
+    //
+    // report results
+    BoardComponent.prototype.report_result = function () {
+        this.onResultsUpdated.emit();
+    };
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], BoardComponent.prototype, "onResultsUpdated", void 0);
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

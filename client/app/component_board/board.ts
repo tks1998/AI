@@ -19,7 +19,7 @@ import { NgForm } from '@angular/forms';
 export class BoardComponent implements OnInit {
     redTeam = 1;
     blackTeam = -1;
-    boardState = {};
+    boardState = {}; // {postion => piece}  || NOT including dummy pieces
     state: State;
     server: ComputeService;
     checkmate = false;
@@ -28,6 +28,7 @@ export class BoardComponent implements OnInit {
     blackAgentType = 0;
     DEFAULT_DEPTH = 2;
     blackAgentDepth = 2;
+
     pieceSize: number = 67;
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
@@ -47,22 +48,33 @@ export class BoardComponent implements OnInit {
     redinterval;
     blackinterval;
 
+    InputRed: Piece[];
+    InputBlack: Piece[];
+    InputCurrentState = {};
+
+
+    //
+    /***************** EVENT *******************/
+    // new game result obtained
+    @Output() onResultsUpdated = new EventEmitter<boolean>();
     runtime_dict = {};
 
 
     results = [];
-
-    InputRed: Piece[];
-    InputBlack: Piece[];
-    InputCurrentState = {}
     clear_results() {
         this.results = [];
+
+        //
+        this.report_result();
     }
+
+
     changeMode() {
         this.reverse = !this.reverse;
         this.clear_results();
         this.initGame();
     }
+
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
@@ -71,6 +83,8 @@ export class BoardComponent implements OnInit {
         console.log("TOI la isposioble", this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
+
+
     initDummyButtons() {
         this.dummyPieces = [];
         for (var i = 1; i <= 10; i++) {
@@ -88,11 +102,14 @@ export class BoardComponent implements OnInit {
         return parseInt(desc.split('-')[0]);
     }
 
+
     chooseBlackAgent(desc) {
         this.blackAgentType = this.parse_agentType(desc);
         this.clear_results();
         this.initGame();
     }
+
+
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
 
@@ -115,8 +132,8 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        var redAgent : Agent; 
-        var blackAgent : Agent;
+        var redAgent: Agent;
+        var blackAgent: Agent;
         this.redminute = 1;
         this.blackminute = 1;
         this.redsecond = 0;
@@ -154,9 +171,12 @@ export class BoardComponent implements OnInit {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
+
+
     chooseBlackSimulations(dept) {
         this.blackAgentDepth = dept;
     }
+
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
@@ -167,22 +187,27 @@ export class BoardComponent implements OnInit {
     }
 
 
-
     // end_state: -1: lose | 0: draw | 1: win
     end_game(end_state) {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
         this.results.push(red_win);
-
+        
+        //
+        this.report_result();
         this.selectedPiece = undefined;
 
         this.pauseTimer(1);
         this.pauseTimer(-1);
     }
-    // switch game turn
+
+
     setCheckMate(value) {
         this.checkmate = value;
     }
+
+
+    // switch game turn
     switchTurn() {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
@@ -230,8 +255,9 @@ export class BoardComponent implements OnInit {
             }
         );
     }
-    // reverse game state to previous state
 
+
+    // reverse game state to previous state
     go2PreviousState() {
         var id = this.lastState.length - 1;
         if (this.lastState.length <= 0) return;
@@ -242,9 +268,13 @@ export class BoardComponent implements OnInit {
         else
             this.lastState = this.lastState.slice(0, id);
     }
+
+
     CheckLastRedo(): Boolean {
         return this.redo.length > 0
     }
+
+
     Redo() {
         var id = this.redo.length - 1;
         var size = this.lastState.length - 1;
@@ -257,36 +287,45 @@ export class BoardComponent implements OnInit {
             this.redo = this.redo.splice(0, id - 1);
         }
     }
+
+
     CheckLastState(): Boolean {
         //console.log(this.lastState.length)
         return this.lastState.length > 0;
     }
+
+
     copyCurrentState() {
         this.lastState.push(this.state.copy())
     }
+
+
     checkReverse(): Boolean {
         return this.reverse;
     }
+
+
     checkMove(currentpiece: Piece): Boolean {
         if (currentpiece.name[0] == 'k') return true;
         if (currentpiece.isMove > 0) return true;
         else return false;
     }
+
+
     runState() {
         console.log("success");
     }
+
+
     SaveState(input) {
         var xy = [input];
         this.InputState = xy;
     }
 
-
-
-
-
     NumberMove(numbermove) {
         console.log(numbermove);
     }
+
 
     /**********************recive any state && init it **********************/
     /** default stategy = 2 && dept = 4 */
@@ -308,17 +347,19 @@ export class BoardComponent implements OnInit {
     /** --------------------------------------------------------------------*/
 
 
-
     // Check move && change image 
+
 
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
     }
 
+
     hiddentimer(): boolean {
         return this.timemode;
     }
+
 
     startTimer(team) {
         if (this.timemode) {
@@ -370,6 +411,7 @@ export class BoardComponent implements OnInit {
         }
     }
 
+
     pauseTimer(team) {
         if (team == 1) {
             clearInterval(this.redinterval);
@@ -378,8 +420,9 @@ export class BoardComponent implements OnInit {
             clearInterval(this.blackinterval);
         }
     }
-    /** submit form && extract data && make current state */
 
+
+    /** submit form && extract data && make current state */
     SolveState(f: NgForm) {
         var newstate = f.value['anystate'];
         newstate = newstate.split(',');
@@ -407,6 +450,8 @@ export class BoardComponent implements OnInit {
         this.InputCurrentState = currentState;
 
     }
+
+
     ChangeType() {
         this.reverse = false;
         this.StateFlag = !this.StateFlag;
@@ -414,8 +459,15 @@ export class BoardComponent implements OnInit {
         this.boardState = this.InputCurrentState;
         this.newState(this.InputRed, this.InputBlack);
     }
+
+
     SupportSwitchTurn() {
         this.switchTurn();
     }
 
+    //
+    // report results
+    report_result() {
+        this.onResultsUpdated.emit();
+    }
 }

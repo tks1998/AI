@@ -4,9 +4,11 @@ import { NgSemanticModule } from "ng-semantic";
 import { AppComponent } from './component_main/app.component.main';
 import { HttpModule } from '@angular/http';
 import { BoardComponent } from './component_board/board';
-import { MapToIterable} from './pipe/MapToIterable';
+import { MapToIterable } from './pipe/MapToIterable';
 import { FormsModule } from '@angular/forms';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { WinRaterComponent } from './component_analysis/winRate';
+
 
 @NgModule({
     imports: [
@@ -20,10 +22,12 @@ import { ChartsModule } from 'ng2-charts';
     bootstrap: [
         AppComponent
     ],
+
     declarations: [
         AppComponent,
         BoardComponent,
         MapToIterable,
+        WinRaterComponent
     ]
 })
 export class AppModule { }

@@ -225,10 +225,7 @@ var BoardComponent = (function () {
     BoardComponent.prototype.checkMove = function (currentpiece) {
         if (currentpiece.name[0] == 'k')
             return true;
-        if (currentpiece.isMove > 0)
-            return true;
-        else
-            return false;
+        return (currentpiece.isMove > 0);
     };
     BoardComponent.prototype.runState = function () {
         console.log("success");

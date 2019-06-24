@@ -39,6 +39,7 @@ export class BoardComponent implements OnInit {
     InputState: Object;
 
     timemode = false;
+    settime: number = 10;
     redminute: number;
     blackminute: number;
     redsecond: number;
@@ -134,8 +135,8 @@ export class BoardComponent implements OnInit {
         this.redo = [];
         var redAgent: Agent;
         var blackAgent: Agent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -349,7 +350,7 @@ export class BoardComponent implements OnInit {
 
     // Check move && change image 
 
-
+    //part of Timer
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
@@ -360,7 +361,12 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
-    //part of Timer
+    inputTime(f: NgForm){
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    }
 
     startTimer(team) {
         function pad(n) {

@@ -31,6 +31,7 @@ var BoardComponent = (function () {
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
+        this.settime = 10;
         this.InputCurrentState = {};
         //
         /***************** EVENT *******************/
@@ -90,8 +91,8 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -259,6 +260,7 @@ var BoardComponent = (function () {
     };
     /** --------------------------------------------------------------------*/
     // Check move && change image 
+    //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();
@@ -266,7 +268,12 @@ var BoardComponent = (function () {
     BoardComponent.prototype.hiddentimer = function () {
         return this.timemode;
     };
-    //part of Timer
+    BoardComponent.prototype.inputTime = function (f) {
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
         function pad(n) {

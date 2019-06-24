@@ -12,6 +12,29 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var WinRaterComponent = (function () {
     function WinRaterComponent() {
+        this.chartType = 'line';
+        this.chartData = [];
+        this.chartLabels = [];
+        this.chartColors = [
+            {
+                backgroundColor: 'rgba(207, 161, 32, 0.3)',
+                borderColor: 'rgba(207, 67, 32, .7)',
+                borderWidth: 2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgba(207, 67, 32, .7)',
+            },
+            {
+                backgroundColor: 'rgba(0, 94, 137, 0.3)',
+                borderColor: 'rgba(38, 24, 114, 0.7)',
+                borderWidth: 2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgba(38, 24, 114, .7)',
+            }
+        ];
+        this.lineChartLegend = true;
+        this.chartOptions = {
+            responsive: true
+        };
         this.names = [
             'Greedy',
             'Alpha-Beta Pruning',
@@ -21,90 +44,69 @@ var WinRaterComponent = (function () {
             'Monte Carlo Tree Search',
             'Ultimate (Combined Strategy)'
         ];
+        this.teamControl = new forms_1.FormControl();
         this.N = 10;
         this.team = 1;
-        this.chartData = [];
-        this.chartLabels = [];
-        this.teamControl = new forms_1.FormControl();
     }
+    WinRaterComponent.prototype.chartClicked = function (e) { };
+    WinRaterComponent.prototype.chartHovered = function (e) { };
     WinRaterComponent.prototype.ngOnInit = function () {
     };
     WinRaterComponent.prototype.swithTeam = function () {
         this.team *= -1;
-        this.update(this.data_input, this.humanMode, this.agent_param);
+        this.update(this.data, this.agent_param);
     };
-    WinRaterComponent.prototype.update = function (r, humanMode, agent_param) {
+    WinRaterComponent.prototype.update = function (r, agent_param) {
         if (r.length == 0) {
             this.chartData = [];
             return;
         }
-        this.data_input = r;
-        console.log(this.data_input);
+        this.data = r;
         this.agent_param = agent_param;
-        this.humanMode = humanMode;
-        r = this.pre_process(r);
-        // no draw
+        r = this.team_results(r);
         var x = r.filter(function (x) { return x != 0; });
-        var ave_win = this.process_results_ave(x);
-        var accu_win = this.process_results_accu(x);
+        // console.log("result: ", x)
+        // no draw
+        var w_ratio = this.process_results_ave(x);
+        // console.log("w_ratio: ",w_ratio)
         // include draw
-        var ave_win_draw = this.process_results_ave(r);
-        var accu_win_draw = this.process_results_accu(r);
-        this.chartData[0] = { data: ave_win.concat([0, 1]), label: "Average Winning Rate" };
-        this.chartData[1] = { data: accu_win.concat([0, 1]), label: "Current Wiining Rate" };
-        this.chartData[2] = { data: ave_win_draw.concat([0, 1]), label: "Average Win+Draw Rate" };
-        this.chartData[3] = { data: accu_win_draw.concat([0, 1]), label: "Current Wii+Draw Rate" };
-        var n = ave_win.length;
+        var wd_ratio = this.process_results_ave(r);
+        this.chartData[0] = { data: w_ratio, label: "Winning Rate" };
+        this.chartData[1] = { data: wd_ratio, label: "Winning (included draw) Rate" };
+        var n = w_ratio.length;
         var interval = Math.ceil(x.length / this.N);
-        // console.log(data)
         // labels
         this.chartLabels = [];
         for (var i = 0; i < n; i += 1) {
-            this.chartLabels.push("Game " + (i * interval));
+            this.chartLabels.push("Game " + (i * interval + 1));
         }
-        // console.log("labels: ", this.lineChartLabels);
     };
     // results: [1|0|-1]
     // return: [win rate]
     WinRaterComponent.prototype.process_results_ave = function (results) {
         var rate = [];
         var interval = Math.ceil(results.length / this.N);
-        console.log("interval:", interval);
+        // console.log("interval ave:", interval);
         for (var i = 0; i < results.length; i += interval) {
             var period = results.slice(0, i + interval);
+            // console.log("p ave: ",period);
             var wins = period.filter(function (x) { return x >= 0; });
-            console.log("period:", period);
-            console.log("wins:", wins);
+            // console.log("r ave: ", wins);
             rate.push(wins.length / period.length);
         }
         return rate;
     };
-    WinRaterComponent.prototype.process_results_accu = function (results) {
-        var rate = [];
-        var interval = Math.ceil(results.length / this.N);
-        console.log("interval:", interval);
-        for (var i = 0; i < results.length; i += interval) {
-            var period = results.slice(i, i + interval);
-            var wins = period.filter(function (x) { return x >= 0; });
-            console.log("period:", period);
-            console.log("wins:", wins);
-            rate.push(wins.length / period.length);
-        }
-        return rate;
-    };
-    WinRaterComponent.prototype.pre_process = function (arr) {
+    WinRaterComponent.prototype.team_results = function (arr) {
         if (this.team == 1)
             return arr;
         return arr.map(function (x) { return x *= -1; });
     };
     WinRaterComponent.prototype.get_plot_title = function () {
-        var red;
-        console.log(this.agent_param);
-        if (!this.humanMode)
-            red = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[1];
+        var red = "You ";
+        if (this.agent_param[0] == 2)
+            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[2] + "000";
         else
-            red = "You ";
-        var black = this.names[this.agent_param[2]] + "-Depth " + this.agent_param[3];
+            var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[2];
         var first = this.team == 1 ? red : black;
         var second = this.team == 1 ? black : red;
         return first + "( vs " + second + " )" + " Win Rate";

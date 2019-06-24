@@ -1,20 +1,23 @@
 <div class="plot" *ngIf="chartData.length > 0">
 
     <h3 class="ui horizontal divider header">
-        <i class="bar chart icon"></i>
+        <i class="line chart icon"></i>
         {{get_plot_title()}}
     </h3>
 
     <div class="ui center aligned basic segment">
-        <sm-checkbox [control]="teamControl" label="{{team==1?'Red':'Black'}}" type="toggle " (change)="swithTeam() ">
+        <sm-checkbox [control]="teamControl" label="{{team==1?'You':'Rival'}}" type="toggle " (change)="swithTeam() ">
         </sm-checkbox>
     </div>
 
     <!-- label="{{board.humanMode?'Human vs Computer':'Simulation'}}" -->
     <sm-segment class="raised">
         <div class="graph ">
-            <canvas baseChart [datasets]="chartData " [labels]="chartLabels " [options]="lineChartOptions "
-                [chartType]=" 'bar' "></canvas>
+            <canvas baseChart [chartType]="chartType" [datasets]="chartData" [labels]="chartLabels"
+                [options]="chartOptions" [colors]="chartColors" [legend]="chartlegend"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+
         </div>
     </sm-segment>
+
 </div>

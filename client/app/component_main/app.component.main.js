@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var winRate_1 = require('../component_analysis/winRate');
 var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
@@ -40,10 +41,15 @@ var AppComponent = (function () {
             x.style.display = "none";
         }
     };
-    //reload page
-    AppComponent.prototype.refresh = function () {
-        window.location.reload();
+    //
+    // update analysis results
+    AppComponent.prototype.update_result = function (x, humanMode, agent_param) {
+        this.winRaterComp.update(x, humanMode, agent_param);
     };
+    __decorate([
+        core_1.ViewChild(winRate_1.WinRaterComponent), 
+        __metadata('design:type', winRate_1.WinRaterComponent)
+    ], AppComponent.prototype, "winRaterComp", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

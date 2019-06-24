@@ -1,5 +1,7 @@
 import { Agent } from '../Agent/Agent'
 import { Rule } from '../../ChineseChess/Rule/Rule'
+import { BoardComponent } from '../../component_board/board';
+import { state } from '@angular/core';
 
 // get current state red team && get current state blue team
 export class State {

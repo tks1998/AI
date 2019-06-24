@@ -169,6 +169,10 @@ var BoardComponent = (function () {
             return;
         // this.switchTurn();
         // get move of sever and reder in page
+        this.server.checkMate(this.state.copy(false)).then(function (result) {
+            var checkmateS = result['checkmate'];
+            _this.setCheckMate(checkmateS);
+        });
         this.server.launchCompute(this.state.copy(false)).then(function (result) {
             var move = result['move'];
             var time = parseInt(result['time']);
@@ -185,7 +189,7 @@ var BoardComponent = (function () {
             var piece = agent.getPieceByName(move[0].name);
             if (move[1])
                 agent.movePieceTo(piece, move[1]);
-            _this.server.launchCompute(_this.state.copy(false)).then(function (result) {
+            _this.server.checkMate(_this.state.copy(false)).then(function (result) {
                 var checkmateS = result['checkmate'];
                 _this.setCheckMate(checkmateS);
             });

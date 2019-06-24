@@ -66,3 +66,12 @@ app.put('/compute', function(request, response) {
 
 });
 
+app.put('/compute2', function(request, response) {
+    var state = request.body;
+    state = State.copyFromDict(state);
+    state.setStateCheckMate();
+    var checkmate = state.checkMate();
+    response.end(JSON.stringify({ "checkmate" : checkmate}));
+
+});
+

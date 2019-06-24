@@ -212,7 +212,6 @@ export class BoardComponent implements OnInit {
         this.state.switchTurn();
         var agent = (this.state.playingTeam == 1 ? this.state.redAgent : this.state.blackAgent);
         agent.updateState();
-
         this.pauseTimer(-this.state.playingTeam);
         this.startTimer(this.state.playingTeam);
 
@@ -226,6 +225,12 @@ export class BoardComponent implements OnInit {
         if (this.state.playingTeam == 1) return;
         // this.switchTurn();
         // get move of sever and reder in page
+        this.server.checkMate(this.state.copy(false)).then(
+            result => {
+                var checkmateS = result['checkmate'];
+                this.setCheckMate(checkmateS);
+            }
+        );
         this.server.launchCompute(this.state.copy(false)).then(
             result => {
                 var move = result['move'];
@@ -245,7 +250,7 @@ export class BoardComponent implements OnInit {
                 var piece = agent.getPieceByName(move[0].name);
                 if (move[1]) agent.movePieceTo(piece, move[1]);
 
-                this.server.launchCompute(this.state.copy(false)).then(
+                this.server.checkMate(this.state.copy(false)).then(
                     result => {
                         var checkmateS = result['checkmate'];
                         this.setCheckMate(checkmateS);

@@ -39,12 +39,12 @@ export class BoardComponent implements OnInit {
     InputState: Object;
 
     timemode = false;
-    redminute: number = 1;
-    blackminute: number = 1;
-    redsecond: number = 0;
-    blacksecond: number = 0;
-    redmilisec: number = 0;
-    blackmilisec: number = 0;
+    redminute: number;
+    blackminute: number;
+    redsecond: number;
+    blacksecond: number;
+    redmilisec: number;
+    blackmilisec: number;
     redinterval;
     blackinterval;
 
@@ -360,8 +360,13 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
+    //part of Timer
 
     startTimer(team) {
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
+
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(() => {
@@ -384,6 +389,7 @@ export class BoardComponent implements OnInit {
                         this.redmilisec = 0;
                         this.end_game(-team);
                     }
+                    document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10)
             } else {
                 this.blackinterval = setInterval(() => {
@@ -406,6 +412,7 @@ export class BoardComponent implements OnInit {
                         this.blackmilisec = 0;
                         this.end_game(team);
                     }
+                    document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10)
             }
         }

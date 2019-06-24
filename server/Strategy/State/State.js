@@ -8,7 +8,7 @@ var State = (function () {
     function State(redAgent, blacAgent, playingTeam, reverse, updateDict) {
         if (playingTeam === void 0) { playingTeam = 1; }
         if (updateDict === void 0) { updateDict = false; }
-        //  is_repeating = false;
+        this.is_repeating = false;
         this.reverse = false;
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;

@@ -8,7 +8,7 @@ export class State {
     redAgent: Agent;
     blackAgent: Agent;
     playingTeam: number;
-  //  is_repeating = false;
+    is_repeating = false;
     reverse = false;
     constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1,reverse, updateDict = false) {
         this.redAgent = redAgent;
@@ -99,7 +99,6 @@ export class State {
             r = agent.comptuteNextMove(this);
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
-      
     }
     
 }

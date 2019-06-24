@@ -42,6 +42,7 @@ export class State {
     }
 
     checkMate(){
+        this.redAgent.updateBoardState();
         return this.redAgent.checkMate();
     }
 

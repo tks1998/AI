@@ -80,11 +80,8 @@ export class State {
         
         oppo = Agent.copyFromDict(oppo);
         var agent;
-<<<<<<< HEAD
         var is_repeating = this.check_repeating(agentDict);
-=======
         if (IsReverse) agent = Ultimate_algorthm.copyFromDict(agentDict);
->>>>>>> develop
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
         if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
@@ -123,10 +120,6 @@ export class State {
         agent.updateState();
       
     }
-    setStateCheckMate() {
-        var agent = this.get_playing_agent();
-        agent.updateState();
-      
-    }
+
     
 }

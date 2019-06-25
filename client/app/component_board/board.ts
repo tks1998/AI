@@ -34,17 +34,19 @@ export class BoardComponent implements OnInit {
     dummyPieces: DummyPiece[] = [];
     lastState: State[] = Array();
     redo: State[] = Array();
+    repeat: Piece[] = Array();
     reverse = false;
     StateFlag = false;
     InputState: Object;
 
     timemode = false;
-    redminute: number = 1;
-    blackminute: number = 1;
-    redsecond: number = 0;
-    blacksecond: number = 0;
-    redmilisec: number = 0;
-    blackmilisec: number = 0;
+    settime: number = 10;
+    redminute: number;
+    blackminute: number;
+    redsecond: number;
+    blacksecond: number;
+    redmilisec: number;
+    blackmilisec: number;
     redinterval;
     blackinterval;
 
@@ -131,10 +133,11 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
+        this.repeat = [];
         var redAgent: Agent;
         var blackAgent: Agent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -176,11 +179,23 @@ export class BoardComponent implements OnInit {
         this.blackAgentDepth = dept;
     }
 
+    // static samveMove(move1, move2) {
+    //     return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
+    // }
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
         this.redo = [];
+        this.repeat = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
+        this.repeat.push(this.selectedPiece);
+        var n = this.repeat.length;
+        console.log(this.repeat)
+        console.log(this.selectedPiece)
+        if (this.repeat[n-1].name == this.repeat[n-3].name && (this.repeat[n-1].position.toString() == this.repeat[n-3].position.toString()))
+        {
+            this.state.redAgent.updateban(this.repeat[n-1]);
+        }
         this.switchTurn();
 
     }
@@ -326,17 +341,6 @@ export class BoardComponent implements OnInit {
         this.InputState = xy;
     }
 
-<<<<<<< HEAD
-
-
-    
-
-
-    
-
-
-=======
->>>>>>> develop
     NumberMove(numbermove) {
         console.log(numbermove);
     }
@@ -361,15 +365,9 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-    
-   
-=======
-
->>>>>>> develop
     // Check move && change image 
 
-
+    //part of Timer
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
@@ -380,8 +378,18 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
+    inputTime(f: NgForm){
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    }
 
     startTimer(team) {
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
+
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(() => {
@@ -404,6 +412,7 @@ export class BoardComponent implements OnInit {
                         this.redmilisec = 0;
                         this.end_game(-team);
                     }
+                    document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10)
             } else {
                 this.blackinterval = setInterval(() => {
@@ -426,6 +435,7 @@ export class BoardComponent implements OnInit {
                         this.blackmilisec = 0;
                         this.end_game(team);
                     }
+                    document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10)
             }
         }

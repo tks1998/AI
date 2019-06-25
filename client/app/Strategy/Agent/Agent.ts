@@ -6,6 +6,7 @@ export class Agent {
     team: number;
     strategy: number = 0;
     legalMoves: {}; // name->[positions]
+    moves: {};
     pastMoves = [];
     myPieces: Piece[];
     oppoPieces: Piece[];
@@ -17,6 +18,7 @@ export class Agent {
     reverse = false;
     typechess = false;
     InitPiece = null;
+    pieceban: Piece;
 
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
@@ -48,11 +50,23 @@ export class Agent {
     updateState() {
         this.updateBoardState();
         this.computeLegalMoves();
+        console.log(this.legalMoves)
+        console.log(this.pieceban)
+        if (this.pieceban != null){
+            this.legalMoves[this.pieceban.name] = this.legalMoves[this.pieceban.name].slice(m => (
+            m.toString() != this.pieceban.position.toString()
+            ))
+        }
     }
 
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
+    }
+
+    updateban(x:Piece)
+    {
+        this.pieceban = x
     }
 
     checkMate() {

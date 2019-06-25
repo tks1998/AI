@@ -28,15 +28,11 @@ var BoardComponent = (function () {
         this.dummyPieces = [];
         this.lastState = Array();
         this.redo = Array();
+        this.repeat = Array();
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
-        this.redminute = 1;
-        this.blackminute = 1;
-        this.redsecond = 0;
-        this.blacksecond = 0;
-        this.redmilisec = 0;
-        this.blackmilisec = 0;
+        this.settime = 10;
         this.InputCurrentState = {};
         //
         /***************** EVENT *******************/
@@ -94,10 +90,11 @@ var BoardComponent = (function () {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
+        this.repeat = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -130,10 +127,21 @@ var BoardComponent = (function () {
     BoardComponent.prototype.chooseBlackSimulations = function (dept) {
         this.blackAgentDepth = dept;
     };
+    // static samveMove(move1, move2) {
+    //     return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
+    // }
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
         this.redo = [];
+        this.repeat = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
+        this.repeat.push(this.selectedPiece);
+        var n = this.repeat.length;
+        console.log(this.repeat);
+        console.log(this.selectedPiece);
+        if (this.repeat[n - 1].name == this.repeat[n - 3].name && (this.repeat[n - 1].position.toString() == this.repeat[n - 3].position.toString())) {
+            this.state.redAgent.updateban(this.repeat[n - 1]);
+        }
         this.switchTurn();
     };
     // end_state: -1: lose | 0: draw | 1: win
@@ -265,6 +273,8 @@ var BoardComponent = (function () {
         // if (turn == -1) this.switchTurn();
     };
     /** --------------------------------------------------------------------*/
+    // Check move && change image 
+    //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();
@@ -272,8 +282,17 @@ var BoardComponent = (function () {
     BoardComponent.prototype.hiddentimer = function () {
         return this.timemode;
     };
+    BoardComponent.prototype.inputTime = function (f) {
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(function () {
@@ -296,6 +315,7 @@ var BoardComponent = (function () {
                         _this.redmilisec = 0;
                         _this.end_game(-team);
                     }
+                    document.getElementById("redclock").innerHTML = pad(_this.redminute) + ":" + pad(_this.redsecond) + ":" + pad(_this.redmilisec);
                 }, 10);
             }
             else {
@@ -319,6 +339,7 @@ var BoardComponent = (function () {
                         _this.blackmilisec = 0;
                         _this.end_game(team);
                     }
+                    document.getElementById("blackclock").innerHTML = pad(_this.blackminute) + ":" + pad(_this.blacksecond) + ":" + pad(_this.blackmilisec);
                 }, 10);
             }
         }

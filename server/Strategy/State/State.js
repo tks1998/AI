@@ -4,6 +4,7 @@ var GreedyAgent_1 = require('../Greedy/GreedyAgent');
 var ABPruning_1 = require('../ABPruning/ABPruning');
 var MCTS_1 = require('../MCTS/MCTS');
 var Rule_1 = require('../../ChineseChess/Rule/Rule');
+var Ultimate_algorthm_1 = require('../Ultimate_algorthm/Ultimate_algorthm');
 var State = (function () {
     function State(redAgent, blacAgent, playingTeam, reverse, updateDict) {
         if (playingTeam === void 0) { playingTeam = 1; }
@@ -70,6 +71,8 @@ var State = (function () {
         oppo = Agent_1.Agent.copyFromDict(oppo);
         var agent;
         var is_repeating = this.check_repeating(agentDict);
+        if (IsReverse)
+            agent = Ultimate_algorthm_1.Ultimate_algorthm.copyFromDict(agentDict);
         if (agentDict.strategy == 0)
             agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1)
@@ -107,10 +110,6 @@ var State = (function () {
         else
             console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r);
         return r;
-    };
-    State.prototype.setStateCheckMate = function () {
-        var agent = this.get_playing_agent();
-        agent.updateState();
     };
     State.prototype.setStateCheckMate = function () {
         var agent = this.get_playing_agent();

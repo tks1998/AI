@@ -91,6 +91,10 @@ var State = (function () {
             console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r);
         return r;
     };
+    State.prototype.setStateCheckMate = function () {
+        var agent = this.get_playing_agent();
+        agent.updateState();
+    };
     return State;
 }());
 exports.State = State;

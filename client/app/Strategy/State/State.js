@@ -31,6 +31,7 @@ var State = (function () {
         return newState;
     };
     State.prototype.checkMate = function () {
+        this.redAgent.updateBoardState();
         return this.redAgent.checkMate();
     };
     State.prototype.switchTurn = function () {

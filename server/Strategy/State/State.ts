@@ -3,6 +3,7 @@ import { GreedyAgent } from '../Greedy/GreedyAgent'
 import { ABPruning } from '../ABPruning/ABPruning'
 import { MCTS } from '../MCTS/MCTS'
 import { Rule } from '../../ChineseChess/Rule/Rule'
+import {Ultimate_algorthm} from '../Ultimate_algorthm/Ultimate_algorthm'
 
 export class State {
     redAgent: Agent;
@@ -79,7 +80,11 @@ export class State {
         
         oppo = Agent.copyFromDict(oppo);
         var agent;
+<<<<<<< HEAD
         var is_repeating = this.check_repeating(agentDict);
+=======
+        if (IsReverse) agent = Ultimate_algorthm.copyFromDict(agentDict);
+>>>>>>> develop
         if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
         if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);

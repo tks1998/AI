@@ -10,6 +10,7 @@ import { State } from '../State/State'
 export class Agent {
     team: number;
     legalMoves: {}; // name->[positions]
+    pastLegalMoves : {};
     myPieces: Piece[];
     oppoPieces: Piece[];
     oppoAgent: Agent;
@@ -52,6 +53,7 @@ export class Agent {
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
     }
+   
 
     // update board state by pieces
     updateBoardState() {
@@ -169,7 +171,6 @@ export class Agent {
                 moves.push([movePieceName, move]);
             }
         }
-       
         return moves;
     }
 

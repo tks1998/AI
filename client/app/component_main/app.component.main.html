@@ -91,7 +91,7 @@
 	<div class="side">
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)"novalidate>
-					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" ngModel>
+					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
 					<sm-button class="fluid medium blue control">Submit</sm-button>
 			</form>
 		</div>				

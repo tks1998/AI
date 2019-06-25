@@ -271,7 +271,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.inputTime = function (f) {
         this.settime = f.value["timeinput"];
-        if (!this.settime)
+        if (this.settime <= 0)
             this.settime = 10;
         this.initGame();
     };

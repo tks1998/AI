@@ -366,7 +366,7 @@ export class BoardComponent implements OnInit {
 
     inputTime(f: NgForm){
         this.settime = f.value["timeinput"];
-        if (!this.settime)
+        if (this.settime <= 0)
             this.settime = 10;
         this.initGame();
     }

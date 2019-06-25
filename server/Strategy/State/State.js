@@ -51,9 +51,11 @@ var State = (function () {
     State.check_repeating = function (agent) {
         var moves = agent.pastMoves;
         var n = moves.length;
-        if (n < 10)
+        // if (n < 6) return false;
+        // if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        if (n < 3)
             return false;
-        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        if (this.samveMove(moves[n - 1], moves[n - 3])) {
             console.log(moves);
             return true;
         }
@@ -82,14 +84,6 @@ var State = (function () {
         new_state.is_repeating = is_repeating;
         return new_state;
     };
-    // nextMove() {
-    //     var agent = this.get_playing_agent();
-    //     var r = null;
-    //     if (agent.check_king_exist()) {
-    //         r = agent.comptuteNextMove(this);
-    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
-    //     return r;
-    // }
     State.prototype.nextMove = function () {
         var agent = this.get_playing_agent();
         var r = null;

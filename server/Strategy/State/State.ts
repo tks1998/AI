@@ -57,12 +57,15 @@ export class State {
     static samveMove(move1, move2) {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
-
+    
     static check_repeating(agent): boolean {
         var moves = agent.pastMoves;
         var n = moves.length;
-        if (n < 10) return false;
-        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        // if (n < 6) return false;
+        // if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        if (n < 3) return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3])) {
+        
             console.log(moves)
             return true;
         };
@@ -89,17 +92,7 @@ export class State {
       
     }
 
-    
 
-
-    // nextMove() {
-    //     var agent = this.get_playing_agent();
-    //     var r = null;
-    //     if (agent.check_king_exist()) {
-    //         r = agent.comptuteNextMove(this);
-    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
-    //     return r;
-    // }
 
     nextMove() {
         var agent = this.get_playing_agent();

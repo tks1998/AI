@@ -15,10 +15,20 @@ var Agent = (function () {
         if (pastMoves === void 0) { pastMoves = []; }
         this.strategy = 0;
         this.pastMoves = [];
+        this.logmove = []; // storage move for reports
         this.DEPTH = 0;
         this.reverse = false;
         this.typechess = false;
         this.InitPiece = null;
+        this.en_name = {
+            "j": "R",
+            "p": "C",
+            "m": "H",
+            "x": "E",
+            "s": "A",
+            "z": "P",
+            "k": "K",
+        };
         this.team = team;
         this.reverse = reverse;
         if (typechess == false) {
@@ -64,6 +74,7 @@ var Agent = (function () {
     };
     Agent.prototype.movePieceTo = function (piece, pos, isCapture) {
         if (isCapture === void 0) { isCapture = undefined; }
+        this.updateLog(piece, pos);
         piece.moveTo(pos);
         this.addMove(piece.name, pos);
         if (isCapture == undefined)
@@ -71,6 +82,16 @@ var Agent = (function () {
         // having oppo piece in target pos
         if (isCapture)
             this.captureOppoPiece(pos);
+    };
+    Agent.prototype.updateLog = function (piece, pos) {
+        // console.log("curr pos: ", piece.position)
+        // console.log("new pos: ", pos)
+        var log = this.en_name[piece.name[0]].concat(piece.position[1].toString());
+        (this.team == 1) ? ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("-")) : (log = log.concat("+"))))
+            : ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("+")) : (log = log.concat("-"))));
+        (piece.position[1] == pos[1]) ? (log = log.concat(Math.abs(pos[0] - piece.position[0]))) : (log = log.concat(pos[1].toString()));
+        this.logmove.push(log);
+        // console.log(this.logmove)
     };
     // capture piece of opponent
     // pos: position of piece to be captured
@@ -85,6 +106,7 @@ var Agent = (function () {
     // add move to pastMoves
     Agent.prototype.addMove = function (pieceName, pos) {
         this.pastMoves.push({ "name": pieceName, "position": pos });
+        console.log(this.pastMoves);
     };
     // agent take action
     Agent.prototype.nextMove = function () {

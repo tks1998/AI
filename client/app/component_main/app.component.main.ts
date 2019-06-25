@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import { NgForm } from '@angular/forms'
 import { WinRaterComponent } from '../component_analysis/winRate';
+import { LogResultsComponent } from '../component_analysis/logresults';
 
 
 @Component({
@@ -23,6 +24,10 @@ export class AppComponent implements OnInit {
     //
     @ViewChild(WinRaterComponent)
     private winRaterComp: WinRaterComponent;
+
+    @ViewChild(LogResultsComponent)
+    private logresultComp: LogResultsComponent;
+
 
     constructor(private http: Http) { }
     ngOnInit() {

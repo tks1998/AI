@@ -106,7 +106,7 @@
 	</div>
 
 	<div class="right">
-		<div class="ui segments">
+		<div class="ui segments" *ngIf="board.state.endFlag==null">
 			<div class="margin"></div>
 			<div class="ui blue segment center aligned icon">
 				<i class="large user blue icon"></i>
@@ -157,4 +157,6 @@
 
 <div class="analysis">
 	<winRater></winRater>
+	<!-- <log-results *ngIf="board.state.endFlag!=null"></log-results> -->
+	<log-results></log-results>
 </div>

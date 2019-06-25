@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var winRate_1 = require('../component_analysis/winRate');
+var logresults_1 = require('../component_analysis/logresults');
 var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
@@ -42,6 +43,10 @@ var AppComponent = (function () {
         core_1.ViewChild(winRate_1.WinRaterComponent), 
         __metadata('design:type', winRate_1.WinRaterComponent)
     ], AppComponent.prototype, "winRaterComp", void 0);
+    __decorate([
+        core_1.ViewChild(logresults_1.LogResultsComponent), 
+        __metadata('design:type', logresults_1.LogResultsComponent)
+    ], AppComponent.prototype, "logresultComp", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

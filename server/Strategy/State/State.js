@@ -84,6 +84,14 @@ var State = (function () {
         new_state.is_repeating = is_repeating;
         return new_state;
     };
+    // nextMove() {
+    //     var agent = this.get_playing_agent();
+    //     var r = null;
+    //     if (agent.check_king_exist()) {
+    //         r = agent.comptuteNextMove(this);
+    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
+    //     return r;
+    // }
     State.prototype.nextMove = function () {
         var agent = this.get_playing_agent();
         var r = null;
@@ -99,6 +107,10 @@ var State = (function () {
         else
             console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r);
         return r;
+    };
+    State.prototype.setStateCheckMate = function () {
+        var agent = this.get_playing_agent();
+        agent.updateState();
     };
     return State;
 }());

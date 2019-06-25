@@ -57,7 +57,7 @@ export class State {
     static samveMove(move1, move2) {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
-    
+
     static check_repeating(agent): boolean {
         var moves = agent.pastMoves;
         var n = moves.length;
@@ -91,9 +91,15 @@ export class State {
         return new_state;
       
     }
-
-
-
+    // nextMove() {
+    //     var agent = this.get_playing_agent();
+    //     var r = null;
+    //     if (agent.check_king_exist()) {
+    //         r = agent.comptuteNextMove(this);
+    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
+    //     return r;
+      
+    // }
     nextMove() {
         var agent = this.get_playing_agent();
         var r = null;
@@ -106,6 +112,11 @@ export class State {
             }
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
+    }
+    setStateCheckMate() {
+        var agent = this.get_playing_agent();
+        agent.updateState();
+      
     }
     
 }

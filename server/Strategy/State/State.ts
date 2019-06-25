@@ -118,5 +118,10 @@ export class State {
         agent.updateState();
       
     }
+    setStateCheckMate() {
+        var agent = this.get_playing_agent();
+        agent.updateState();
+      
+    }
     
 }

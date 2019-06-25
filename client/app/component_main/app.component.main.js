@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var winRate_1 = require('../component_analysis/winRate');
 var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
@@ -19,6 +20,7 @@ var AppComponent = (function () {
         this.selectedFile = null;
         this.chinachess = new forms_1.FormControl();
         this.flag = new forms_1.FormControl();
+        this.timer = new forms_1.FormControl();
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -31,19 +33,13 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onUpload = function () {
     };
-    AppComponent.prototype.myFunction = function () {
-        var x = document.getElementById("demo");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        }
-        else {
-            x.style.display = "none";
-        }
-    };
-    //reload page
     AppComponent.prototype.refresh = function () {
         window.location.reload();
     };
+    __decorate([
+        core_1.ViewChild(winRate_1.WinRaterComponent), 
+        __metadata('design:type', winRate_1.WinRaterComponent)
+    ], AppComponent.prototype, "winRaterComp", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

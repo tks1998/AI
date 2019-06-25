@@ -260,6 +260,8 @@ var BoardComponent = (function () {
         // if (turn == -1) this.switchTurn();
     };
     /** --------------------------------------------------------------------*/
+    // Check move && change image 
+    //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();
@@ -300,7 +302,7 @@ var BoardComponent = (function () {
                         _this.redmilisec = 0;
                         _this.end_game(-team);
                     }
-                    document.getElementById("redclock").innerHTML = pad(_this.redminute) + ":" + pad(_this.redsecond) + ":" + pad(_this.redmilisec);
+                    //document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10);
             }
             else {
@@ -324,7 +326,7 @@ var BoardComponent = (function () {
                         _this.blackmilisec = 0;
                         _this.end_game(team);
                     }
-                    document.getElementById("blackclock").innerHTML = pad(_this.blackminute) + ":" + pad(_this.blacksecond) + ":" + pad(_this.blackmilisec);
+                    //document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10);
             }
         }
@@ -344,6 +346,16 @@ var BoardComponent = (function () {
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
         for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
             var x = newstate_1[_i];
             extract = x.split(' ');

@@ -327,17 +327,6 @@ export class BoardComponent implements OnInit {
         this.InputState = xy;
     }
 
-<<<<<<< HEAD
-
-
-    
-
-
-    
-
-
-=======
->>>>>>> develop
     NumberMove(numbermove) {
         console.log(numbermove);
     }
@@ -362,12 +351,6 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-    
-   
-=======
-
->>>>>>> develop
     // Check move && change image 
 
     //part of Timer
@@ -415,7 +398,7 @@ export class BoardComponent implements OnInit {
                         this.redmilisec = 0;
                         this.end_game(-team);
                     }
-                    document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
+                    //document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10)
             } else {
                 this.blackinterval = setInterval(() => {
@@ -438,7 +421,7 @@ export class BoardComponent implements OnInit {
                         this.blackmilisec = 0;
                         this.end_game(team);
                     }
-                    document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
+                    //document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10)
             }
         }
@@ -462,6 +445,16 @@ export class BoardComponent implements OnInit {
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
 
         for (var x of newstate) {
             extract = x.split(' ');

@@ -33,8 +33,10 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onUpload = function () {
     };
-    AppComponent.prototype.refresh = function () {
-        window.location.reload();
+    //
+    // update analysis results
+    AppComponent.prototype.update_result = function (results, agent_param) {
+        this.winRaterComp.update(results, agent_param);
     };
     __decorate([
         core_1.ViewChild(winRate_1.WinRaterComponent), 

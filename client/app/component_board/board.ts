@@ -190,11 +190,14 @@ export class BoardComponent implements OnInit {
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.repeat.push(this.selectedPiece);
         var n = this.repeat.length;
+        console.log(n)
         console.log(this.repeat)
         console.log(this.selectedPiece)
-        if (this.repeat[n-1].name == this.repeat[n-3].name && (this.repeat[n-1].position.toString() == this.repeat[n-3].position.toString()))
-        {
-            this.state.redAgent.updateban(this.repeat[n-1]);
+        if (n > 3){
+            if (this.repeat[n-1].name == this.repeat[n-3].name && (this.repeat[n-1].position.toString() == this.repeat[n-3].position.toString()))
+            {
+                this.state.redAgent.updateban(this.repeat[n-1]);
+            }
         }
         this.switchTurn();
 

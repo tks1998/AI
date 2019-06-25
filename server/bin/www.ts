@@ -58,14 +58,10 @@ app.put('/compute', function(request, response) {
  
     var t = (now - start);
 
-    var feature_vec = null;
+    
 
     var playing = state.get_playing_agent();
-
-    if (playing.check_king_exist() && !state.is_repeating ) {
-        // console.log(playing.weights)
-        feature_vec = playing.extract_state_feature(playing, state, playing.oppoAgent);
-    }
+    // check mate
     var checkmate = state.checkMate();
     response.end(JSON.stringify({ "move": next, "time": t, "checkmate" : checkmate}));
     var param = (playing instanceof MCTS) ? playing.N_SIMULATION : playing.DEPTH;

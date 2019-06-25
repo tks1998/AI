@@ -92,11 +92,25 @@ export class State {
     
 
 
+    // nextMove() {
+    //     var agent = this.get_playing_agent();
+    //     var r = null;
+    //     if (agent.check_king_exist()) {
+    //         r = agent.comptuteNextMove(this);
+    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
+    //     return r;
+    // }
+
     nextMove() {
         var agent = this.get_playing_agent();
         var r = null;
         if (agent.check_king_exist()) {
-            r = agent.comptuteNextMove(this);
+            if (!this.is_repeating) r = agent.comptuteNextMove(this);
+            else {
+                console.log("REPEATING ")
+                agent.updateState();
+                r = agent.random_move();
+            }
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
     }

@@ -356,6 +356,7 @@ var BoardComponent = (function () {
         this.InputRed = red;
         this.InputBlack = black;
         this.InputCurrentState = currentState;
+        this.ChangeType();
     };
     BoardComponent.prototype.ChangeType = function () {
         this.reverse = false;

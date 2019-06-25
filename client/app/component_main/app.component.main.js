@@ -20,6 +20,7 @@ var AppComponent = (function () {
         this.selectedFile = null;
         this.chinachess = new forms_1.FormControl();
         this.flag = new forms_1.FormControl();
+        this.timer = new forms_1.FormControl();
     }
     AppComponent.prototype.ngOnInit = function () {
     };

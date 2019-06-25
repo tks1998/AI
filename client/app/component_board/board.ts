@@ -449,6 +449,8 @@ export class BoardComponent implements OnInit {
         this.InputBlack = black;
         this.InputCurrentState = currentState;
 
+
+        this.ChangeType();
     }
 
 

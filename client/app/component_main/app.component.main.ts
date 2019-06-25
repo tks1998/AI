@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
 
     chinachess: FormControl = new FormControl();
     flag: FormControl = new FormControl();
+    timer = new FormControl();
+
     selectOpponent(v) {
         // console.log(v);
     }

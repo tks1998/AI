@@ -128,8 +128,8 @@ export class WinRaterComponent implements OnInit {
         var red = "You ";
 
         if (this.agent_param[0] == 2)
-            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[2] + "000";
-        else var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[2];
+            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[1] + "000";
+        else var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[1];
         var first = this.team == 1 ? red : black;
         var second = this.team == 1 ? black : red;
         return first + "( vs " + second + " )" + " Win Rate";

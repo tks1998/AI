@@ -15,11 +15,19 @@ var ComputeService = (function () {
     function ComputeService(http) {
         this.http = http;
         this.computeURL = '/compute';
+        this.computeURL2 = '/compute2';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     ComputeService.prototype.launchCompute = function (state) {
         // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
         return this.http.put(this.computeURL, state)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    };
+    ComputeService.prototype.checkMate = function (state) {
+        // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
+        return this.http.put(this.computeURL2, state)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

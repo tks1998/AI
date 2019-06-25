@@ -31,12 +31,7 @@ var BoardComponent = (function () {
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
-        this.redminute = 1;
-        this.blackminute = 1;
-        this.redsecond = 0;
-        this.blacksecond = 0;
-        this.redmilisec = 0;
-        this.blackmilisec = 0;
+        this.settime = 10;
         this.InputCurrentState = {};
         //
         /***************** EVENT *******************/
@@ -96,8 +91,8 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -272,8 +267,17 @@ var BoardComponent = (function () {
     BoardComponent.prototype.hiddentimer = function () {
         return this.timemode;
     };
+    BoardComponent.prototype.inputTime = function (f) {
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(function () {
@@ -296,6 +300,7 @@ var BoardComponent = (function () {
                         _this.redmilisec = 0;
                         _this.end_game(-team);
                     }
+                    document.getElementById("redclock").innerHTML = pad(_this.redminute) + ":" + pad(_this.redsecond) + ":" + pad(_this.redmilisec);
                 }, 10);
             }
             else {
@@ -319,6 +324,7 @@ var BoardComponent = (function () {
                         _this.blackmilisec = 0;
                         _this.end_game(team);
                     }
+                    document.getElementById("blackclock").innerHTML = pad(_this.blackminute) + ":" + pad(_this.blacksecond) + ":" + pad(_this.blackmilisec);
                 }, 10);
             }
         }

@@ -39,12 +39,13 @@ export class BoardComponent implements OnInit {
     InputState: Object;
 
     timemode = false;
-    redminute: number = 1;
-    blackminute: number = 1;
-    redsecond: number = 0;
-    blacksecond: number = 0;
-    redmilisec: number = 0;
-    blackmilisec: number = 0;
+    settime: number = 10;
+    redminute: number;
+    blackminute: number;
+    redsecond: number;
+    blacksecond: number;
+    redmilisec: number;
+    blackmilisec: number;
     redinterval;
     blackinterval;
 
@@ -133,8 +134,8 @@ export class BoardComponent implements OnInit {
         this.redo = [];
         var redAgent: Agent;
         var blackAgent: Agent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -369,7 +370,7 @@ export class BoardComponent implements OnInit {
 >>>>>>> develop
     // Check move && change image 
 
-
+    //part of Timer
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
@@ -380,8 +381,18 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
+    inputTime(f: NgForm){
+        this.settime = f.value["timeinput"];
+        if (!this.settime)
+            this.settime = 10;
+        this.initGame();
+    }
 
     startTimer(team) {
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
+
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(() => {
@@ -404,6 +415,7 @@ export class BoardComponent implements OnInit {
                         this.redmilisec = 0;
                         this.end_game(-team);
                     }
+                    document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10)
             } else {
                 this.blackinterval = setInterval(() => {
@@ -426,6 +438,7 @@ export class BoardComponent implements OnInit {
                         this.blackmilisec = 0;
                         this.end_game(team);
                     }
+                    document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10)
             }
         }

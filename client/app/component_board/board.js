@@ -41,6 +41,7 @@ var BoardComponent = (function () {
         //
         /***************** EVENT *******************/
         // new game result obtained
+        // creat event
         this.onResultsUpdated = new core_1.EventEmitter();
         this.runtime_dict = {};
         this.results = [];
@@ -48,7 +49,6 @@ var BoardComponent = (function () {
     }
     BoardComponent.prototype.clear_results = function () {
         this.results = [];
-        //
         this.report_result();
     };
     BoardComponent.prototype.changeMode = function () {
@@ -140,8 +140,8 @@ var BoardComponent = (function () {
     BoardComponent.prototype.end_game = function (end_state) {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
+        // get result of the game
         this.results.push(red_win);
-        //
         this.report_result();
         this.selectedPiece = undefined;
         this.pauseTimer(1);
@@ -360,6 +360,7 @@ var BoardComponent = (function () {
         this.InputRed = red;
         this.InputBlack = black;
         this.InputCurrentState = currentState;
+        this.ChangeType();
     };
     BoardComponent.prototype.ChangeType = function () {
         this.reverse = false;

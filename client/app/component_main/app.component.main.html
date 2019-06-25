@@ -1,6 +1,7 @@
 <div class="body_content" (keyup.Enter)="board.initGame()">
 	<!--  -->
-	<board #board class="board" (onResultsUpdated)="update_result(board.results, board.humanMode, [board.redAgentType, board.redAgentDepth, board.blackAgentType, board.blackAgentDepth])">
+	<board #board class="board"
+		(onResultsUpdated)="update_result(board.results, [board.blackAgentType, board.blackAgentDepth])">
 	</board>
 
 	<div class="left">
@@ -14,7 +15,7 @@
 		<!-- choose set time for 1 round or not -->
 		<div class="margin"></div>
 		<button class="huge ui inverted black basic button fluid slider checkbox">
-			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="chinachess" type="checkbox"
+			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="timer" type="checkbox"
 				(change)="board.TimeMode()">
 			</sm-checkbox>
 		</button>
@@ -82,14 +83,9 @@
 			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..." rows="1" name="LimitMove"
 				ngModel></textarea>
 			<div class="margin"></div>
-			<sm-button class="fluid medium blue control">Submit</sm-button>
+			<sm-button class="fluid medium blue control">Start</sm-button>
 		</form>
 
-		<sm-button class="fluid huge ui inverted black basic slider checkbox">
-			<sm-checkbox label="{{board.StateFlag ? 'Normal Mode':'Customize Mode'}}" [control]="flag" type="checkbox"
-				(change)="board.ChangeType()">
-			</sm-checkbox>
-		</sm-button>
 	</div>
 
 	<div class="side">
@@ -129,8 +125,8 @@
 					<h3 class="ui red header">
 						{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
 				</div>
-				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1"
-					class="ui active centered inline loader"></div>
+				<!-- <div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null"
+					class="ui active centered inline loader"></div> -->
 			</div>
 		</div>
 

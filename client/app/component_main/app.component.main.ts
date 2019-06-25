@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
 
     chinachess: FormControl = new FormControl();
     flag: FormControl = new FormControl();
+    timer = new FormControl();
+
     selectOpponent(v) {
         // console.log(v);
     }
@@ -46,19 +48,10 @@ export class AppComponent implements OnInit {
     }
 
 
-    myFunction() {
-        var x = document.getElementById("demo");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-
     //
     // update analysis results
-    update_result(x, humanMode, agent_param) {
-        this.winRaterComp.update(x, humanMode, agent_param);
+    update_result(results, agent_param) {
+        this.winRaterComp.update(results, agent_param);
     }
 
 

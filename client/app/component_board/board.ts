@@ -56,6 +56,7 @@ export class BoardComponent implements OnInit {
     //
     /***************** EVENT *******************/
     // new game result obtained
+    // creat event
     @Output() onResultsUpdated = new EventEmitter<boolean>();
     runtime_dict = {};
 
@@ -63,8 +64,6 @@ export class BoardComponent implements OnInit {
     results = [];
     clear_results() {
         this.results = [];
-
-        //
         this.report_result();
     }
 
@@ -191,10 +190,11 @@ export class BoardComponent implements OnInit {
     end_game(end_state) {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
+
+        // get result of the game
         this.results.push(red_win);
-        
-        //
         this.report_result();
+
         this.selectedPiece = undefined;
 
         this.pauseTimer(1);
@@ -454,6 +454,8 @@ export class BoardComponent implements OnInit {
         this.InputBlack = black;
         this.InputCurrentState = currentState;
 
+
+        this.ChangeType();
     }
 
 

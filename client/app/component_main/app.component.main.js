@@ -20,6 +20,7 @@ var AppComponent = (function () {
         this.selectedFile = null;
         this.chinachess = new forms_1.FormControl();
         this.flag = new forms_1.FormControl();
+        this.timer = new forms_1.FormControl();
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -32,19 +33,10 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onUpload = function () {
     };
-    AppComponent.prototype.myFunction = function () {
-        var x = document.getElementById("demo");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        }
-        else {
-            x.style.display = "none";
-        }
-    };
     //
     // update analysis results
-    AppComponent.prototype.update_result = function (x, humanMode, agent_param) {
-        this.winRaterComp.update(x, humanMode, agent_param);
+    AppComponent.prototype.update_result = function (results, agent_param) {
+        this.winRaterComp.update(results, agent_param);
     };
     __decorate([
         core_1.ViewChild(winRate_1.WinRaterComponent), 

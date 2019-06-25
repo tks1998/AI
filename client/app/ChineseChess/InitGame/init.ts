@@ -39,6 +39,8 @@ export class InitGame {
     }
 
 
+
+
     static getRedPieces(reverse) {
         // make state game 
         // If reverse game then random position for piece expect king
@@ -78,6 +80,9 @@ export class InitGame {
             new Piece('k', [1, 5], 1, 'k', 0)
         ];
     }
+
+
+    
 
 
     static getBlackPieces(reverse: boolean) {
@@ -136,4 +141,7 @@ export class InitGame {
         }
         return allPiece;
     }
-}
+}                                               
+
+
+

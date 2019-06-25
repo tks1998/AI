@@ -265,7 +265,6 @@ var BoardComponent = (function () {
         // if (turn == -1) this.switchTurn();
     };
     /** --------------------------------------------------------------------*/
-    // Check move && change image 
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();

@@ -39,3 +39,6 @@ export class Piece {
         this.name = this.truthname;
     }
 }
+
+
+

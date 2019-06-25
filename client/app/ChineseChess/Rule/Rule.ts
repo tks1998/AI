@@ -302,6 +302,7 @@ export class Rule {
         return moves;
     }
 
+    
 
     static checkMate = function (myPieces: Piece[], oppoPieces: Piece[], boardStates: {}, team, reverse) {
         var isLowerTeam = (team == 1);
@@ -379,4 +380,6 @@ export class Rule {
         return 1;
     }
 
+
 }
+                            

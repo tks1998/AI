@@ -79,6 +79,7 @@ export class MCTS extends Agent {
         return mcts_new_state;
     }
 
+
     back_propagate(simulated_state: MCTS_State) {
         var temp = simulated_state;
         var added_score = simulated_state.sum_score;
@@ -88,4 +89,7 @@ export class MCTS extends Agent {
             temp = temp.parent;
         }
     }
+
 }
+
+

@@ -47,11 +47,20 @@ export class AppComponent implements OnInit {
     onUpload() {
     }
 
+<<<<<<< HEAD
+    
+
+    
+    //reload page
+    refresh(): void {
+        window.location.reload();
+=======
 
     //
     // update analysis results
     update_result(results, agent_param) {
         this.winRaterComp.update(results, agent_param);
+>>>>>>> develop
     }
 
 
@@ -60,3 +69,6 @@ export class AppComponent implements OnInit {
     //     window.location.reload();
     // }
 }
+
+
+

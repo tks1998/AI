@@ -326,6 +326,17 @@ export class BoardComponent implements OnInit {
         this.InputState = xy;
     }
 
+<<<<<<< HEAD
+
+
+    
+
+
+    
+
+
+=======
+>>>>>>> develop
     NumberMove(numbermove) {
         console.log(numbermove);
     }
@@ -350,7 +361,12 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
+<<<<<<< HEAD
+    
+   
+=======
 
+>>>>>>> develop
     // Check move && change image 
 
 

@@ -48,6 +48,7 @@ app.put('/compute', function (request, response) {
     var now = new Date().getTime();
     var t = (now - start);
     var playing = state.get_playing_agent();
+    // check mate
     var checkmate = state.checkMate();
     response.end(JSON.stringify({ "move": next, "time": t, "checkmate": checkmate }));
     var param = (playing instanceof MCTS_1.MCTS) ? playing.N_SIMULATION : playing.DEPTH;

@@ -7,11 +7,17 @@ import { Component, OnInit } from "@angular/core";
 })
 
 
-export class LogResultsComponent implements OnInit{
+export class logResultsComponent implements OnInit{
     ngOnInit(): void {
     }
 
-    display(pastmoves_r, pastmoves_b) {
-        
+    public log_red;
+    public log_black;
+    
+    display(log_red,log_black) {
+        console.log("R:", log_red);
+        console.log("B:", log_black);
+        this.log_red = log_red;
+        this.log_black = log_black;
     }
 }

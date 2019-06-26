@@ -15,7 +15,7 @@ var Agent = (function () {
         if (pastMoves === void 0) { pastMoves = []; }
         this.strategy = 0;
         this.pastMoves = [];
-        this.logmove = []; // storage move for reports
+        this.logMoves = []; // storage move for reports
         this.DEPTH = 0;
         this.reverse = false;
         this.typechess = false;
@@ -83,16 +83,6 @@ var Agent = (function () {
         if (isCapture)
             this.captureOppoPiece(pos);
     };
-    Agent.prototype.updateLog = function (piece, pos) {
-        // console.log("curr pos: ", piece.position)
-        // console.log("new pos: ", pos)
-        var log = this.en_name[piece.name[0]].concat(piece.position[1].toString());
-        (this.team == 1) ? ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("-")) : (log = log.concat("+"))))
-            : ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("+")) : (log = log.concat("-"))));
-        (piece.position[1] == pos[1]) ? (log = log.concat(Math.abs(pos[0] - piece.position[0]))) : (log = log.concat(pos[1].toString()));
-        this.logmove.push(log);
-        // console.log(this.logmove)
-    };
     // capture piece of opponent
     // pos: position of piece to be captured
     Agent.prototype.captureOppoPiece = function (pos) {
@@ -106,7 +96,7 @@ var Agent = (function () {
     // add move to pastMoves
     Agent.prototype.addMove = function (pieceName, pos) {
         this.pastMoves.push({ "name": pieceName, "position": pos });
-        console.log(this.pastMoves);
+        // console.log(this.pastMoves)
     };
     // agent take action
     Agent.prototype.nextMove = function () {
@@ -127,6 +117,32 @@ var Agent = (function () {
     };
     Agent.prototype.copyMoves = function () {
         return this.pastMoves.slice();
+    };
+    /*
+    toward -> '+'
+    backward -> '-'
+    move within a row -> '[currcol].[newcol]'
+    toward a new col-> '[currcol]+[newcol]'
+    backward a new col -> '[currcol]-[newcol]'
+    toward within a col -> '[currcol]+[number of steps]'
+    backward within a col -> '[currcol]-[number of steps]'
+    */
+    Agent.prototype.updateLog = function (piece, pos) {
+        // console.log("curr pos: ", piece.position)
+        // console.log("new pos: ", pos)
+        var log = this.en_name[piece.name[0]].concat(piece.position[1]);
+        if (piece.position[0] == pos[0])
+            log = log.concat(".");
+        else if (piece.position[0] > pos[0])
+            (this.team == 1) ? (log = log.concat("-")) : (log = log.concat("+"));
+        else
+            (this.team == 1) ? (log = log.concat("+")) : (log = log.concat("-"));
+        if (piece.position[1] == pos[1])
+            log = log.concat(Math.abs(pos[0] - piece.position[0]));
+        else
+            log = log.concat(pos[1]);
+        this.logMoves.push(log);
+        console.log(this.logMoves.length);
     };
     return Agent;
 }());

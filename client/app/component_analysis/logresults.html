@@ -1,16 +1,13 @@
 <div class="log">
-
-<table style="width:100%">
-    <tr>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-    </tr>
-    <tr>
-        <td>Eve</td>
-        <td>Jackson</td>
-        <td>94</td>
-    </tr>
-</table>
+    <table class="ui very basic collapsing celled table">
+        <tbody>
+            <tr *ngFor="let hero of log_red">
+                <td>{{hero}}</td>
+            </tr>
+            <tr *ngFor="let hero of log_black">
+                <td>{{hero}}</td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>

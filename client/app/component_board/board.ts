@@ -59,6 +59,7 @@ export class BoardComponent implements OnInit {
     // new game result obtained
     // creat event
     @Output() onResultsUpdated = new EventEmitter<boolean>();
+    @Output() onRecordsUpdated = new EventEmitter<boolean>();
     runtime_dict = {};
 
 
@@ -195,6 +196,7 @@ export class BoardComponent implements OnInit {
         // get result of the game
         this.results.push(red_win);
         this.report_result();
+        this.show_record();
 
         this.selectedPiece = undefined;
 
@@ -364,7 +366,7 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
-    inputTime(f: NgForm){
+    inputTime(f: NgForm) {
         this.settime = f.value["timeinput"];
         if (!this.settime)
             this.settime = 10;
@@ -483,9 +485,15 @@ export class BoardComponent implements OnInit {
         this.switchTurn();
     }
 
-    //
+
     // report results
     report_result() {
         this.onResultsUpdated.emit();
+    }
+
+
+    // show record of the game
+    show_record() {
+        this.onRecordsUpdated.emit();
     }
 }

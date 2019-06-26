@@ -7,7 +7,7 @@ export class Agent {
     strategy: number = 0;
     legalMoves: {}; // name->[positions]
     pastMoves = [];
-    logmove = [];   // storage move for reports
+    logMoves = [];   // storage move for reports
     myPieces: Piece[];
     oppoPieces: Piece[];
     oppoAgent: Agent;
@@ -99,18 +99,6 @@ export class Agent {
     }
 
 
-    updateLog(piece: Piece, pos) {
-        // console.log("curr pos: ", piece.position)
-        // console.log("new pos: ", pos)
-        var log = this.en_name[piece.name[0]].concat(piece.position[1].toString());
-        (this.team == 1) ? ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("-")) : (log = log.concat("+"))))
-            : ((piece.position[0] == pos[0]) ? (log = log.concat(".")) : ((piece.position[0] > pos[0]) ? (log = log.concat("+")) : (log = log.concat("-"))));
-        (piece.position[1] == pos[1]) ? (log = log.concat(Math.abs(pos[0] - piece.position[0]))) : (log = log.concat(pos[1].toString()));
-        this.logmove.push(log)
-        // console.log(this.logmove)
-    }
-
-
     // capture piece of opponent
     // pos: position of piece to be captured
     captureOppoPiece(pos) {
@@ -126,7 +114,7 @@ export class Agent {
     // add move to pastMoves
     addMove(pieceName, pos) {
         this.pastMoves.push({ "name": pieceName, "position": pos });
-        console.log(this.pastMoves)
+        // console.log(this.pastMoves)
     }
 
 
@@ -157,5 +145,36 @@ export class Agent {
 
     copyMoves() {
         return this.pastMoves.slice();
+    }
+
+
+    /*
+    toward -> '+'
+    backward -> '-'
+    move within a row -> '[currcol].[newcol]'
+    toward a new col-> '[currcol]+[newcol]'
+    backward a new col -> '[currcol]-[newcol]'
+    toward within a col -> '[currcol]+[number of steps]'
+    backward within a col -> '[currcol]-[number of steps]'
+    */
+
+    updateLog(piece: Piece, pos) {
+        // console.log("curr pos: ", piece.position)
+        // console.log("new pos: ", pos)
+        var log = this.en_name[piece.name[0]].concat(piece.position[1]);
+
+        if (piece.position[0] == pos[0])
+            log = log.concat(".");
+        else
+            if (piece.position[0] > pos[0])
+                (this.team == 1) ? (log = log.concat("-")) : (log = log.concat("+"));
+            else (this.team == 1) ? (log = log.concat("+")) : (log = log.concat("-"));
+
+        if (piece.position[1] == pos[1])
+            log = log.concat(Math.abs(pos[0] - piece.position[0]));
+        else log = log.concat(pos[1]);
+
+        this.logMoves.push(log);
+        console.log(this.logMoves.length);
     }
 }

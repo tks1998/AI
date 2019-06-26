@@ -39,7 +39,7 @@ var AppModule = (function () {
                 board_1.BoardComponent,
                 MapToIterable_1.MapToIterable,
                 winRate_1.WinRaterComponent,
-                logresults_1.LogResultsComponent
+                logresults_1.logResultsComponent
             ]
         }), 
         __metadata('design:paramtypes', [])

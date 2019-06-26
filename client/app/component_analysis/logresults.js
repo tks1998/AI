@@ -9,22 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var LogResultsComponent = (function () {
-    function LogResultsComponent() {
+var logResultsComponent = (function () {
+    function logResultsComponent() {
     }
-    LogResultsComponent.prototype.ngOnInit = function () {
+    logResultsComponent.prototype.ngOnInit = function () {
     };
-    LogResultsComponent.prototype.display = function (pastmoves_r, pastmoves_b) {
+    logResultsComponent.prototype.display = function (log_red, log_black) {
+        console.log("R:", log_red);
+        console.log("B:", log_black);
+        this.log_red = log_red;
+        this.log_black = log_black;
     };
-    LogResultsComponent = __decorate([
+    logResultsComponent = __decorate([
         core_1.Component({
             selector: 'log-results',
             templateUrl: '../client/app/component_analysis/logresults.html',
             styleUrls: ['../client/app/component_analysis/logresults.css'],
         }), 
         __metadata('design:paramtypes', [])
-    ], LogResultsComponent);
-    return LogResultsComponent;
+    ], logResultsComponent);
+    return logResultsComponent;
 }());
-exports.LogResultsComponent = LogResultsComponent;
+exports.logResultsComponent = logResultsComponent;
 //# sourceMappingURL=logresults.js.map

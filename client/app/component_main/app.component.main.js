@@ -39,13 +39,16 @@ var AppComponent = (function () {
     AppComponent.prototype.update_result = function (results, agent_param) {
         this.winRaterComp.update(results, agent_param);
     };
+    AppComponent.prototype.update_record = function (log_red, log_black) {
+        this.logresultComp.display(log_red, log_black);
+    };
     __decorate([
         core_1.ViewChild(winRate_1.WinRaterComponent), 
         __metadata('design:type', winRate_1.WinRaterComponent)
     ], AppComponent.prototype, "winRaterComp", void 0);
     __decorate([
-        core_1.ViewChild(logresults_1.LogResultsComponent), 
-        __metadata('design:type', logresults_1.LogResultsComponent)
+        core_1.ViewChild(logresults_1.logResultsComponent), 
+        __metadata('design:type', logresults_1.logResultsComponent)
     ], AppComponent.prototype, "logresultComp", void 0);
     AppComponent = __decorate([
         core_1.Component({

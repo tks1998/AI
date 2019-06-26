@@ -30,10 +30,9 @@ export class Ultimate_algorthm extends Agent {
     }
 
     // return [score, [movePieceName, toPos]
-    recurseEvaluation(state: State, depth, alpha, beta) {
+    recurseEvaluation(state: State, depth, alpha, beta , PastMove = null) {
         var isMax = state.playingTeam == state.redAgent.team;
         var playingAgent: Agent = state.get_playing_agent();
-        var PastMove :{};
         playingAgent.updateBoardState();
         var endState = state.getEndState();
         if (endState != 0) {
@@ -42,17 +41,24 @@ export class Ultimate_algorthm extends Agent {
         }
         if (depth == 0) return [this.getValueOfState(state), null];
         playingAgent.computeLegalMoves();
-        // if (PastMove != {}){
-        //     playingAgent.checkPastMove(PastMove);
-        // }
-        // PastMove = playingAgent.GetLegalMoves();
+        
         var moves = this.get_ordered_moves(playingAgent); // [[pieceName, move]]
         var next_evals = []; // list of [score, [movePieceName, toPos]]
         for (var i in moves) { //legalMoves: {name: []}
             var movePieceName = moves[i][0];
             var move = moves[i][1];
             var nextState = state.next_state(movePieceName, move);
+            if (PastMove!=null){
+                var FakeMove = PastMove.slice( x => x.movePieceName)[0];
+                // used move && isMove == 0  -> band move 
+                if (FakeMove[count] == 0) continue;
+            }
+            var count = playingAgent.getPieceByName(i).isMove;
+            
+            PastMove.push([movePieceName,count]);
             var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta)[0], [movePieceName, move]];
+            // delete Piece with [name,count] 
+            PastMove.slice(x => x.movePieceName == name && x.count == count);
             next_evals.push(eval_result);
 
             if (isMax) {// max node -> increase lower bound

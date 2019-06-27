@@ -157,10 +157,8 @@
 </div>
 
 <div class="analysis">
+	<log-results></log-results>
+	<!-- <log-results *ngIf="!board.checkReverse()"/></log-results> -->
+	<!-- {{update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)}} -->
 	<winRater></winRater>
-	<div>
-		<log-results>
-			<!-- {{update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)}} -->
-		</log-results>
-	</div>
 </div>

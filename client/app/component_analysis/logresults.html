@@ -1,13 +1,20 @@
 <div class="log">
-    <table class="ui very basic collapsing celled table">
-        <tbody>
-            <tr *ngFor="let hero of log_red">
-                <td>{{hero}}</td>
-            </tr>
-            <tr *ngFor="let hero of log_black">
-                <td>{{hero}}</td>
-            </tr>
-        </tbody>
-    </table>
 
+    <h3 class="ui horizontal divider header">
+        Chinese Chess WXF Notation
+    </h3>
+    <div class="margin"></div>
+    <sm-segment class="raised">
+        <table class="ui very basic table">
+            <tbody>
+                <tr class="center aligned" *ngFor="let move of log_red;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{move}}</td>
+                    <td>{{log_black[i]}}</td>
+                </tr>
+                <!-- <tr *ngFor="let turn of data"></tr>
+            <td>{{turn.red_move}},{{turn.black_move}}</td> -->
+            </tbody>
+        </table>
+    </sm-segment>
 </div>

@@ -15,10 +15,11 @@ var logResultsComponent = (function () {
     logResultsComponent.prototype.ngOnInit = function () {
     };
     logResultsComponent.prototype.display = function (log_red, log_black) {
-        console.log("R:", log_red);
-        console.log("B:", log_black);
+        if (log_red.length != log_black.length)
+            log_black.push(" ");
         this.log_red = log_red;
         this.log_black = log_black;
+        return true;
     };
     logResultsComponent = __decorate([
         core_1.Component({

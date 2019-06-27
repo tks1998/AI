@@ -20,7 +20,6 @@ export class Piece {
 
 
     moveTo(newPos) {
-        //console.log("toi loi", newPos)
         this.position = newPos;
         this.name = this.truthname;
         this.isMove = this.isMove + 1;

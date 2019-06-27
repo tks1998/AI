@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var WinRaterComponent = (function () {
     function WinRaterComponent() {
-        this.chartType = 'line';
+        this.chartType = 'bar';
         this.chartData = [];
         this.chartLabels = [];
         this.chartColors = [

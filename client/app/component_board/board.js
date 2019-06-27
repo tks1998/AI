@@ -38,6 +38,7 @@ var BoardComponent = (function () {
         // new game result obtained
         // creat event
         this.onResultsUpdated = new core_1.EventEmitter();
+        this.onRecordsUpdated = new core_1.EventEmitter();
         this.runtime_dict = {};
         this.results = [];
         this.server = server;
@@ -138,6 +139,7 @@ var BoardComponent = (function () {
         // get result of the game
         this.results.push(red_win);
         this.report_result();
+        this.show_record();
         this.selectedPiece = undefined;
         this.pauseTimer(1);
         this.pauseTimer(-1);
@@ -387,15 +389,22 @@ var BoardComponent = (function () {
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
     };
-    //
     // report results
     BoardComponent.prototype.report_result = function () {
         this.onResultsUpdated.emit();
+    };
+    // show record of the game
+    BoardComponent.prototype.show_record = function () {
+        this.onRecordsUpdated.emit();
     };
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
     ], BoardComponent.prototype, "onResultsUpdated", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], BoardComponent.prototype, "onRecordsUpdated", void 0);
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

@@ -1,7 +1,8 @@
 <div class="body_content" (keyup.Enter)="board.initGame()">
 	<!--  -->
 	<board #board class="board"
-		(onResultsUpdated)="update_result(board.results, [board.blackAgentType, board.blackAgentDepth])">
+		(onResultsUpdated)="update_result(board.results, [board.blackAgentType, board.blackAgentDepth])"
+		(onRecordsUpdated)="update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)">
 	</board>
 
 	<div class="left">
@@ -94,19 +95,19 @@
 					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
 					<sm-button class="fluid medium blue control">Submit</sm-button>
 			</form>
-		</div>				
+		</div>
 		<!-- countdown for each player -->
-		<div *ngIf="board.hiddentimer()" class="clock">
+		<!-- <div *ngIf="board.hiddentimer()" class="clock">
 			<h3 class="ui header center aligned blue segment" id="blackclock">{{board.blackminute}} :
 				{{board.blacksecond}}
 				: {{board.blackmilisec}}</h3>
 			<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}
 				: {{board.redmilisec}}</h3>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="right">
-		<div class="ui segments">
+		<div class="ui segments" *ngIf="board.state.endFlag==null">
 			<div class="margin"></div>
 			<div class="ui blue segment center aligned icon">
 				<i class="large user blue icon"></i>
@@ -156,5 +157,8 @@
 </div>
 
 <div class="analysis">
+	<log-results></log-results>
+	<!-- <log-results *ngIf="!board.checkReverse()"/></log-results> -->
+	<!-- {{update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)}} -->
 	<winRater></winRater>
 </div>

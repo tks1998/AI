@@ -321,6 +321,7 @@ export class BoardComponent implements OnInit {
 
 
     checkMove(currentpiece: Piece): Boolean {
+        console.log(currentpiece);
         if (currentpiece.name[0] == 'k') return true;
         return (currentpiece.isMove > 0);
     }

@@ -8,6 +8,8 @@ import { MapToIterable } from './pipe/MapToIterable';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { WinRaterComponent } from './component_analysis/winRate';
+import { logResultsComponent } from './component_analysis/logresults';
+
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { WinRaterComponent } from './component_analysis/winRate';
         AppComponent,
         BoardComponent,
         MapToIterable,
-        WinRaterComponent
+        WinRaterComponent,
+        logResultsComponent
     ]
 })
 export class AppModule { }

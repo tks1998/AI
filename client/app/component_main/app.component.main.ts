@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import { NgForm } from '@angular/forms'
 import { WinRaterComponent } from '../component_analysis/winRate';
+import { logResultsComponent } from '../component_analysis/logresults';
 
 
 @Component({
@@ -23,6 +24,10 @@ export class AppComponent implements OnInit {
     //
     @ViewChild(WinRaterComponent)
     private winRaterComp: WinRaterComponent;
+
+    @ViewChild(logResultsComponent)
+    private logresultComp: logResultsComponent;
+
 
     constructor(private http: Http) { }
     ngOnInit() {
@@ -55,8 +60,14 @@ export class AppComponent implements OnInit {
     }
 
 
+    update_record(log_red, log_black) {
+        this.logresultComp.display(log_red, log_black);
+    }
     // //reload page
     // refresh(): void {
     //     window.location.reload();
     // }
 }
+
+
+

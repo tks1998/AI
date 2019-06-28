@@ -31,18 +31,14 @@ var BoardComponent = (function () {
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
-        this.redminute = 1;
-        this.blackminute = 1;
-        this.redsecond = 0;
-        this.blacksecond = 0;
-        this.redmilisec = 0;
-        this.blackmilisec = 0;
+        this.settime = 10;
         this.InputCurrentState = {};
         //
         /***************** EVENT *******************/
         // new game result obtained
         // creat event
         this.onResultsUpdated = new core_1.EventEmitter();
+        this.onRecordsUpdated = new core_1.EventEmitter();
         this.runtime_dict = {};
         this.results = [];
         this.server = server;
@@ -96,8 +92,8 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -143,6 +139,7 @@ var BoardComponent = (function () {
         // get result of the game
         this.results.push(red_win);
         this.report_result();
+        this.show_record();
         this.selectedPiece = undefined;
         this.pauseTimer(1);
         this.pauseTimer(-1);
@@ -198,15 +195,22 @@ var BoardComponent = (function () {
     };
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
+        console.log(this.state.redAgent.pastMoves);
         var id = this.lastState.length - 1;
         if (this.lastState.length <= 0)
             return;
         this.redo.push(this.state);
         this.state = this.lastState[id];
-        if (id == 0)
+        if (id == 0) {
             this.lastState = [];
-        else
+            console.log("a: ", this.state.redAgent.logMoves);
+            console.log("a2: ", this.state.blackAgent.logMoves);
+        }
+        else {
             this.lastState = this.lastState.slice(0, id);
+            console.log("b: ", this.state.redAgent.logMoves);
+            console.log("b2: ", this.state.blackAgent.logMoves);
+        }
     };
     BoardComponent.prototype.CheckLastRedo = function () {
         return this.redo.length > 0;
@@ -266,6 +270,7 @@ var BoardComponent = (function () {
     };
     /** --------------------------------------------------------------------*/
     // Check move && change image 
+    //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();
@@ -273,8 +278,17 @@ var BoardComponent = (function () {
     BoardComponent.prototype.hiddentimer = function () {
         return this.timemode;
     };
+    BoardComponent.prototype.inputTime = function (f) {
+        this.settime = f.value["timeinput"];
+        if (this.settime <= 0)
+            this.settime = 10;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(function () {
@@ -297,6 +311,7 @@ var BoardComponent = (function () {
                         _this.redmilisec = 0;
                         _this.end_game(-team);
                     }
+                    //document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10);
             }
             else {
@@ -320,6 +335,7 @@ var BoardComponent = (function () {
                         _this.blackmilisec = 0;
                         _this.end_game(team);
                     }
+                    //document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10);
             }
         }
@@ -339,6 +355,16 @@ var BoardComponent = (function () {
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
         for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
             var x = newstate_1[_i];
             extract = x.split(' ');
@@ -370,15 +396,22 @@ var BoardComponent = (function () {
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
     };
-    //
     // report results
     BoardComponent.prototype.report_result = function () {
         this.onResultsUpdated.emit();
+    };
+    // show record of the game
+    BoardComponent.prototype.show_record = function () {
+        this.onRecordsUpdated.emit();
     };
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
     ], BoardComponent.prototype, "onResultsUpdated", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], BoardComponent.prototype, "onRecordsUpdated", void 0);
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

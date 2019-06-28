@@ -205,3 +205,6 @@ export class Agent {
         this.PastMove = this.PastMove.filter(x => !(x[0] == name && x[1] == count));
     }
 }
+
+
+

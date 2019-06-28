@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 
 
 export class WinRaterComponent implements OnInit {
-    public chartType: string = 'line';
+    public chartType: string = 'bar';
 
     public chartData: Array<any> = [];
 

@@ -67,6 +67,8 @@ export class ABPruning extends Agent {
         return next_evals[index];
     }
 
+    
+
     // return a list of reordered moves: checkmates->captures->empty_moves
     // [[pieceName, move]]
 
@@ -81,3 +83,6 @@ export class ABPruning extends Agent {
     }
 
 }
+
+
+

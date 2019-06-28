@@ -11,7 +11,6 @@ var Piece = (function () {
         return new Piece(dict.name, dict.position, dict.Reverse, dict.truthname, dict.isMove);
     };
     Piece.prototype.moveTo = function (newPos) {
-        //console.log("toi loi", newPos)
         this.position = newPos;
         this.name = this.truthname;
         this.isMove = this.isMove + 1;

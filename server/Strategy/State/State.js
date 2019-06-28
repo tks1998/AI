@@ -4,12 +4,11 @@ var GreedyAgent_1 = require('../Greedy/GreedyAgent');
 var ABPruning_1 = require('../ABPruning/ABPruning');
 var MCTS_1 = require('../MCTS/MCTS');
 var Rule_1 = require('../../ChineseChess/Rule/Rule');
-var Ultimate_algorthm_1 = require('../Ultimate_algorthm/Ultimate_algorthm');
 var State = (function () {
     function State(redAgent, blacAgent, playingTeam, reverse, updateDict) {
         if (playingTeam === void 0) { playingTeam = 1; }
         if (updateDict === void 0) { updateDict = false; }
-        //  is_repeating = false;
+        this.is_repeating = false;
         this.reverse = false;
         this.redAgent = redAgent;
         this.blackAgent = blacAgent;
@@ -49,16 +48,20 @@ var State = (function () {
     State.samveMove = function (move1, move2) {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     };
-    // static check_repeating(agent): boolean {
-    //     var moves = agent.pastMoves;
-    //     var n = moves.length;
-    //     if (n < 10) return false;
-    //     if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-    //         console.log(moves)
-    //         return true;
-    //     };
-    //     return false;
-    // }
+    State.check_repeating = function (agent) {
+        var moves = agent.pastMoves;
+        var n = moves.length;
+        // if (n < 6) return false;
+        // if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        if (n < 3)
+            return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3])) {
+            console.log(moves);
+            return true;
+        }
+        ;
+        return false;
+    };
     State.copyFromDict = function (dict) {
         var agentDict;
         var agentDict = dict.blackAgent;
@@ -66,8 +69,7 @@ var State = (function () {
         var IsReverse = dict.reverse;
         oppo = Agent_1.Agent.copyFromDict(oppo);
         var agent;
-        if (IsReverse)
-            agent = Ultimate_algorthm_1.Ultimate_algorthm.copyFromDict(agentDict);
+        var is_repeating = this.check_repeating(agentDict);
         if (agentDict.strategy == 0)
             agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
         if (agentDict.strategy == 1)
@@ -79,17 +81,36 @@ var State = (function () {
             new_state = new State(agent, oppo, dict.playingTeam, IsReverse);
         else
             new_state = new State(oppo, agent, dict.playingTeam, IsReverse);
+        new_state.is_repeating = is_repeating;
         return new_state;
     };
+    // nextMove() {
+    //     var agent = this.get_playing_agent();
+    //     var r = null;
+    //     if (agent.check_king_exist()) {
+    //         r = agent.comptuteNextMove(this);
+    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
+    //     return r;
+    // }
     State.prototype.nextMove = function () {
         var agent = this.get_playing_agent();
         var r = null;
         if (agent.check_king_exist()) {
-            r = agent.comptuteNextMove(this);
+            if (!this.is_repeating)
+                r = agent.comptuteNextMove(this);
+            else {
+                console.log("REPEATING ");
+                agent.updateState();
+                r = agent.random_move();
+            }
         }
         else
             console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r);
         return r;
+    };
+    State.prototype.setStateCheckMate = function () {
+        var agent = this.get_playing_agent();
+        agent.updateState();
     };
     State.prototype.setStateCheckMate = function () {
         var agent = this.get_playing_agent();

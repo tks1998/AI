@@ -80,13 +80,13 @@ export class Rule {
     }
 
 
-    // Ju: Xe
+    // Ju: Xe/ Rook
     static possibleMovesForJu(currRow, currCol, boardStates) {
         return this.movesOnSameLine(currRow, currCol, boardStates);
     }
 
 
-    // Ma: Ma
+    // Ma: Ma/ Horse
     static possibleMovesForMa(currRow, currCol, boardStates) {
         var moves = [];
         if (!([currRow + 1, currCol].toString() in boardStates)) {
@@ -133,7 +133,7 @@ export class Rule {
     }
 
 
-    // Pao: Phao
+    // Pao: Phao/ Cannon
     static possibleMovesForPao(currRow, currCol, boardStates, team) {
         var inc = (x => x + 1);
         var dec = (x => x - 1);
@@ -178,7 +178,7 @@ export class Rule {
     }
 
 
-    // Shi: Si
+    // Shi: Si/ Advisor
     static possibleMovesForShi(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         if (2 == currRow || currRow == 9) { // in the center
@@ -208,7 +208,7 @@ export class Rule {
     }
 
 
-    // King
+    // King/ General
     static possibleMovesForKing(currRow, currCol, boardStates) {
         var moves = [];
         for (var col = 4; col <= 6; col++)  moves.push([currRow, col]);
@@ -222,7 +222,7 @@ export class Rule {
     }
 
 
-    // Xiang: Tuong
+    // Xiang: Tuong/ Elephant
     static possibleMovesForXiang(currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -245,7 +245,7 @@ export class Rule {
     }
 
 
-    // Zu: chot
+    // Zu: chot/ Pawn/ Soldier
     static possibleMovesForZu(currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
         var moves = isLowerTeam ? [[currRow + 1, currCol]] : [[currRow - 1, currCol]];
@@ -268,10 +268,10 @@ export class Rule {
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove != 0) {
             if (name == 'x') {
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForXiangofReverse(currRow, currCol, boardStates), boardStates);
             }
             if (name == 's') {
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForShiofReverse(currRow, currCol, boardStates), boardStates);
             }
         }
         switch (name) {
@@ -303,6 +303,7 @@ export class Rule {
     }
 
 
+
     static checkMate = function (myPieces: Piece[], oppoPieces: Piece[], boardStates: {}, team, reverse) {
         var isLowerTeam = (team == 1);
         // console.log(isLowerTeam);
@@ -320,11 +321,10 @@ export class Rule {
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
             for (var j in moves4Piece) {
                 // if (piece.name == 'p1' || piece.name == 'p2') console.log(moves4Piece[j]);
-                if ((moves4Piece[j][0] == oppoKing[0]) && (moves4Piece[j][1] == oppoKing[1]))
-                    {      
-                        // console.log(oppoKing);
-                        return true;
-                    }
+                if ((moves4Piece[j][0] == oppoKing[0]) && (moves4Piece[j][1] == oppoKing[1])) {
+                    // console.log(oppoKing);
+                    return true;
+                }
             }
         }
         return false;
@@ -378,5 +378,6 @@ export class Rule {
         if (this.hasPieceOnRows(myKingCol, minRow, maxRow, boardState)) return 0;
         return 1;
     }
+
 
 }

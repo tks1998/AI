@@ -39,12 +39,13 @@ export class BoardComponent implements OnInit {
     InputState: Object;
 
     timemode = false;
-    redminute: number = 1;
-    blackminute: number = 1;
-    redsecond: number = 0;
-    blacksecond: number = 0;
-    redmilisec: number = 0;
-    blackmilisec: number = 0;
+    settime: number = 10;
+    redminute: number;
+    blackminute: number;
+    redsecond: number;
+    blacksecond: number;
+    redmilisec: number;
+    blackmilisec: number;
     redinterval;
     blackinterval;
 
@@ -58,6 +59,7 @@ export class BoardComponent implements OnInit {
     // new game result obtained
     // creat event
     @Output() onResultsUpdated = new EventEmitter<boolean>();
+    @Output() onRecordsUpdated = new EventEmitter<boolean>();
     runtime_dict = {};
 
 
@@ -133,8 +135,8 @@ export class BoardComponent implements OnInit {
         this.redo = [];
         var redAgent: Agent;
         var blackAgent: Agent;
-        this.redminute = 1;
-        this.blackminute = 1;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -194,6 +196,7 @@ export class BoardComponent implements OnInit {
         // get result of the game
         this.results.push(red_win);
         this.report_result();
+        this.show_record();
 
         this.selectedPiece = undefined;
 
@@ -264,14 +267,21 @@ export class BoardComponent implements OnInit {
 
     // reverse game state to previous state
     go2PreviousState() {
+        console.log(this.state.redAgent.pastMoves);
         var id = this.lastState.length - 1;
         if (this.lastState.length <= 0) return;
         this.redo.push(this.state)
         this.state = this.lastState[id];
-        if (id == 0)
+        if (id == 0) {
             this.lastState = [];
-        else
+            console.log("a: ", this.state.redAgent.logMoves);
+            console.log("a2: ", this.state.blackAgent.logMoves);
+        }
+        else {
             this.lastState = this.lastState.slice(0, id);
+            console.log("b: ", this.state.redAgent.logMoves);
+            console.log("b2: ", this.state.blackAgent.logMoves);
+        }
     }
 
 
@@ -350,10 +360,9 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
-
     // Check move && change image 
 
-
+    //part of Timer
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
@@ -364,8 +373,18 @@ export class BoardComponent implements OnInit {
         return this.timemode;
     }
 
+    inputTime(f: NgForm) {
+        this.settime = f.value["timeinput"];
+        if (this.settime <= 0)
+            this.settime = 10;
+        this.initGame();
+    }
 
     startTimer(team) {
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
+
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(() => {
@@ -388,6 +407,7 @@ export class BoardComponent implements OnInit {
                         this.redmilisec = 0;
                         this.end_game(-team);
                     }
+                    //document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10)
             } else {
                 this.blackinterval = setInterval(() => {
@@ -410,6 +430,7 @@ export class BoardComponent implements OnInit {
                         this.blackmilisec = 0;
                         this.end_game(team);
                     }
+                    //document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10)
             }
         }
@@ -433,6 +454,16 @@ export class BoardComponent implements OnInit {
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
 
         for (var x of newstate) {
             extract = x.split(' ');
@@ -471,9 +502,15 @@ export class BoardComponent implements OnInit {
         this.switchTurn();
     }
 
-    //
+
     // report results
     report_result() {
         this.onResultsUpdated.emit();
+    }
+
+
+    // show record of the game
+    show_record() {
+        this.onRecordsUpdated.emit();
     }
 }

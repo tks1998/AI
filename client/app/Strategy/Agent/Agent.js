@@ -5,7 +5,7 @@ var Agent = (function () {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    function Agent(team, reverse, strategy, dept, typechess, InitPiece, myPieces, pastMoves) {
+    function Agent(team, reverse, strategy, dept, typechess, InitPiece, myPieces, pastMoves, logMoves) {
         if (reverse === void 0) { reverse = false; }
         if (strategy === void 0) { strategy = 0; }
         if (dept === void 0) { dept = 0; }
@@ -13,6 +13,7 @@ var Agent = (function () {
         if (InitPiece === void 0) { InitPiece = null; }
         if (myPieces === void 0) { myPieces = null; }
         if (pastMoves === void 0) { pastMoves = []; }
+        if (logMoves === void 0) { logMoves = []; }
         this.strategy = 0;
         this.pastMoves = [];
         this.logMoves = []; // storage move for reports
@@ -43,6 +44,7 @@ var Agent = (function () {
             this.myPieces = InitPiece;
         }
         this.pastMoves = pastMoves;
+        this.logMoves = logMoves;
         this.strategy = strategy;
         this.DEPTH = dept;
     }
@@ -59,6 +61,7 @@ var Agent = (function () {
     // compute legals moves for my pieces after state updated
     Agent.prototype.computeLegalMoves = function () {
         this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
+        console.log(this.legalMoves);
     };
     Agent.prototype.checkMate = function () {
         return Rule_1.Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);
@@ -113,10 +116,13 @@ var Agent = (function () {
         return this.myPieces.filter(function (x) { return x.name == name; })[0];
     };
     Agent.prototype.copy = function () {
-        return new Agent(this.team, this.reverse, this.strategy, this.DEPTH, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves());
+        return new Agent(this.team, this.reverse, this.strategy, this.DEPTH, false, null, this.myPieces.map(function (x) { return x.copy(); }), this.copyMoves(), this.copylog());
     };
     Agent.prototype.copyMoves = function () {
         return this.pastMoves.slice();
+    };
+    Agent.prototype.copylog = function () {
+        return this.logMoves.slice();
     };
     /*
     toward -> '+'
@@ -142,7 +148,7 @@ var Agent = (function () {
         else
             log = log.concat(pos[1]);
         this.logMoves.push(log);
-        console.log(this.logMoves.length);
+        // console.log(this.logMoves);
     };
     return Agent;
 }());

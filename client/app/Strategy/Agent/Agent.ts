@@ -33,7 +33,7 @@ export class Agent {
     // team == 1 -> Red , team !=1 -> Black team 
     // mask co up -> add value typechess
     // InitPiece from input of phayer
-    constructor(team: number, reverse = false, strategy = 0, dept = 0, typechess = false, InitPiece = null, myPieces = null, pastMoves = []) {
+    constructor(team: number, reverse = false, strategy = 0, dept = 0, typechess = false, InitPiece = null, myPieces = null, pastMoves = [], logMoves = []) {
         this.team = team;
         this.reverse = reverse;
 
@@ -48,6 +48,7 @@ export class Agent {
             this.myPieces = InitPiece;
         }
         this.pastMoves = pastMoves;
+        this.logMoves = logMoves;
         this.strategy = strategy;
         this.DEPTH = dept;
     }
@@ -70,6 +71,7 @@ export class Agent {
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
+        console.log(this.legalMoves);
     }
 
 
@@ -138,8 +140,7 @@ export class Agent {
 
 
     copy() {
-
-        return new Agent(this.team, this.reverse, this.strategy, this.DEPTH, false, null, this.myPieces.map(x => x.copy()), this.copyMoves());
+        return new Agent(this.team, this.reverse, this.strategy, this.DEPTH, false, null, this.myPieces.map(x => x.copy()), this.copyMoves(), this.copylog());
     }
 
 
@@ -147,6 +148,9 @@ export class Agent {
         return this.pastMoves.slice();
     }
 
+    copylog() {
+        return this.logMoves.slice();
+    }
 
     /*
     toward -> '+'
@@ -175,6 +179,6 @@ export class Agent {
         else log = log.concat(pos[1]);
 
         this.logMoves.push(log);
-        console.log(this.logMoves.length);
+        // console.log(this.logMoves);
     }
 }

@@ -267,14 +267,21 @@ export class BoardComponent implements OnInit {
 
     // reverse game state to previous state
     go2PreviousState() {
+        console.log(this.state.redAgent.pastMoves);
         var id = this.lastState.length - 1;
         if (this.lastState.length <= 0) return;
         this.redo.push(this.state)
         this.state = this.lastState[id];
-        if (id == 0)
+        if (id == 0) {
             this.lastState = [];
-        else
+            console.log("a: ", this.state.redAgent.logMoves);
+            console.log("a2: ", this.state.blackAgent.logMoves);
+        }
+        else {
             this.lastState = this.lastState.slice(0, id);
+            console.log("b: ", this.state.redAgent.logMoves);
+            console.log("b2: ", this.state.blackAgent.logMoves);
+        }
     }
 
 

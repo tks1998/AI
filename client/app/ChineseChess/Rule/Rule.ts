@@ -268,10 +268,10 @@ export class Rule {
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove != 0) {
             if (name == 'x') {
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForXiangofReverse(currRow, currCol, boardStates), boardStates);
             }
             if (name == 's') {
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForShiofReverse(currRow, currCol, boardStates), boardStates);
             }
         }
         switch (name) {
@@ -302,7 +302,7 @@ export class Rule {
         return moves;
     }
 
-    
+
 
     static checkMate = function (myPieces: Piece[], oppoPieces: Piece[], boardStates: {}, team, reverse) {
         var isLowerTeam = (team == 1);
@@ -321,11 +321,10 @@ export class Rule {
             var moves4Piece = this.possibleMoves(piece, boardStates, isLowerTeam, reverse);
             for (var j in moves4Piece) {
                 // if (piece.name == 'p1' || piece.name == 'p2') console.log(moves4Piece[j]);
-                if ((moves4Piece[j][0] == oppoKing[0]) && (moves4Piece[j][1] == oppoKing[1]))
-                    {      
-                        // console.log(oppoKing);
-                        return true;
-                    }
+                if ((moves4Piece[j][0] == oppoKing[0]) && (moves4Piece[j][1] == oppoKing[1])) {
+                    // console.log(oppoKing);
+                    return true;
+                }
             }
         }
         return false;
@@ -382,4 +381,3 @@ export class Rule {
 
 
 }
-                            

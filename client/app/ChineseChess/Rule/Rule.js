@@ -259,10 +259,10 @@ var Rule = (function () {
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove != 0) {
             if (name == 'x') {
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForXiangofReverse(currRow, currCol, boardStates), boardStates);
             }
             if (name == 's') {
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForShiofReverse(currRow, currCol, boardStates), boardStates);
             }
         }
         switch (name) {

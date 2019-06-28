@@ -28,7 +28,6 @@ var Ultimate_algorthm = (function (_super) {
     Ultimate_algorthm.prototype.recurseEvaluation = function (state, depth, alpha, beta) {
         var isMax = state.playingTeam == state.redAgent.team;
         var playingAgent = state.get_playing_agent();
-        var PastMove;
         playingAgent.updateBoardState();
         var endState = state.getEndState();
         if (endState != 0) {
@@ -38,17 +37,19 @@ var Ultimate_algorthm = (function (_super) {
         if (depth == 0)
             return [this.getValueOfState(state), null];
         playingAgent.computeLegalMoves();
-        // if (PastMove != {}){
-        //     playingAgent.checkPastMove(PastMove);
-        // }
-        // PastMove = playingAgent.GetLegalMoves();
         var moves = this.get_ordered_moves(playingAgent); // [[pieceName, move]]
         var next_evals = []; // list of [score, [movePieceName, toPos]]
         for (var i in moves) {
             var movePieceName = moves[i][0];
             var move = moves[i][1];
             var nextState = state.next_state(movePieceName, move);
+            if (playingAgent.CheckFakeMove(movePieceName))
+                continue;
+            var count = playingAgent.getPieceByName(i).isMove;
+            playingAgent.AddElementToPasMove(movePieceName, count);
             var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta)[0], [movePieceName, move]];
+            // delete Piece with [name,count] 
+            playingAgent.DeleteElement(name, count);
             next_evals.push(eval_result);
             if (isMax) {
                 alpha = Math.max(alpha, eval_result[0]);
@@ -76,7 +77,7 @@ var Ultimate_algorthm = (function (_super) {
     Ultimate_algorthm.prototype.get_ordered_moves = function (agent) { return agent.get_moves_arr(); };
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
     Ultimate_algorthm.copyFromDict = function (dict) {
-        dict.DEPTH = 2;
+        dict.DEPTH = 4;
         dict.strategy = 1;
         return new Ultimate_algorthm(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     };

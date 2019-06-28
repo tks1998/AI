@@ -6,7 +6,6 @@ var Evaluation_1 = require('../_Param/Evaluation');
 var Agent = (function () {
     function Agent(team, reverse, strategy, myPieces) {
         if (myPieces === void 0) { myPieces = undefined; }
-        // moved: EventEmitter<number> = new EventEmitter();
         this.reverse = false;
         this.strategy = 0;
         this.team = team;
@@ -161,6 +160,16 @@ var Agent = (function () {
     };
     Agent.prototype.getValOfPiece = function (piece, team) {
         return Evaluation_1.Evaluation.posValue(piece.name, piece.position, team) + Evaluation_1.Evaluation.pieceValue(piece.name);
+    };
+    Agent.prototype.AddElementToPasMove = function (name, count) {
+        this.PastMove.push([name, count]);
+    };
+    Agent.prototype.CheckFakeMove = function (name) {
+        var FakeMove = this.PastMove.filter(function (x) { return (x[0] == name && x[1] == 0); });
+        return (FakeMove.length > 0);
+    };
+    Agent.prototype.DeleteElement = function (name, count) {
+        this.PastMove = this.PastMove.filter(function (x) { return !(x[0] == name && x[1] == count); });
     };
     return Agent;
 }());

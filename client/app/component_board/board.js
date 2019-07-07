@@ -396,6 +396,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
+        this.state.redAgent.logMoves.push(" ");
     };
     // report results
     BoardComponent.prototype.report_result = function () {

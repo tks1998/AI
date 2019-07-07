@@ -501,6 +501,7 @@ export class BoardComponent implements OnInit {
 
     SupportSwitchTurn() {
         this.switchTurn();
+        this.state.redAgent.logMoves.push(" ");
     }
 
 

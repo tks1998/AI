@@ -30,6 +30,7 @@ export class ComputeService {
     private extractData(res: Response) {
         return res.json();
     }
+    
     private handleError(err: Response | any) {
         console.log(err);
     }

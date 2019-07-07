@@ -43,21 +43,12 @@ var Agent = (function () {
     };
     // return | 1:win | -1:lose | 0:continue
     Agent.prototype.updateState = function () {
-        var _this = this;
         this.updateBoardState();
         this.computeLegalMoves();
-        console.log(this.legalMoves);
-        console.log(this.pieceban);
-        if (this.pieceban != null) {
-            this.legalMoves[this.pieceban.name] = this.legalMoves[this.pieceban.name].slice(function (m) { return (m.toString() != _this.pieceban.position.toString()); });
-        }
     };
     // compute legals moves for my pieces after state updated
     Agent.prototype.computeLegalMoves = function () {
         this.legalMoves = Rule_1.Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
-    };
-    Agent.prototype.updateban = function (x) {
-        this.pieceban = x;
     };
     Agent.prototype.checkMate = function () {
         return Rule_1.Rule.checkMate(this.myPieces, this.oppoPieces, this.boardState, this.team, this.reverse);

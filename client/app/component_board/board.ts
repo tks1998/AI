@@ -34,7 +34,6 @@ export class BoardComponent implements OnInit {
     dummyPieces: DummyPiece[] = [];
     lastState: State[] = Array();
     redo: State[] = Array();
-    repeat: Piece[] = Array();
     reverse = false;
     StateFlag = false;
     InputState: Object;
@@ -133,7 +132,6 @@ export class BoardComponent implements OnInit {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        this.repeat = [];
         var redAgent: Agent;
         var blackAgent: Agent;
         this.redminute = this.settime;
@@ -179,28 +177,11 @@ export class BoardComponent implements OnInit {
         this.blackAgentDepth = dept;
     }
 
-    // static samveMove(move1, move2) {
-    //     return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
-    // }
-
     humanMove(piece: Piece) {
         this.copyCurrentState();
         this.redo = [];
-        this.repeat = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
-        this.repeat.push(this.selectedPiece);
-        var n = this.repeat.length;
-        console.log(n)
-        console.log(this.repeat)
-        console.log(this.selectedPiece)
-        if (n > 3){
-            if (this.repeat[n-1].name == this.repeat[n-3].name && (this.repeat[n-1].position.toString() == this.repeat[n-3].position.toString()))
-            {
-                this.state.redAgent.updateban(this.repeat[n-1]);
-            }
-        }
         this.switchTurn();
-
     }
 
 

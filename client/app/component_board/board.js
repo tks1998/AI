@@ -28,7 +28,6 @@ var BoardComponent = (function () {
         this.dummyPieces = [];
         this.lastState = Array();
         this.redo = Array();
-        this.repeat = Array();
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
@@ -90,7 +89,6 @@ var BoardComponent = (function () {
         this.selectedPiece = undefined;
         this.lastState = [];
         this.redo = [];
-        this.repeat = [];
         var redAgent;
         var blackAgent;
         this.redminute = this.settime;
@@ -127,24 +125,10 @@ var BoardComponent = (function () {
     BoardComponent.prototype.chooseBlackSimulations = function (dept) {
         this.blackAgentDepth = dept;
     };
-    // static samveMove(move1, move2) {
-    //     return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
-    // }
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
         this.redo = [];
-        this.repeat = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
-        this.repeat.push(this.selectedPiece);
-        var n = this.repeat.length;
-        console.log(n);
-        console.log(this.repeat);
-        console.log(this.selectedPiece);
-        if (n > 3) {
-            if (this.repeat[n - 1].name == this.repeat[n - 3].name && (this.repeat[n - 1].position.toString() == this.repeat[n - 3].position.toString())) {
-                this.state.redAgent.updateban(this.repeat[n - 1]);
-            }
-        }
         this.switchTurn();
     };
     // end_state: -1: lose | 0: draw | 1: win

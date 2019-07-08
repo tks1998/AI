@@ -241,6 +241,7 @@ var BoardComponent = (function () {
         return this.reverse;
     };
     BoardComponent.prototype.checkMove = function (currentpiece) {
+        console.log(currentpiece);
         if (currentpiece.name[0] == 'k')
             return true;
         return (currentpiece.isMove > 0);
@@ -397,6 +398,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
+        this.state.redAgent.logMoves.push(" ");
     };
     // report results
     BoardComponent.prototype.report_result = function () {

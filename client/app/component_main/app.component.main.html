@@ -89,6 +89,7 @@
 
 	</div>
 
+	<!-- countdown for each player -->
 	<div class="side">
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)"novalidate>
@@ -96,7 +97,6 @@
 					<!-- <sm-button class="fluid medium blue control">Submit</sm-button> -->
 			</form>
 		</div>
-		<!-- countdown for each player -->
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<h3 class="ui header center aligned blue segment" id="blackclock">{{board.blackminute}} :
 				{{board.blacksecond}}

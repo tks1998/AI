@@ -47,17 +47,19 @@ export class Ultimate_algorthm extends Agent {
         for (var i in moves) { //legalMoves: {name: []}
             var movePieceName = moves[i][0];
             var move = moves[i][1];
-            var nextState = state.next_state(movePieceName, move);
-            
-            if (playingAgent.CheckFakeMove(movePieceName)) continue;
-            var count = playingAgent.getPieceByName(i).isMove;
+            var nextState = state.next_state(movePieceName, move); 
+            if ( playingAgent.CheckFakeMove(movePieceName) == true ) 
+            {
+                continue;
+            }
+         var count =  playingAgent.getPieceByName(movePieceName).isMove;
            
             
-            playingAgent.AddElementToPasMove(movePieceName,count);
+          playingAgent.AddElementToPasMove(movePieceName,count);
            
             var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta )[0], [movePieceName, move]] ; 
             // delete Piece with [name,count] 
-            playingAgent.DeleteElement(name,count);
+           playingAgent.DeleteElement(movePieceName,count);
             
             next_evals.push(eval_result);
 
@@ -88,7 +90,7 @@ export class Ultimate_algorthm extends Agent {
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
 
     static copyFromDict(dict) {
-        dict.DEPTH  =  4 ;
+        dict.DEPTH  =  3 ;
         dict.strategy = 1 ;
         return new Ultimate_algorthm(dict.team, dict.reverse , dict.strategy ,  this.piecesFromDict(dict.myPieces)   , dict.DEPTH);
     }

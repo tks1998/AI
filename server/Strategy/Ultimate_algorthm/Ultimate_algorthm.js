@@ -43,13 +43,14 @@ var Ultimate_algorthm = (function (_super) {
             var movePieceName = moves[i][0];
             var move = moves[i][1];
             var nextState = state.next_state(movePieceName, move);
-            if (playingAgent.CheckFakeMove(movePieceName))
+            if (playingAgent.CheckFakeMove(movePieceName) == true) {
                 continue;
-            var count = playingAgent.getPieceByName(i).isMove;
+            }
+            var count = playingAgent.getPieceByName(movePieceName).isMove;
             playingAgent.AddElementToPasMove(movePieceName, count);
             var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta)[0], [movePieceName, move]];
             // delete Piece with [name,count] 
-            playingAgent.DeleteElement(name, count);
+            playingAgent.DeleteElement(movePieceName, count);
             next_evals.push(eval_result);
             if (isMax) {
                 alpha = Math.max(alpha, eval_result[0]);
@@ -77,7 +78,7 @@ var Ultimate_algorthm = (function (_super) {
     Ultimate_algorthm.prototype.get_ordered_moves = function (agent) { return agent.get_moves_arr(); };
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
     Ultimate_algorthm.copyFromDict = function (dict) {
-        dict.DEPTH = 4;
+        dict.DEPTH = 3;
         dict.strategy = 1;
         return new Ultimate_algorthm(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     };

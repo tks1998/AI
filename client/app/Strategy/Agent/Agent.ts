@@ -6,6 +6,7 @@ export class Agent {
     team: number;
     strategy: number = 0;
     legalMoves: {}; // name->[positions]
+    moves: {};
     pastMoves = [];
     logMoves = [];   // storage move for reports
     myPieces: Piece[];

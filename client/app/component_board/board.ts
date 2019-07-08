@@ -6,6 +6,7 @@ import { State } from '../Strategy/State/State';
 import { Agent } from '../Strategy/Agent/Agent';
 import { start } from 'repl';
 import { NgForm } from '@angular/forms';
+import { stat } from 'fs';
 
 
 @Component({
@@ -178,13 +179,11 @@ export class BoardComponent implements OnInit {
         this.initGame();
     }
 
-
     humanMove(piece: Piece) {
         this.copyCurrentState();
         this.redo = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
-
     }
 
 
@@ -267,20 +266,22 @@ export class BoardComponent implements OnInit {
 
     // reverse game state to previous state
     go2PreviousState() {
-        console.log(this.state.redAgent.pastMoves);
-        var id = this.lastState.length - 1;
-        if (this.lastState.length <= 0) return;
-        this.redo.push(this.state)
-        this.state = this.lastState[id];
-        if (id == 0) {
-            this.lastState = [];
-            console.log("a: ", this.state.redAgent.logMoves);
-            console.log("a2: ", this.state.blackAgent.logMoves);
-        }
-        else {
-            this.lastState = this.lastState.slice(0, id);
-            console.log("b: ", this.state.redAgent.logMoves);
-            console.log("b2: ", this.state.blackAgent.logMoves);
+        if (this.state.playingTeam == 1){
+            console.log(this.state.redAgent.pastMoves);
+            var id = this.lastState.length - 1;
+            if (this.lastState.length <= 0) return;
+            this.redo.push(this.state)
+            this.state = this.lastState[id];
+            if (id == 0) {
+                this.lastState = [];
+                console.log("a: ", this.state.redAgent.logMoves);
+                console.log("a2: ", this.state.blackAgent.logMoves);
+            }
+            else {
+                this.lastState = this.lastState.slice(0, id);
+                console.log("b: ", this.state.redAgent.logMoves);
+                console.log("b2: ", this.state.blackAgent.logMoves);
+            }
         }
     }
 

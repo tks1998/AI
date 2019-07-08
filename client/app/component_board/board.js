@@ -125,6 +125,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackSimulations = function (dept) {
         this.blackAgentDepth = dept;
+        this.initGame();
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();

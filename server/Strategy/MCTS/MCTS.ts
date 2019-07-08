@@ -4,12 +4,12 @@ import { MCTS_State } from './MCTS_State'
 
 export class MCTS extends Agent {
 
-    strategy = 5;
+    strategy = 2;
     N_SIMULATION;
 
     constructor(team, reverese, strategy, pieces, N) {
         super(team, reverese, strategy, pieces);
-        this.N_SIMULATION = N;
+        (N == 2) ? this.N_SIMULATION = 2000 : this.N_SIMULATION = N;
     }
 
     static copyFromDict(dict) {

@@ -135,6 +135,7 @@ export class BoardComponent implements OnInit {
         this.redo = [];
         var redAgent: Agent;
         var blackAgent: Agent;
+
         this.redminute = this.settime;
         this.blackminute = this.settime;
         this.redsecond = 0;
@@ -143,6 +144,7 @@ export class BoardComponent implements OnInit {
         this.blackmilisec = 0;
         this.redinterval;
         this.blackinterval;
+        
         this.checkmate = false;
         this.pauseTimer(-1);
         this.pauseTimer(1);

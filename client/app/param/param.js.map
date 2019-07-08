@@ -1,9 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"param.js","sourceRoot":"D:/Github/AI/client/client/","sources":["app/param/param.ts"],"names":[],"mappings":";AAAA;IAAA;QACI,eAAU,GAAC,EAAE,CAAC,CAAC,IAAI;IACvB,CAAC;IAAD,YAAC;AAAD,CAAC,AAFD,IAEC;AAFY,aAAK,QAEjB,CAAA"}
-=======
-<<<<<<< HEAD
-{"version":3,"file":"param.js","sourceRoot":"D:/hoctap/AI/AI/client/client/","sources":["app/param/param.ts"],"names":[],"mappings":";AAAA;IAAA;QACI,eAAU,GAAC,EAAE,CAAC,CAAC,IAAI;IACvB,CAAC;IAAD,YAAC;AAAD,CAAC,AAFD,IAEC;AAFY,aAAK,QAEjB,CAAA"}
-=======
-{"version":3,"file":"param.js","sourceRoot":"D:/Document/AI/Chinese_chess/AI/client/client/","sources":["app/param/param.ts"],"names":[],"mappings":";AAAA;IAAA;QACI,eAAU,GAAC,EAAE,CAAC,CAAC,IAAI;IACvB,CAAC;IAAD,YAAC;AAAD,CAAC,AAFD,IAEC;AAFY,aAAK,QAEjB,CAAA"}
->>>>>>> fc738e5a7100cc2010c4d2b0c34c1e587fafde61
->>>>>>> 08a2cb75f9d794a45e2fbaab786aa6e55dad5ca5
+{"version":3,"file":"param.js","sourceRoot":"D:/_do-an/do-an-ai/AI/client/client/","sources":["app/param/param.ts"],"names":[],"mappings":";AAAA;IAAA;QACI,eAAU,GAAC,EAAE,CAAC,CAAC,IAAI;IACvB,CAAC;IAAD,YAAC;AAAD,CAAC,AAFD,IAEC;AAFY,aAAK,QAEjB,CAAA"}

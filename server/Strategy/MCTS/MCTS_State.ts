@@ -41,7 +41,7 @@ export class MCTS_State {
     }
 
     add_score(x) { this.sum_score += x; }
-    
+
     add_visit() { this.visits += 1; }
 
     set_parent(x) { this.parent = x; }

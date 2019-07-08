@@ -72,7 +72,7 @@ export class Agent {
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
-        console.log(this.legalMoves);
+        // console.log(this.legalMoves);
     }
 
 

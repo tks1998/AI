@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 export class ComputeService {
 
     private computeURL = '/compute';
-    private computeURL2 = '/compute2';
+    private checkmateURL = '/checkmate';
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
     constructor(private http: Http) { }
@@ -21,7 +21,7 @@ export class ComputeService {
 
     checkMate(state) {
         // console.log("\n-=-=-=-=-=-=-= compute launched -=-=-=-=-=-=-=\n", state);
-        return this.http.put(this.computeURL2, state)
+        return this.http.put(this.checkmateURL, state)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
@@ -30,6 +30,7 @@ export class ComputeService {
     private extractData(res: Response) {
         return res.json();
     }
+    
     private handleError(err: Response | any) {
         console.log(err);
     }

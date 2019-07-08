@@ -195,21 +195,23 @@ var BoardComponent = (function () {
     };
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
-        console.log(this.state.redAgent.pastMoves);
-        var id = this.lastState.length - 1;
-        if (this.lastState.length <= 0)
-            return;
-        this.redo.push(this.state);
-        this.state = this.lastState[id];
-        if (id == 0) {
-            this.lastState = [];
-            console.log("a: ", this.state.redAgent.logMoves);
-            console.log("a2: ", this.state.blackAgent.logMoves);
-        }
-        else {
-            this.lastState = this.lastState.slice(0, id);
-            console.log("b: ", this.state.redAgent.logMoves);
-            console.log("b2: ", this.state.blackAgent.logMoves);
+        if (this.state.playingTeam == 1) {
+            console.log(this.state.redAgent.pastMoves);
+            var id = this.lastState.length - 1;
+            if (this.lastState.length <= 0)
+                return;
+            this.redo.push(this.state);
+            this.state = this.lastState[id];
+            if (id == 0) {
+                this.lastState = [];
+                console.log("a: ", this.state.redAgent.logMoves);
+                console.log("a2: ", this.state.blackAgent.logMoves);
+            }
+            else {
+                this.lastState = this.lastState.slice(0, id);
+                console.log("b: ", this.state.redAgent.logMoves);
+                console.log("b2: ", this.state.blackAgent.logMoves);
+            }
         }
     };
     BoardComponent.prototype.CheckLastRedo = function () {
@@ -239,6 +241,7 @@ var BoardComponent = (function () {
         return this.reverse;
     };
     BoardComponent.prototype.checkMove = function (currentpiece) {
+        console.log(currentpiece);
         if (currentpiece.name[0] == 'k')
             return true;
         return (currentpiece.isMove > 0);
@@ -395,6 +398,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
+        this.state.redAgent.logMoves.push(" ");
     };
     // report results
     BoardComponent.prototype.report_result = function () {

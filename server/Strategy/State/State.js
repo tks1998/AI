@@ -33,6 +33,7 @@ var State = (function () {
         return this.get_next_by_team(movePieceName, toPos, this.playingTeam);
     };
     State.prototype.checkMate = function () {
+        //this.blackAgent.updateBoardState();
         return this.blackAgent.checkMate();
     };
     State.prototype.get_next_by_team = function (movePieceName, toPos, team) {

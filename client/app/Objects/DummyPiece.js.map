@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"version":3,"file":"DummyPiece.js","sourceRoot":"D:/hoctap/AI/AI/client/client/","sources":["app/Objects/DummyPiece.ts"],"names":[],"mappings":";;;;;;AAAA,sBAAsB,SAEtB,CAAC,CAF8B;AAE/B;IAAgC,8BAAK;IAEjC,oBAAY,QAAQ;QAChB,kBAAM,EAAE,EAAE,QAAQ,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,CAAC,CAAC;IACpC,CAAC;IAEL,iBAAC;AAAD,CAAC,AAND,CAAgC,aAAK,GAMpC;AANY,kBAAU,aAMtB,CAAA"}
+=======
+{"version":3,"file":"DummyPiece.js","sourceRoot":"D:/Document/AI/Chinese_chess/AI/client/client/","sources":["app/Objects/DummyPiece.ts"],"names":[],"mappings":";;;;;;AAAA,sBAAsB,SAEtB,CAAC,CAF8B;AAE/B;IAAgC,8BAAK;IAEjC,oBAAY,QAAQ;QAChB,kBAAM,EAAE,EAAE,QAAQ,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,CAAC,CAAC;IACpC,CAAC;IAEL,iBAAC;AAAD,CAAC,AAND,CAAgC,aAAK,GAMpC;AANY,kBAAU,aAMtB,CAAA"}
+>>>>>>> fc738e5a7100cc2010c4d2b0c34c1e587fafde61

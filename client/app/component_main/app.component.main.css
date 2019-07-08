@@ -19,7 +19,6 @@
 .right {
   float: right;
   position: relative;
-  top: 50px;
 }
 
 .header h1 {
@@ -66,7 +65,7 @@
 .nMove {
   margin: auto;
   text-align: center;
-  width: 100%;
+  width: 50%;
   display: block;
 }
 
@@ -99,7 +98,7 @@
 
 #redclock {
   position: relative;
-  top: 400px;
+  top: 300px;
 }
 
 .inputfile {
@@ -118,15 +117,15 @@
   animation: shake 2s cubic-bezier(.36, .07, .19, .97) both;
   transform: translate3d(0, 0, 0);
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 10%;
 }
 
 #cm_r {
   /* background-color: rgba(255, 68, 68, 0.95); */
-  background: url("resource/img/cm_b.png") no-repeat;
+  background: url("resource/img/cm_b.svg") no-repeat;
 }
 
 #cm_b {
-  background: url("resource/img/cm_r.png") no-repeat;
+  background: url("resource/img/cm_r.svg") no-repeat;
 }

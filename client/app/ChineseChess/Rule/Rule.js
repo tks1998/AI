@@ -69,11 +69,11 @@ var Rule = (function () {
         }
         return moves;
     };
-    // Ju: Xe
+    // Ju: Xe/ Rook
     Rule.possibleMovesForJu = function (currRow, currCol, boardStates) {
         return this.movesOnSameLine(currRow, currCol, boardStates);
     };
-    // Ma: Ma
+    // Ma: Ma/ Horse
     Rule.possibleMovesForMa = function (currRow, currCol, boardStates) {
         var moves = [];
         if (!([currRow + 1, currCol].toString() in boardStates)) {
@@ -118,7 +118,7 @@ var Rule = (function () {
             startRow = incFn(startRow);
         }
     };
-    // Pao: Phao
+    // Pao: Phao/ Cannon
     Rule.possibleMovesForPao = function (currRow, currCol, boardStates, team) {
         var inc = (function (x) { return x + 1; });
         var dec = (function (x) { return x - 1; });
@@ -165,7 +165,7 @@ var Rule = (function () {
         }
         return moves;
     };
-    // Shi: Si
+    // Shi: Si/ Advisor
     Rule.possibleMovesForShi = function (currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         if (2 == currRow || currRow == 9) {
@@ -192,7 +192,7 @@ var Rule = (function () {
         ];
         return moves;
     };
-    // King
+    // King/ General
     Rule.possibleMovesForKing = function (currRow, currCol, boardStates) {
         var moves = [];
         for (var col = 4; col <= 6; col++)
@@ -207,7 +207,7 @@ var Rule = (function () {
         }
         return moves.filter(function (x) { return ((x[0] - currRow) * (x[0] - currRow) + (x[1] - currCol) * (x[1] - currCol)) < 2; });
     };
-    // Xiang: Tuong
+    // Xiang: Tuong/ Elephant
     Rule.possibleMovesForXiang = function (currRow, currCol, boardStates, isLowerTeam) {
         var moves = [];
         var canMoveDowward = (isLowerTeam || currRow >= 8);
@@ -234,7 +234,7 @@ var Rule = (function () {
             moves.push([currRow - 2, currCol - 2]);
         return moves;
     };
-    // Zu: chot
+    // Zu: chot/ Pawn/ Soldier
     Rule.possibleMovesForZu = function (currRow, currCol, boardStates, isLowerTeam) {
         var beyond = isLowerTeam ? (currRow > 5) : (currRow <= 5); //beyond the river
         var moves = isLowerTeam ? [[currRow + 1, currCol]] : [[currRow - 1, currCol]];
@@ -259,10 +259,10 @@ var Rule = (function () {
         // piece.isMove == 0 -> piece is not move -> fake move
         if (reverse && piece.isMove != 0) {
             if (name == 'x') {
-                return this.possibleMovesForXiangofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForXiangofReverse(currRow, currCol, boardStates), boardStates);
             }
             if (name == 's') {
-                return this.possibleMovesForShiofReverse(currRow, currCol, boardStates);
+                return this.filterBoundedMoves(currRow, currCol, this.possibleMovesForShiofReverse(currRow, currCol, boardStates), boardStates);
             }
         }
         switch (name) {

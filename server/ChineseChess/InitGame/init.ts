@@ -28,6 +28,8 @@ export class InitGame {
          
         if (reverse)
         {
+            Newname = ['j3', 'j4', 'p3', 'p4', 'm3', 'm4', 'x3', 'x4', 's3', 's4', 'z6', 'z7', 'z8', 'z9', 'z10', 'k'];
+          
             rand = this.RandomPosition();
             for (var ele = 0 ; ele <RedTeam.length ; ele++)
             {
@@ -64,7 +66,9 @@ export class InitGame {
         var rand = [] ;
             
         if (reverse){
-             rand = this.RandomPosition();
+            Newname = ['j3', 'j4', 'p3', 'p4', 'm3', 'm4', 'x3', 'x4', 's3', 's4', 'z6', 'z7', 'z8', 'z9', 'z10', 'k'];
+          
+            rand = this.RandomPosition();
             for (var ele = 0 ;ele <BlueTeam.length ; ele++)
             {
                 Tname[ele]  = Newname[rand[ele]]; 
@@ -107,4 +111,11 @@ export class InitGame {
         }  
         return allPiece;
     }
+
+
+
+    
 }
+
+
+

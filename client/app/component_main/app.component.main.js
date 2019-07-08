@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var winRate_1 = require('../component_analysis/winRate');
+var logresults_1 = require('../component_analysis/logresults');
 var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
@@ -19,6 +21,7 @@ var AppComponent = (function () {
         this.selectedFile = null;
         this.chinachess = new forms_1.FormControl();
         this.flag = new forms_1.FormControl();
+        this.timer = new forms_1.FormControl();
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -31,19 +34,22 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onUpload = function () {
     };
-    AppComponent.prototype.myFunction = function () {
-        var x = document.getElementById("demo");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        }
-        else {
-            x.style.display = "none";
-        }
+    //
+    // update analysis results
+    AppComponent.prototype.update_result = function (results, agent_param) {
+        this.winRaterComp.update(results, agent_param);
     };
-    //reload page
-    AppComponent.prototype.refresh = function () {
-        window.location.reload();
+    AppComponent.prototype.update_record = function (log_red, log_black) {
+        this.logresultComp.display(log_red, log_black);
     };
+    __decorate([
+        core_1.ViewChild(winRate_1.WinRaterComponent), 
+        __metadata('design:type', winRate_1.WinRaterComponent)
+    ], AppComponent.prototype, "winRaterComp", void 0);
+    __decorate([
+        core_1.ViewChild(logresults_1.logResultsComponent), 
+        __metadata('design:type', logresults_1.logResultsComponent)
+    ], AppComponent.prototype, "logresultComp", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',

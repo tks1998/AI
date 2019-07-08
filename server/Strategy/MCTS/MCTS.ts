@@ -4,20 +4,17 @@ import { MCTS_State } from './MCTS_State'
 
 export class MCTS extends Agent {
 
-    strategy = 5;
+    strategy = 2;
     N_SIMULATION;
 
-    constructor(team,reverese , strategy , pieces, N) {
-        super(team,reverese , strategy , pieces);
-        console.log("tao la aslasjldasld", N);
-        this.N_SIMULATION = N;
+    constructor(team, reverese, strategy, pieces, N) {
+        super(team, reverese, strategy, pieces);
+        (N == 2) ? this.N_SIMULATION = 2000 : this.N_SIMULATION = N;
     }
 
     static copyFromDict(dict) {
-        console.log("---as-0=sa0-a0s=0sa" ,dict.DEPT);
-        return new MCTS(dict.team,dict.reverse, dict.strategy  , this.piecesFromDict(dict.myPieces), dict.DEPTH);
+        return new MCTS(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     }
-
 
     // return [piece:Piece, toPos];
     // MCTS main 
@@ -78,6 +75,7 @@ export class MCTS extends Agent {
         mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
         return mcts_new_state;
     }
+
 
     back_propagate(simulated_state: MCTS_State) {
         var temp = simulated_state;

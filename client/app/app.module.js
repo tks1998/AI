@@ -16,6 +16,9 @@ var http_1 = require('@angular/http');
 var board_1 = require('./component_board/board');
 var MapToIterable_1 = require('./pipe/MapToIterable');
 var forms_1 = require('@angular/forms');
+var ng2_charts_1 = require('ng2-charts/ng2-charts');
+var winRate_1 = require('./component_analysis/winRate');
+var logresults_1 = require('./component_analysis/logresults');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -25,7 +28,8 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 ng_semantic_1.NgSemanticModule,
                 http_1.HttpModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                ng2_charts_1.ChartsModule
             ],
             bootstrap: [
                 app_component_main_1.AppComponent
@@ -34,6 +38,8 @@ var AppModule = (function () {
                 app_component_main_1.AppComponent,
                 board_1.BoardComponent,
                 MapToIterable_1.MapToIterable,
+                winRate_1.WinRaterComponent,
+                logresults_1.logResultsComponent
             ]
         }), 
         __metadata('design:paramtypes', [])

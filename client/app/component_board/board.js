@@ -18,7 +18,7 @@ var BoardComponent = (function () {
     function BoardComponent(server) {
         this.redTeam = 1;
         this.blackTeam = -1;
-        this.boardState = {};
+        this.boardState = {}; // {postion => piece}  || NOT including dummy pieces
         this.checkmate = false;
         this.DEFAULT_TYPE = 0;
         this.blackAgentType = 0;
@@ -31,19 +31,21 @@ var BoardComponent = (function () {
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
-        this.redminute = 15;
-        this.blackminute = 15;
-        this.redsecond = 0;
-        this.blacksecond = 0;
-        this.redmilisec = 0;
-        this.blackmilisec = 0;
+        this.settime = 10;
+        this.InputCurrentState = {};
+        //
+        /***************** EVENT *******************/
+        // new game result obtained
+        // creat event
+        this.onResultsUpdated = new core_1.EventEmitter();
+        this.onRecordsUpdated = new core_1.EventEmitter();
         this.runtime_dict = {};
         this.results = [];
-        this.InputCurrentState = {};
         this.server = server;
     }
     BoardComponent.prototype.clear_results = function () {
         this.results = [];
+        this.report_result();
     };
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
@@ -54,7 +56,7 @@ var BoardComponent = (function () {
         if (!this.selectedPiece)
             return false;
         var moves = this.state.redAgent.legalMoves[this.selectedPiece.name];
-        console.log("TOI la isposioble", this.selectedPiece.name);
+        // console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(function (x) { return x + ''; }).indexOf(pos + '') >= 0;
     };
     BoardComponent.prototype.initDummyButtons = function () {
@@ -90,8 +92,8 @@ var BoardComponent = (function () {
         this.redo = [];
         var redAgent;
         var blackAgent;
-        this.redminute = 15;
-        this.blackminute = 15;
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
         this.redsecond = 0;
         this.blacksecond = 0;
         this.redmilisec = 0;
@@ -123,6 +125,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackSimulations = function (dept) {
         this.blackAgentDepth = dept;
+        this.initGame();
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
@@ -134,15 +137,18 @@ var BoardComponent = (function () {
     BoardComponent.prototype.end_game = function (end_state) {
         var red_win = end_state * this.state.playingTeam;
         this.state.endFlag = red_win;
+        // get result of the game
         this.results.push(red_win);
+        this.report_result();
+        this.show_record();
         this.selectedPiece = undefined;
         this.pauseTimer(1);
         this.pauseTimer(-1);
     };
-    // switch game turn
     BoardComponent.prototype.setCheckMate = function (value) {
         this.checkmate = value;
     };
+    // switch game turn
     BoardComponent.prototype.switchTurn = function () {
         var _this = this;
         this.state.switchTurn();
@@ -161,6 +167,10 @@ var BoardComponent = (function () {
             return;
         // this.switchTurn();
         // get move of sever and reder in page
+        this.server.checkMate(this.state.copy(false)).then(function (result) {
+            var checkmateS = result['checkmate'];
+            _this.setCheckMate(checkmateS);
+        });
         this.server.launchCompute(this.state.copy(false)).then(function (result) {
             var move = result['move'];
             var time = parseInt(result['time']);
@@ -177,7 +187,7 @@ var BoardComponent = (function () {
             var piece = agent.getPieceByName(move[0].name);
             if (move[1])
                 agent.movePieceTo(piece, move[1]);
-            _this.server.launchCompute(_this.state.copy(false)).then(function (result) {
+            _this.server.checkMate(_this.state.copy(false)).then(function (result) {
                 var checkmateS = result['checkmate'];
                 _this.setCheckMate(checkmateS);
             });
@@ -186,15 +196,24 @@ var BoardComponent = (function () {
     };
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
-        var id = this.lastState.length - 1;
-        if (this.lastState.length <= 0)
-            return;
-        this.redo.push(this.state);
-        this.state = this.lastState[id];
-        if (id == 0)
-            this.lastState = [];
-        else
-            this.lastState = this.lastState.slice(0, id);
+        if (this.state.playingTeam == 1) {
+            console.log(this.state.redAgent.pastMoves);
+            var id = this.lastState.length - 1;
+            if (this.lastState.length <= 0)
+                return;
+            this.redo.push(this.state);
+            this.state = this.lastState[id];
+            if (id == 0) {
+                this.lastState = [];
+                console.log("a: ", this.state.redAgent.logMoves);
+                console.log("a2: ", this.state.blackAgent.logMoves);
+            }
+            else {
+                this.lastState = this.lastState.slice(0, id);
+                console.log("b: ", this.state.redAgent.logMoves);
+                console.log("b2: ", this.state.blackAgent.logMoves);
+            }
+        }
     };
     BoardComponent.prototype.CheckLastRedo = function () {
         return this.redo.length > 0;
@@ -209,7 +228,7 @@ var BoardComponent = (function () {
             else
                 this.lastState = [];
             //if (id >= 0) this.lastState.push(this.redo[id]);
-            this.redo = this.redo.splice(0, id);
+            this.redo = this.redo.splice(0, id - 1);
         }
     };
     BoardComponent.prototype.CheckLastState = function () {
@@ -223,12 +242,10 @@ var BoardComponent = (function () {
         return this.reverse;
     };
     BoardComponent.prototype.checkMove = function (currentpiece) {
+        console.log(currentpiece);
         if (currentpiece.name[0] == 'k')
             return true;
-        if (currentpiece.isMove > 0)
-            return true;
-        else
-            return false;
+        return (currentpiece.isMove > 0);
     };
     BoardComponent.prototype.runState = function () {
         console.log("success");
@@ -257,6 +274,7 @@ var BoardComponent = (function () {
     };
     /** --------------------------------------------------------------------*/
     // Check move && change image 
+    //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;
         this.initGame();
@@ -264,8 +282,17 @@ var BoardComponent = (function () {
     BoardComponent.prototype.hiddentimer = function () {
         return this.timemode;
     };
+    BoardComponent.prototype.inputTime = function (f) {
+        this.settime = f.value["timeinput"];
+        if (this.settime <= 0)
+            this.settime = 10;
+        this.initGame();
+    };
     BoardComponent.prototype.startTimer = function (team) {
         var _this = this;
+        function pad(n) {
+            return (n < 10 ? "0" + n : n);
+        }
         if (this.timemode) {
             if (team == 1) {
                 this.redinterval = setInterval(function () {
@@ -288,6 +315,7 @@ var BoardComponent = (function () {
                         _this.redmilisec = 0;
                         _this.end_game(-team);
                     }
+                    //document.getElementById("redclock").innerHTML = pad(this.redminute) + ":" + pad(this.redsecond) + ":" + pad(this.redmilisec);
                 }, 10);
             }
             else {
@@ -311,6 +339,7 @@ var BoardComponent = (function () {
                         _this.blackmilisec = 0;
                         _this.end_game(team);
                     }
+                    //document.getElementById("blackclock").innerHTML = pad(this.blackminute) + ":" + pad(this.blacksecond) + ":" + pad(this.blackmilisec);
                 }, 10);
             }
         }
@@ -320,7 +349,7 @@ var BoardComponent = (function () {
             clearInterval(this.redinterval);
         }
         else {
-            clearImmediate(this.blackinterval);
+            clearInterval(this.blackinterval);
         }
     };
     /** submit form && extract data && make current state */
@@ -330,6 +359,16 @@ var BoardComponent = (function () {
         var extract;
         var red = [], black = [], currentState = {};
         var key = null;
+        this.pauseTimer(-1);
+        this.pauseTimer(1);
+        this.redminute = this.settime;
+        this.blackminute = this.settime;
+        this.redsecond = 0;
+        this.blacksecond = 0;
+        this.redmilisec = 0;
+        this.blackmilisec = 0;
+        this.redinterval;
+        this.blackinterval;
         for (var _i = 0, newstate_1 = newstate; _i < newstate_1.length; _i++) {
             var x = newstate_1[_i];
             extract = x.split(' ');
@@ -348,6 +387,7 @@ var BoardComponent = (function () {
         this.InputRed = red;
         this.InputBlack = black;
         this.InputCurrentState = currentState;
+        this.ChangeType();
     };
     BoardComponent.prototype.ChangeType = function () {
         this.reverse = false;
@@ -359,7 +399,24 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.SupportSwitchTurn = function () {
         this.switchTurn();
+        this.state.redAgent.logMoves.push(" ");
     };
+    // report results
+    BoardComponent.prototype.report_result = function () {
+        this.onResultsUpdated.emit();
+    };
+    // show record of the game
+    BoardComponent.prototype.show_record = function () {
+        this.onRecordsUpdated.emit();
+    };
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], BoardComponent.prototype, "onResultsUpdated", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], BoardComponent.prototype, "onRecordsUpdated", void 0);
     BoardComponent = __decorate([
         core_1.Component({
             selector: 'board',

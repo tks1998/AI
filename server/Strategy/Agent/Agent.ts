@@ -10,12 +10,14 @@ import { State } from '../State/State'
 export class Agent {
     team: number;
     legalMoves: {}; // name->[positions]
+    pastLegalMoves : {};
     myPieces: Piece[];
     oppoPieces: Piece[];
     oppoAgent: Agent;
     myPiecesDic: {}; // {name -> pos}
     boardState; // {posStr->[name, isMyPiece]}
     // moved: EventEmitter<number> = new EventEmitter();
+    Past = [];
     reverse = false;
     strategy = 0;
     constructor(team: number, reverse , strategy , myPieces = undefined ) {
@@ -52,6 +54,7 @@ export class Agent {
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
     }
+   
 
     // update board state by pieces
     updateBoardState() {
@@ -169,7 +172,6 @@ export class Agent {
                 moves.push([movePieceName, move]);
             }
         }
-       
         return moves;
     }
 
@@ -190,4 +192,22 @@ export class Agent {
     getValOfPiece(piece, team) {
         return Evaluation.posValue(piece.name, piece.position, team) + Evaluation.pieceValue(piece.name);
     }
+    AddElementToPasMove(name , count){
+        var quan = [name,count];
+        this.Past.push(quan);
+        
+    }
+    CheckFakeMove(name ) : boolean{
+       
+        var FakeMove = this.Past.filter( 
+            x => ( x[0] == name  && x[1] == 0 ) 
+        );
+        return FakeMove.length>0;
+    }
+    DeleteElement(name,count){
+        this.Past = this.Past.filter(x => !(x[0] == name && x[1] == count));
+    }
 }
+
+
+

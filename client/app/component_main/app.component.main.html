@@ -1,5 +1,8 @@
 <div class="body_content" (keyup.Enter)="board.initGame()">
-	<board #board class="board">
+	<!--  -->
+	<board #board class="board"
+		(onResultsUpdated)="update_result(board.results, [board.blackAgentType, board.blackAgentDepth])"
+		(onRecordsUpdated)="update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)">
 	</board>
 
 	<div class="left">
@@ -13,7 +16,7 @@
 		<!-- choose set time for 1 round or not -->
 		<div class="margin"></div>
 		<button class="huge ui inverted black basic button fluid slider checkbox">
-			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="chinachess" type="checkbox"
+			<sm-checkbox label="{{board.timemode ? 'Timer On':'Timer Off'}}" [control]="timer" type="checkbox"
 				(change)="board.TimeMode()">
 			</sm-checkbox>
 		</button>
@@ -22,7 +25,7 @@
 		<div class="margin"></div>
 		<sm-button class="fluid medium blue" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 		<div class="margin"></div>
-		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium blue control" icon="undo"
+		<sm-button [disabled]="!(board.CheckLastState()) || (board.state.playingTeam == -1)" class="fluid medium blue control" icon="undo"
 			(click)="board.go2PreviousState()">Undo</sm-button>
 		<div class="margin"></div>
 		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium blue control" icon="repeat"
@@ -37,7 +40,7 @@
 		<!-- choose AI agent -->
 		<div class="margin"></div>
 		<div id="blackAgentSelection">
-			<h4 class="ui horizontal divider header black"><i class="Flag icon"></i>Black</h4>
+			<h4 class="ui horizontal divider header blue"><i class="Flag icon"></i>Blue</h4>
 			<sm-select class="fluid" placeholder="Strategy (Greedy)"
 				(change)="board.chooseBlackAgent($event.target.value)">
 				<option>0-Greedy </option>
@@ -81,20 +84,21 @@
 			<textarea class="textboxx" placeholder="Nhập số nước đi tối thiểu..." rows="1" name="LimitMove"
 				ngModel></textarea>
 			<div class="margin"></div>
-			<sm-button class="fluid medium blue control">Submit</sm-button>
+			<sm-button class="fluid medium blue control">Start</sm-button>
 		</form>
 
-		<sm-button class="fluid huge ui inverted black basic slider checkbox">
-			<sm-checkbox label="{{board.StateFlag ? 'Normal Mode':'Customize Mode'}}" [control]="flag" type="checkbox"
-				(change)="board.ChangeType()">
-			</sm-checkbox>
-		</sm-button>
 	</div>
 
+	<!-- countdown for each player -->
 	<div class="side">
-		<!-- countdown for each player -->
 		<div *ngIf="board.hiddentimer()" class="clock">
-			<h3 class="ui header center aligned black segment" id="blackclock">{{board.blackminute}} :
+			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)"novalidate>
+					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
+					<!-- <sm-button class="fluid medium blue control">Submit</sm-button> -->
+			</form>
+		</div>
+		<div *ngIf="board.hiddentimer()" class="clock">
+			<h3 class="ui header center aligned blue segment" id="blackclock">{{board.blackminute}} :
 				{{board.blacksecond}}
 				: {{board.blackmilisec}}</h3>
 			<h3 class="ui header center aligned red segment" id="redclock">{{board.redminute}} : {{board.redsecond}}
@@ -103,15 +107,15 @@
 	</div>
 
 	<div class="right">
-		<div class="ui segments">
+		<div class="ui segments" *ngIf="board.state.endFlag==null">
 			<div class="margin"></div>
-			<div class="ui black segment center aligned icon">
-				<i class="large user black icon"></i>
-				<h4 class="ui black header center aligned">Black: {{board.state.blackAgent.pastMoves.length}}</h4>
+			<div class="ui blue segment center aligned icon">
+				<i class="large user blue icon"></i>
+				<h4 class="ui blue header center aligned">Blue: {{board.state.blackAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.blackAgent.pastMoves.length>0 && board.state.playingTeam==1">
 					<img
-						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.png">
-					<h3 class="ui black header">
+						src="resource/img/pieces/-1/{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].name[0]}}.svg">
+					<h3 class="ui blue header">
 						{{board.state.blackAgent.pastMoves[board.state.blackAgent.pastMoves.length-1].position}}</h3>
 				</div>
 				<div *ngIf="board.state.playingTeam!=1 && board.state.endFlag==null"
@@ -124,12 +128,12 @@
 				<h4 class="ui red header center aligned">Red: {{board.state.redAgent.pastMoves.length}}</h4>
 				<div class="nMove" *ngIf="board.state.redAgent.pastMoves.length>0 && board.state.playingTeam!=1">
 					<img
-						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.png">
+						src="resource/img/pieces/1/{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].name[0]}}.svg">
 					<h3 class="ui red header">
 						{{board.state.redAgent.pastMoves[board.state.redAgent.pastMoves.length-1].position}}</h3>
 				</div>
-				<div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null && !board.humanMode && board.simulation_state==1"
-					class="ui active centered inline loader"></div>
+				<!-- <div *ngIf="board.state.playingTeam==1 && board.state.endFlag==null"
+					class="ui active centered inline loader"></div> -->
 			</div>
 		</div>
 
@@ -141,14 +145,20 @@
 		<div class="ui segments" *ngIf="board.state.endFlag!=null">
 			<div class="ui segment center aligned icon">
 				<i *ngIf="board.state.endFlag == 1" class="huge trophy red icon"></i>
-				<i *ngIf="board.state.endFlag != 1" class="huge trophy black icon"></i>
+				<i *ngIf="board.state.endFlag != 1" class="huge trophy blue icon"></i>
 				<h1 class="ui aligned center red header">{{board.state.endFlag==0? 'DRAW' : 'WIN'}}</h1>
 			</div>
 			<div class="ui red segment center aligned">
-				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.png" alt="">
-				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.png" alt="">
+				<img *ngIf="board.state.endFlag >=0" src="resource/img/pieces/1/k.svg" alt="">
+				<img *ngIf="board.state.endFlag <=0" src="resource/img/pieces/-1/k.svg" alt="">
 			</div>
 		</div>
 	</div>
+</div>
 
+<div class="analysis">
+	<log-results></log-results>
+	<!-- <log-results *ngIf="!board.checkReverse()"/></log-results> -->
+	<!-- {{update_record(board.state.redAgent.logMoves, board.state.blackAgent.logMoves)}} -->
+	<winRater></winRater>
 </div>

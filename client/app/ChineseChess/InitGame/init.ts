@@ -39,6 +39,8 @@ export class InitGame {
     }
 
 
+
+
     static getRedPieces(reverse) {
         // make state game 
         // If reverse game then random position for piece expect king
@@ -50,8 +52,9 @@ export class InitGame {
         var Tname = Newname;
 
         var rand = [];
-       
+        
         if (reverse) {
+            Newname = ['j3', 'j4', 'p3', 'p4', 'm3', 'm4', 'x3', 'x4', 's3', 's4', 'z6', 'z7', 'z8', 'z9', 'z10', 'k'];
             rand = this.RandomPosition();
             for (var ele = 0; ele < RedTeam.length; ele++) {
                 Tname[ele] = Newname[rand[ele]];
@@ -79,6 +82,9 @@ export class InitGame {
     }
 
 
+    
+
+
     static getBlackPieces(reverse: boolean) {
 
         var BlueTeam = [[10, 1], [10, 9], [8, 2], [8, 8], [10, 2], [10, 8], [10, 3], [10, 7],
@@ -88,6 +94,7 @@ export class InitGame {
         var rand = [];
 
         if (reverse) {
+            Newname = ['j3', 'j4', 'p3', 'p4', 'm3', 'm4', 'x3', 'x4', 's3', 's4', 'z6', 'z7', 'z8', 'z9', 'z10', 'k'];
             rand = this.RandomPosition();
             for (var ele = 0; ele < BlueTeam.length; ele++) {
                 Tname[ele] = Newname[rand[ele]];
@@ -134,4 +141,7 @@ export class InitGame {
         }
         return allPiece;
     }
-}
+}                                               
+
+
+

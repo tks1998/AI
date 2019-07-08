@@ -3,12 +3,13 @@ import { GreedyAgent } from '../Greedy/GreedyAgent'
 import { ABPruning } from '../ABPruning/ABPruning'
 import { MCTS } from '../MCTS/MCTS'
 import { Rule } from '../../ChineseChess/Rule/Rule'
+import {Ultimate_algorthm} from '../Ultimate_algorthm/Ultimate_algorthm'
 
 export class State {
     redAgent: Agent;
     blackAgent: Agent;
     playingTeam: number;
-  //  is_repeating = false;
+    is_repeating = false;
     reverse = false;
     constructor(redAgent: Agent, blacAgent: Agent, playingTeam = 1,reverse, updateDict = false) {
         this.redAgent = redAgent;
@@ -37,6 +38,7 @@ export class State {
     }
 
     checkMate(){
+        //this.blackAgent.updateBoardState();
         return this.blackAgent.checkMate();
     }
 
@@ -58,16 +60,19 @@ export class State {
         return move1.name == move2.name && (move1.position.toString() == move2.position.toString());
     }
 
-    // static check_repeating(agent): boolean {
-    //     var moves = agent.pastMoves;
-    //     var n = moves.length;
-    //     if (n < 10) return false;
-    //     if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-    //         console.log(moves)
-    //         return true;
-    //     };
-    //     return false;
-    // }
+    static check_repeating(agent): boolean {
+        var moves = agent.pastMoves;
+        var n = moves.length;
+        if (n < 6) return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        // if (n < 3) return false;
+        // if (this.samveMove(moves[n - 1], moves[n - 3])) {
+        
+            console.log(moves)
+            return true;
+        };
+        return false;
+    }
     static  copyFromDict(dict) {
         var agentDict;
         var agentDict = dict.blackAgent;
@@ -76,24 +81,47 @@ export class State {
         
         oppo = Agent.copyFromDict(oppo);
         var agent;
-      
-        if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
-        if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
-        
+        var is_repeating = this.check_repeating(agentDict);
+        if (IsReverse) agent = Ultimate_algorthm.copyFromDict(agentDict);
+        else {
+            if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
+            if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
+            if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+            
+        }
+       
         var new_state;
         if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
         else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);
-           return new_state;
+        new_state.is_repeating = is_repeating;
+        return new_state;
       
     }
+    // nextMove() {
+    //     var agent = this.get_playing_agent();
+    //     var r = null;
+    //     if (agent.check_king_exist()) {
+    //         r = agent.comptuteNextMove(this);
+    //     } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
+    //     return r;
+      
+    // }
     nextMove() {
         var agent = this.get_playing_agent();
         var r = null;
         if (agent.check_king_exist()) {
-            r = agent.comptuteNextMove(this);
+            if (!this.is_repeating) r = agent.comptuteNextMove(this);
+            else {
+                console.log("REPEATING ")
+                agent.updateState();
+                r = agent.random_move();
+            }
         } else console.log("-=-=-=-=-=- KING DIED -=-=-=-=-=-", r)
         return r;
+    }
+    setStateCheckMate() {
+        var agent = this.get_playing_agent();
+        agent.updateState();
       
     }
     

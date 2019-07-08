@@ -25,7 +25,7 @@
 		<div class="margin"></div>
 		<sm-button class="fluid medium blue" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 		<div class="margin"></div>
-		<sm-button [disabled]="!(board.CheckLastState())" class="fluid medium blue control" icon="undo"
+		<sm-button [disabled]="!(board.CheckLastState()) || (board.state.playingTeam == -1)" class="fluid medium blue control" icon="undo"
 			(click)="board.go2PreviousState()">Undo</sm-button>
 		<div class="margin"></div>
 		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium blue control" icon="repeat"
@@ -89,14 +89,14 @@
 
 	</div>
 
+	<!-- countdown for each player -->
 	<div class="side">
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)"novalidate>
 					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
-					<sm-button class="fluid medium blue control">Submit</sm-button>
+					<!-- <sm-button class="fluid medium blue control">Submit</sm-button> -->
 			</form>
 		</div>
-		<!-- countdown for each player -->
 		<div *ngIf="board.hiddentimer()" class="clock">
 			<h3 class="ui header center aligned blue segment" id="blackclock">{{board.blackminute}} :
 				{{board.blacksecond}}

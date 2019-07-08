@@ -48,13 +48,11 @@ app.put('/compute', function (request, response) {
     var now = new Date().getTime();
     var t = (now - start);
     var playing = state.get_playing_agent();
-    // check mate
-    var checkmate = state.checkMate();
-    response.end(JSON.stringify({ "move": next, "time": t, "checkmate": checkmate }));
+    response.end(JSON.stringify({ "move": next, "time": t }));
     var param = (playing instanceof MCTS_1.MCTS) ? playing.N_SIMULATION : playing.DEPTH;
     console.log("Agent { ", playing.strategy + "-" + param, "} Compute Move Using: ", t, " ms");
 });
-app.put('/compute2', function (request, response) {
+app.put('/checkmate', function (request, response) {
     var state = request.body;
     state = State_1.State.copyFromDict(state);
     state.setStateCheckMate();

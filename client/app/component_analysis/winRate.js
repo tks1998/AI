@@ -38,11 +38,7 @@ var WinRaterComponent = (function () {
         this.names = [
             'Greedy',
             'Alpha-Beta Pruning',
-            'Alpha-Beta Pruning with Move Reorder',
-            'Temporal Difference Learning',
-            'Temporal Difference Learning (Trained)',
             'Monte Carlo Tree Search',
-            'Ultimate (Combined Strategy)'
         ];
         this.teamControl = new forms_1.FormControl();
         this.N = 10;
@@ -104,7 +100,7 @@ var WinRaterComponent = (function () {
     WinRaterComponent.prototype.get_plot_title = function () {
         var red = "You ";
         if (this.agent_param[0] == 2)
-            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[1] + "000";
+            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[1];
         else
             var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[1];
         var first = this.team == 1 ? red : black;

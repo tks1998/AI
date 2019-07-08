@@ -10,12 +10,10 @@ var MCTS = (function (_super) {
     __extends(MCTS, _super);
     function MCTS(team, reverese, strategy, pieces, N) {
         _super.call(this, team, reverese, strategy, pieces);
-        this.strategy = 5;
-        console.log("tao la aslasjldasld", N);
-        this.N_SIMULATION = N;
+        this.strategy = 2;
+        (N == 2) ? this.N_SIMULATION = 2000 : this.N_SIMULATION = N;
     }
     MCTS.copyFromDict = function (dict) {
-        console.log("---as-0=sa0-a0s=0sa", dict.DEPT);
         return new MCTS(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     };
     // return [piece:Piece, toPos];

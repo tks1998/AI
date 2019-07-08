@@ -6,6 +6,7 @@ export class Agent {
     team: number;
     strategy: number = 0;
     legalMoves: {}; // name->[positions]
+    moves: {};
     pastMoves = [];
     logMoves = [];   // storage move for reports
     myPieces: Piece[];
@@ -71,7 +72,7 @@ export class Agent {
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
         this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
-        console.log(this.legalMoves);
+        // console.log(this.legalMoves);
     }
 
 

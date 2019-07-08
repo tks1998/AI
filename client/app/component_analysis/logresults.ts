@@ -10,15 +10,7 @@ import { Component, OnInit } from "@angular/core";
 export class logResultsComponent implements OnInit {
     ngOnInit(): void {
     }
-
-    // public data = [];
-    // display(log_red, log_black) {
-    //     if (log_red.length != log_black.length) log_black.push(" ");
-    //     log_red.forEach((move, index) => {
-    //         this.data.push({ red_move: move, black_move: log_black[index] });
-    //     });
-    //     console.log(this.data);
-    // }
+    
 
     public log_red;
     public log_black;

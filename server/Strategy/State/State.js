@@ -33,6 +33,7 @@ var State = (function () {
         return this.get_next_by_team(movePieceName, toPos, this.playingTeam);
     };
     State.prototype.checkMate = function () {
+        //this.blackAgent.updateBoardState();
         return this.blackAgent.checkMate();
     };
     State.prototype.get_next_by_team = function (movePieceName, toPos, team) {
@@ -52,11 +53,11 @@ var State = (function () {
     State.check_repeating = function (agent) {
         var moves = agent.pastMoves;
         var n = moves.length;
-        // if (n < 6) return false;
-        // if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-        if (n < 3)
+        if (n < 6)
             return false;
-        if (this.samveMove(moves[n - 1], moves[n - 3])) {
+        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+            // if (n < 3) return false;
+            // if (this.samveMove(moves[n - 1], moves[n - 3])) {
             console.log(moves);
             return true;
         }

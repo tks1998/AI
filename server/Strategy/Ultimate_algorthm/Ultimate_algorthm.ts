@@ -12,7 +12,7 @@ export class Ultimate_algorthm extends Agent {
     // return [piece, toPos]; null if fail
     comptuteNextMove(curr_state: State) {
        
-        var evalResult = this.recurseEvaluation(curr_state, this.DEPTH, -Infinity, Infinity);
+        var evalResult = this.recurseEvaluation(curr_state, this.DEPTH, -Infinity, Infinity ) ;
         
         if (evalResult[0] * this.team == -Infinity) {
             console.log("FAIL!!!!")
@@ -30,10 +30,9 @@ export class Ultimate_algorthm extends Agent {
     }
 
     // return [score, [movePieceName, toPos]
-    recurseEvaluation(state: State, depth, alpha, beta) {
+    recurseEvaluation(state: State, depth, alpha, beta  ) {
         var isMax = state.playingTeam == state.redAgent.team;
         var playingAgent: Agent = state.get_playing_agent();
-        var PastMove :{};
         playingAgent.updateBoardState();
         var endState = state.getEndState();
         if (endState != 0) {
@@ -42,17 +41,26 @@ export class Ultimate_algorthm extends Agent {
         }
         if (depth == 0) return [this.getValueOfState(state), null];
         playingAgent.computeLegalMoves();
-        // if (PastMove != {}){
-        //     playingAgent.checkPastMove(PastMove);
-        // }
-        // PastMove = playingAgent.GetLegalMoves();
+        
         var moves = this.get_ordered_moves(playingAgent); // [[pieceName, move]]
         var next_evals = []; // list of [score, [movePieceName, toPos]]
         for (var i in moves) { //legalMoves: {name: []}
             var movePieceName = moves[i][0];
             var move = moves[i][1];
-            var nextState = state.next_state(movePieceName, move);
-            var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta)[0], [movePieceName, move]];
+            var nextState = state.next_state(movePieceName, move); 
+            if ( playingAgent.CheckFakeMove(movePieceName) == true ) 
+            {
+                continue;
+            }
+         var count =  playingAgent.getPieceByName(movePieceName).isMove;
+           
+            
+          playingAgent.AddElementToPasMove(movePieceName,count);
+           
+            var eval_result = [this.recurseEvaluation(nextState, depth - 1, alpha, beta )[0], [movePieceName, move]] ; 
+            // delete Piece with [name,count] 
+           playingAgent.DeleteElement(movePieceName,count);
+            
             next_evals.push(eval_result);
 
             if (isMax) {// max node -> increase lower bound
@@ -82,7 +90,7 @@ export class Ultimate_algorthm extends Agent {
     // copy() { return new EvalFnAgent(this.team, this.myPieces.map(x => x.copy()), this.DEPTH); }
 
     static copyFromDict(dict) {
-        dict.DEPTH  =  2 ;
+        dict.DEPTH  =  3 ;
         dict.strategy = 1 ;
         return new Ultimate_algorthm(dict.team, dict.reverse , dict.strategy ,  this.piecesFromDict(dict.myPieces)   , dict.DEPTH);
     }

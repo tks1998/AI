@@ -167,7 +167,7 @@ export class Agent {
         // console.log("curr pos: ", piece.position)
         // console.log("new pos: ", pos)
         var log = this.en_name[piece.name[0]].concat(piece.position[1]);
-
+        
         if (piece.position[0] == pos[0])
             log = log.concat(".");
         else

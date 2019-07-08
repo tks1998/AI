@@ -83,10 +83,13 @@ export class State {
         var agent;
         var is_repeating = this.check_repeating(agentDict);
         if (IsReverse) agent = Ultimate_algorthm.copyFromDict(agentDict);
-        if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
-        if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
-        
+        else {
+            if (agentDict.strategy == 0) agent = GreedyAgent.copyFromDict(agentDict);
+            if (agentDict.strategy == 1) agent = ABPruning.copyFromDict(agentDict);
+            if (agentDict.strategy == 2) agent = MCTS.copyFromDict(agentDict);
+            
+        }
+       
         var new_state;
         if (dict.playingTeam == 1) new_state = new State(agent, oppo, dict.playingTeam,IsReverse);
         else new_state = new State(oppo, agent, dict.playingTeam,IsReverse);

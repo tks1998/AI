@@ -74,12 +74,14 @@ var State = (function () {
         var is_repeating = this.check_repeating(agentDict);
         if (IsReverse)
             agent = Ultimate_algorthm_1.Ultimate_algorthm.copyFromDict(agentDict);
-        if (agentDict.strategy == 0)
-            agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
-        if (agentDict.strategy == 1)
-            agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
-        if (agentDict.strategy == 2)
-            agent = MCTS_1.MCTS.copyFromDict(agentDict);
+        else {
+            if (agentDict.strategy == 0)
+                agent = GreedyAgent_1.GreedyAgent.copyFromDict(agentDict);
+            if (agentDict.strategy == 1)
+                agent = ABPruning_1.ABPruning.copyFromDict(agentDict);
+            if (agentDict.strategy == 2)
+                agent = MCTS_1.MCTS.copyFromDict(agentDict);
+        }
         var new_state;
         if (dict.playingTeam == 1)
             new_state = new State(agent, oppo, dict.playingTeam, IsReverse);

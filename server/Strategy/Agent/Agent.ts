@@ -17,6 +17,7 @@ export class Agent {
     myPiecesDic: {}; // {name -> pos}
     boardState; // {posStr->[name, isMyPiece]}
     // moved: EventEmitter<number> = new EventEmitter();
+    Past = [];
     reverse = false;
     strategy = 0;
     constructor(team: number, reverse , strategy , myPieces = undefined ) {
@@ -190,6 +191,21 @@ export class Agent {
 
     getValOfPiece(piece, team) {
         return Evaluation.posValue(piece.name, piece.position, team) + Evaluation.pieceValue(piece.name);
+    }
+    AddElementToPasMove(name , count){
+        var quan = [name,count];
+        this.Past.push(quan);
+        
+    }
+    CheckFakeMove(name ) : boolean{
+       
+        var FakeMove = this.Past.filter( 
+            x => ( x[0] == name  && x[1] == 0 ) 
+        );
+        return FakeMove.length>0;
+    }
+    DeleteElement(name,count){
+        this.Past = this.Past.filter(x => !(x[0] == name && x[1] == count));
     }
 }
 

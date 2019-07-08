@@ -178,13 +178,11 @@ export class BoardComponent implements OnInit {
         this.blackAgentDepth = dept;
     }
 
-
     humanMove(piece: Piece) {
         this.copyCurrentState();
         this.redo = [];
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
-
     }
 
 

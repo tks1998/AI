@@ -62,10 +62,10 @@ export class State {
     static check_repeating(agent): boolean {
         var moves = agent.pastMoves;
         var n = moves.length;
-        // if (n < 6) return false;
-        // if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
-        if (n < 3) return false;
-        if (this.samveMove(moves[n - 1], moves[n - 3])) {
+        if (n < 6) return false;
+        if (this.samveMove(moves[n - 1], moves[n - 3]) && this.samveMove(moves[n - 5], moves[n - 3])) {
+        // if (n < 3) return false;
+        // if (this.samveMove(moves[n - 1], moves[n - 3])) {
         
             console.log(moves)
             return true;

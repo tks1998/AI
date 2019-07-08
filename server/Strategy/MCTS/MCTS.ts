@@ -7,17 +7,14 @@ export class MCTS extends Agent {
     strategy = 5;
     N_SIMULATION;
 
-    constructor(team,reverese , strategy , pieces, N) {
-        super(team,reverese , strategy , pieces);
-        console.log("tao la aslasjldasld", N);
+    constructor(team, reverese, strategy, pieces, N) {
+        super(team, reverese, strategy, pieces);
         this.N_SIMULATION = N;
     }
 
     static copyFromDict(dict) {
-        console.log("---as-0=sa0-a0s=0sa" ,dict.DEPT);
-        return new MCTS(dict.team,dict.reverse, dict.strategy  , this.piecesFromDict(dict.myPieces), dict.DEPTH);
+        return new MCTS(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
     }
-
 
     // return [piece:Piece, toPos];
     // MCTS main 
@@ -89,7 +86,4 @@ export class MCTS extends Agent {
             temp = temp.parent;
         }
     }
-
 }
-
-

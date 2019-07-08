@@ -113,7 +113,6 @@ export class BoardComponent implements OnInit {
 
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
-
         this.initGame();
     }
 
@@ -176,6 +175,7 @@ export class BoardComponent implements OnInit {
 
     chooseBlackSimulations(dept) {
         this.blackAgentDepth = dept;
+        this.initGame();
     }
 
 

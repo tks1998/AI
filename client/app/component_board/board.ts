@@ -34,7 +34,7 @@ export class BoardComponent implements OnInit {
     selectedPiece: Piece;
     dummyPieces: DummyPiece[] = [];
     lastState: State[] = Array();
-    redo: State[] = Array();
+    redo: State;
     reverse = false;
     StateFlag = false;
     InputState: Object;
@@ -132,7 +132,7 @@ export class BoardComponent implements OnInit {
     initGame() {
         this.selectedPiece = undefined;
         this.lastState = [];
-        this.redo = [];
+        this.redo = null;
         var redAgent: Agent;
         var blackAgent: Agent;
 
@@ -183,7 +183,7 @@ export class BoardComponent implements OnInit {
 
     humanMove(piece: Piece) {
         this.copyCurrentState();
-        this.redo = [];
+        this.redo = null;
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
     }
@@ -269,41 +269,30 @@ export class BoardComponent implements OnInit {
     // reverse game state to previous state
     go2PreviousState() {
         if (this.state.playingTeam == 1){
-            console.log(this.state.redAgent.pastMoves);
             var id = this.lastState.length - 1;
             if (this.lastState.length <= 0) return;
-            this.redo.push(this.state)
+            this.redo = this.state ;
             this.state = this.lastState[id];
             if (id == 0) {
                 this.lastState = [];
-                console.log("a: ", this.state.redAgent.logMoves);
-                console.log("a2: ", this.state.blackAgent.logMoves);
             }
             else {
                 this.lastState = this.lastState.slice(0, id);
-                console.log("b: ", this.state.redAgent.logMoves);
-                console.log("b2: ", this.state.blackAgent.logMoves);
             }
         }
     }
 
 
     CheckLastRedo(): Boolean {
-        return this.redo.length > 0
+        return this.redo !=null ;
     }
 
 
     Redo() {
-        var id = this.redo.length - 1;
-        var size = this.lastState.length - 1;
-
-        if (id >= 0) {
-            this.state = this.redo[id];
-            if (size >= 0) this.lastState = this.lastState.slice(0, size)
-            else this.lastState = [];
-            //if (id >= 0) this.lastState.push(this.redo[id]);
-            this.redo = this.redo.splice(0, id - 1);
-        }
+        if (this.redo == null ) return ;
+        this.lastState.push(this.state);
+        this.state = this.redo;
+        this.redo = null ;
     }
 
 
@@ -517,5 +506,9 @@ export class BoardComponent implements OnInit {
     // show record of the game
     show_record() {
         this.onRecordsUpdated.emit();
+    }
+
+    CheckTypeChess(){
+        return this.reverse;
     }
 }

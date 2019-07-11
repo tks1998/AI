@@ -27,7 +27,6 @@ var BoardComponent = (function () {
         this.pieceSize = 67;
         this.dummyPieces = [];
         this.lastState = Array();
-        this.redo = Array();
         this.reverse = false;
         this.StateFlag = false;
         this.timemode = false;
@@ -89,7 +88,7 @@ var BoardComponent = (function () {
     BoardComponent.prototype.initGame = function () {
         this.selectedPiece = undefined;
         this.lastState = [];
-        this.redo = [];
+        this.redo = null;
         var redAgent;
         var blackAgent;
         this.redminute = this.settime;
@@ -129,7 +128,7 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
-        this.redo = [];
+        this.redo = null;
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
     };
@@ -197,39 +196,28 @@ var BoardComponent = (function () {
     // reverse game state to previous state
     BoardComponent.prototype.go2PreviousState = function () {
         if (this.state.playingTeam == 1) {
-            console.log(this.state.redAgent.pastMoves);
             var id = this.lastState.length - 1;
             if (this.lastState.length <= 0)
                 return;
-            this.redo.push(this.state);
+            this.redo = this.state;
             this.state = this.lastState[id];
             if (id == 0) {
                 this.lastState = [];
-                console.log("a: ", this.state.redAgent.logMoves);
-                console.log("a2: ", this.state.blackAgent.logMoves);
             }
             else {
                 this.lastState = this.lastState.slice(0, id);
-                console.log("b: ", this.state.redAgent.logMoves);
-                console.log("b2: ", this.state.blackAgent.logMoves);
             }
         }
     };
     BoardComponent.prototype.CheckLastRedo = function () {
-        return this.redo.length > 0;
+        return this.redo != null;
     };
     BoardComponent.prototype.Redo = function () {
-        var id = this.redo.length - 1;
-        var size = this.lastState.length - 1;
-        if (id >= 0) {
-            this.state = this.redo[id];
-            if (size >= 0)
-                this.lastState = this.lastState.slice(0, size);
-            else
-                this.lastState = [];
-            //if (id >= 0) this.lastState.push(this.redo[id]);
-            this.redo = this.redo.splice(0, id - 1);
-        }
+        if (this.redo == null)
+            return;
+        this.lastState.push(this.state);
+        this.state = this.redo;
+        this.redo = null;
     };
     BoardComponent.prototype.CheckLastState = function () {
         //console.log(this.lastState.length)
@@ -408,6 +396,9 @@ var BoardComponent = (function () {
     // show record of the game
     BoardComponent.prototype.show_record = function () {
         this.onRecordsUpdated.emit();
+    };
+    BoardComponent.prototype.CheckTypeChess = function () {
+        return this.reverse;
     };
     __decorate([
         core_1.Output(), 

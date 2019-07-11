@@ -21,14 +21,14 @@
 			</sm-checkbox>
 		</button>
 
-		<!-- function restart - undo - redo -->
+		<!-- function restart -  - redo -->
 		<div class="margin"></div>
 		<sm-button class="fluid medium blue" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 		<div class="margin"></div>
-		<sm-button [disabled]="!(board.CheckLastState()) || (board.state.playingTeam == -1)" class="fluid medium blue control" icon="undo"
+		<sm-button [disabled]="!(board.CheckLastState() && !board.CheckTypeChess()) || (board.state.playingTeam == -1)" class="fluid medium blue control" icon="undo"
 			(click)="board.go2PreviousState()">Undo</sm-button>
 		<div class="margin"></div>
-		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium blue control" icon="repeat"
+		<sm-button [disabled]="!(board.CheckLastRedo() && !board.CheckTypeChess())" class="fluid medium blue control" icon="repeat"
 			(click)="board.Redo()">Redo</sm-button>
 
 		<hr>

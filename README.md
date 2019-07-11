@@ -4,6 +4,7 @@ Install :
 
   First step : install nodejs 10.x.x
     - Install node on Linux :
+    
        + sudo apt install curl
        + curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
        + sudo apt install nodejs
@@ -19,15 +20,22 @@ Run project with command on terminal || conmand line : npm start
 App Play China chess and Reverse China Chess :
   China chess 
     - Algorithm :
+    
         + apha beta puring ( chooose depth 1->4 )
         + Monte carlo tree search ( chooose max node 1000 -> 10000) 
+        
   Reverse China chess :
+  
     - Algorithm :
         + apha beta puring (defalt depth  =  3 )
+        
   Reslove state :
+  
     - Algorithm :
         + apha beta puring (defalt depth  =  4 )
+        
   support app :
+  
     - undo 
     - redo
     - restart

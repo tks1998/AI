@@ -3,7 +3,9 @@
 Install :
 
   First step : install nodejs 10.x.x
-    - Install node on Linux :
+  
+  
+   - Install node on Linux :
     
        + sudo apt install curl
        + curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
@@ -20,7 +22,9 @@ Install :
   
     - Easy install project with command on terminal(on linux) or command line (on window) : 
        + npm install
-Run project with command on terminal || conmand line : npm start 
+Run project with command on terminal || conmand line : 
+
+    npm start 
 
 App Play China chess and Reverse China Chess :
   China chess 

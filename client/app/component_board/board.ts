@@ -364,7 +364,7 @@ export class BoardComponent implements OnInit {
 
     hiddentimer(): boolean {
         return this.timemode;
-    }
+    }đ
 
     inputTime(f: NgForm) {
         this.settime = f.value["timeinput"];

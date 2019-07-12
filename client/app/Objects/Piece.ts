@@ -30,13 +30,6 @@ export class Piece {
     copy() {
         return new Piece(this.name, this.position, this.Reverse, this.truthname, this.isMove);
     }
-
-    update(name) {
-        this.name = this.truthname;
-    }
-    update_checkmove(name) {
-        this.name = this.truthname;
-    }
 }
 
 

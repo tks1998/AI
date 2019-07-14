@@ -39,6 +39,7 @@ export class State {
 
     checkMate(){
         //this.blackAgent.updateBoardState();
+        if (this.getEndState()!=0) return false;
         return this.blackAgent.checkMate();
     }
 

@@ -11,7 +11,7 @@ var MCTS = (function (_super) {
     function MCTS(team, reverese, strategy, pieces, N) {
         _super.call(this, team, reverese, strategy, pieces);
         this.strategy = 2;
-        (N == 2) ? this.N_SIMULATION = 2000 : this.N_SIMULATION = N;
+        this.N_SIMULATION = N;
     }
     MCTS.copyFromDict = function (dict) {
         return new MCTS(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces), dict.DEPTH);
@@ -20,7 +20,6 @@ var MCTS = (function (_super) {
     // MCTS main 
     MCTS.prototype.comptuteNextMove = function (state) {
         var root = new MCTS_State_1.MCTS_State(state, null);
-        // console.log("root:", root.visits);
         var i_simulation = 1;
         while (i_simulation <= this.N_SIMULATION) {
             // console.log("======================", i_simulation, "======================")
@@ -31,6 +30,7 @@ var MCTS = (function (_super) {
                 this.back_propagate(simulated_state);
         }
         var r = this.pick_max_UCB_child(root).parentMove;
+        // console.log("======================MOVE: ", this.pick_max_UCB_child(root), "======================")
         // console.log("======================MOVE: ", r, "======================")
         return r;
     };
@@ -42,16 +42,20 @@ var MCTS = (function (_super) {
             mcts_state.visits = 1;
             return mcts_state;
         }
+        // console.log(mcts_state.state.playingTeam)
         if (!mcts_state.children)
             mcts_state.generate_children();
         var unvisited = mcts_state.children.filter(function (x) { return x.visits == 0; });
         if (unvisited.length > 0)
             return unvisited[0];
+        // console.log(mcts_state.state.playingTeam);
         var selected = this.pick_max_UCB_child(mcts_state);
-        if (selected)
+        if (selected) {
             return this.select(selected);
-        else
+        }
+        else {
             return mcts_state;
+        }
     };
     MCTS.prototype.pick_max_UCB_child = function (mcts_state) {
         var selected = null;
@@ -75,7 +79,10 @@ var MCTS = (function (_super) {
         var mcts_new_state = new MCTS_State_1.MCTS_State(nextState, move);
         mcts_new_state.visits += 1;
         mcts_new_state.set_parent(selected);
+        // console.log(root_state.state.playingTeam)
+        // console.log((mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)));
         mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
+        // console.log(mcts_new_state.sum_score);
         return mcts_new_state;
     };
     MCTS.prototype.back_propagate = function (simulated_state) {

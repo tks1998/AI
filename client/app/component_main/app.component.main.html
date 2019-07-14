@@ -25,8 +25,8 @@
 		<div class="margin"></div>
 		<sm-button class="fluid medium blue" icon="refresh" (click)="board.initGame()">Restart</sm-button>
 		<div class="margin"></div>
-		<sm-button [disabled]="!(board.CheckLastState()) || (board.state.playingTeam == -1)" class="fluid medium blue control" icon="undo"
-			(click)="board.go2PreviousState()">Undo</sm-button>
+		<sm-button [disabled]="!(board.CheckLastState()) || (board.state.playingTeam == -1)"
+			class="fluid medium blue control" icon="undo" (click)="board.go2PreviousState()">Undo</sm-button>
 		<div class="margin"></div>
 		<sm-button [disabled]="!(board.CheckLastRedo())" class="fluid medium blue control" icon="repeat"
 			(click)="board.Redo()">Redo</sm-button>
@@ -39,7 +39,7 @@
 
 		<!-- choose AI agent -->
 		<div class="margin"></div>
-		<div id="blackAgentSelection">
+		<div id="blackAgentSelection" *ngIf="!board.reverse">
 			<h4 class="ui horizontal divider header blue"><i class="Flag icon"></i>Blue</h4>
 			<sm-select class="fluid" placeholder="Strategy (Greedy)"
 				(change)="board.chooseBlackAgent($event.target.value)">
@@ -92,9 +92,9 @@
 	<!-- countdown for each player -->
 	<div class="side">
 		<div *ngIf="board.hiddentimer()" class="clock">
-			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)"novalidate>
-					<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
-					<!-- <sm-button class="fluid medium blue control">Submit</sm-button> -->
+			<form class="ui form" #f="ngForm" (ngSubmit)="board.inputTime(f)" novalidate>
+				<input type="number" placeholder="10 (minutes)" class="textboxx" name="timeinput" min="0" ngModel>
+				<!-- <sm-button class="fluid medium blue control">Submit</sm-button> -->
 			</form>
 		</div>
 		<div *ngIf="board.hiddentimer()" class="clock">

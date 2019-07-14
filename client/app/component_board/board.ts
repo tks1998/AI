@@ -26,8 +26,8 @@ export class BoardComponent implements OnInit {
     checkmate = false;
 
     private DEFAULT_TYPE = 0;
-    blackAgentType = 0;
     DEFAULT_DEPTH = 2;
+    blackAgentType = 0;
     blackAgentDepth = 2;
 
     pieceSize: number = 67;
@@ -70,13 +70,13 @@ export class BoardComponent implements OnInit {
         this.report_result();
     }
 
-
     changeMode() {
         this.reverse = !this.reverse;
+        this.blackAgentType = 3;
+        this.blackAgentDepth = 4;
         this.clear_results();
         this.initGame();
     }
-
 
     isPossibleMove(pos) {
         if (!this.selectedPiece) return false;
@@ -85,7 +85,6 @@ export class BoardComponent implements OnInit {
         // console.log("TOI la isposioble",this.selectedPiece.name);
         return moves.map(x => x + '').indexOf(pos + '') >= 0;
     }
-
 
     initDummyButtons() {
         this.dummyPieces = [];
@@ -96,7 +95,6 @@ export class BoardComponent implements OnInit {
         }
     }
 
-
     parse_agentType(desc) {
         if (desc == "") {
             return 0;
@@ -104,30 +102,31 @@ export class BoardComponent implements OnInit {
         return parseInt(desc.split('-')[0]);
     }
 
-
     chooseBlackAgent(desc) {
         this.blackAgentType = this.parse_agentType(desc);
+        this.blackAgentDepth = (this.blackAgentType == 2) ? 2000 : 2;
         this.clear_results();
         this.initGame();
     }
-
 
     chooseBlackAgentDepth(depth) {
         this.blackAgentDepth = parseInt(depth);
         this.initGame();
     }
 
+    chooseBlackSimulations(dept) {
+        this.blackAgentDepth = dept;
+        this.initGame();
+    }
 
     ngOnInit() {
         this.initDummyButtons();
         this.initGame();
     }
 
-
     constructor(server: ComputeService) {
         this.server = server;
     }
-
 
     initGame() {
         this.selectedPiece = undefined;
@@ -144,41 +143,31 @@ export class BoardComponent implements OnInit {
         this.blackmilisec = 0;
         this.redinterval;
         this.blackinterval;
-        
+
         this.checkmate = false;
         this.pauseTimer(-1);
         this.pauseTimer(1);
         this.initDummyButtons();
-        blackAgent = new Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
 
+        blackAgent = new Agent(this.blackTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
         redAgent = new Agent(this.redTeam, this.reverse, this.blackAgentType, this.blackAgentDepth);
 
         this.state = new State(redAgent, blackAgent, this.reverse);
-
     }
-
 
     clickDummyPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
     }
 
-
     clickRedPiece(piece: Piece) {
         if (this.state.endFlag != null) return;
         this.selectedPiece = piece;
     }
 
-
     clickBlackPiece(piece: Piece) {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null) return;
         this.humanMove(piece);
-    }
-
-
-    chooseBlackSimulations(dept) {
-        this.blackAgentDepth = dept;
-        this.initGame();
     }
 
     humanMove(piece: Piece) {
@@ -187,7 +176,6 @@ export class BoardComponent implements OnInit {
         this.state.redAgent.movePieceTo(this.selectedPiece, piece.position, true);
         this.switchTurn();
     }
-
 
     // end_state: -1: lose | 0: draw | 1: win
     end_game(end_state) {
@@ -205,11 +193,9 @@ export class BoardComponent implements OnInit {
         this.pauseTimer(-1);
     }
 
-
     setCheckMate(value) {
         this.checkmate = value;
     }
-
 
     // switch game turn
     switchTurn() {
@@ -265,7 +251,6 @@ export class BoardComponent implements OnInit {
         );
     }
 
-
     // reverse game state to previous state
     go2PreviousState() {
         if (this.state.playingTeam == 1){
@@ -282,11 +267,9 @@ export class BoardComponent implements OnInit {
         }
     }
 
-
     CheckLastRedo(): Boolean {
         return this.redo !=null ;
     }
-
 
     Redo() {
         if (this.redo == null ) return ;
@@ -295,22 +278,18 @@ export class BoardComponent implements OnInit {
         this.redo = null ;
     }
 
-
     CheckLastState(): Boolean {
         //console.log(this.lastState.length)
         return this.lastState.length > 0;
     }
 
-
     copyCurrentState() {
         this.lastState.push(this.state.copy())
     }
 
-
     checkReverse(): Boolean {
         return this.reverse;
     }
-
 
     checkMove(currentpiece: Piece): Boolean {
         console.log(currentpiece);
@@ -318,11 +297,9 @@ export class BoardComponent implements OnInit {
         return (currentpiece.isMove > 0);
     }
 
-
     runState() {
         console.log("success");
     }
-
 
     SaveState(input) {
         var xy = [input];
@@ -353,14 +330,12 @@ export class BoardComponent implements OnInit {
     }
     /** --------------------------------------------------------------------*/
 
-    // Check move && change image 
 
     //part of Timer
     TimeMode() {
         this.timemode = !this.timemode;
         this.initGame();
     }
-
 
     hiddentimer(): boolean {
         return this.timemode;
@@ -429,7 +404,6 @@ export class BoardComponent implements OnInit {
         }
     }
 
-
     pauseTimer(team) {
         if (team == 1) {
             clearInterval(this.redinterval);
@@ -438,7 +412,6 @@ export class BoardComponent implements OnInit {
             clearInterval(this.blackinterval);
         }
     }
-
 
     /** submit form && extract data && make current state */
     SolveState(f: NgForm) {
@@ -477,10 +450,8 @@ export class BoardComponent implements OnInit {
         this.InputBlack = black;
         this.InputCurrentState = currentState;
 
-
         this.ChangeType();
     }
-
 
     ChangeType() {
         this.reverse = false;
@@ -490,18 +461,15 @@ export class BoardComponent implements OnInit {
         this.newState(this.InputRed, this.InputBlack);
     }
 
-
     SupportSwitchTurn() {
         this.switchTurn();
         this.state.redAgent.logMoves.push(" ");
     }
 
-
     // report results
     report_result() {
         this.onResultsUpdated.emit();
     }
-
 
     // show record of the game
     show_record() {

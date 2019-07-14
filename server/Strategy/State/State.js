@@ -34,6 +34,8 @@ var State = (function () {
     };
     State.prototype.checkMate = function () {
         //this.blackAgent.updateBoardState();
+        if (this.getEndState() != 0)
+            return false;
         return this.blackAgent.checkMate();
     };
     State.prototype.get_next_by_team = function (movePieceName, toPos, team) {

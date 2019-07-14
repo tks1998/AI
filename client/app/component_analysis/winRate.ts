@@ -42,32 +42,26 @@ export class WinRaterComponent implements OnInit {
 
     public chartHovered(e: any): void { }
 
-
     names = [
         'Greedy',
         'Alpha-Beta Pruning',
         'Monte Carlo Tree Search',
-        // 'Alpha-Beta Pruning with Move Reorder',
-        // 'Temporal Difference Learning',
-        // 'Temporal Difference Learning (Trained)',
-        // 'Ultimate (Combined Strategy)'
+        'Ultimate (Combined Strategy)'
     ]
-
 
     teamControl: FormControl = new FormControl();
     N = 10;
     public team = 1;
     data;
     agent_param;
+
     ngOnInit() {
     }
-
 
     swithTeam() {
         this.team *= -1;
         this.update(this.data, this.agent_param);
     }
-
 
     update(r, agent_param) {
         if (r.length == 0) {
@@ -117,22 +111,20 @@ export class WinRaterComponent implements OnInit {
         return rate;
     }
 
-
     team_results(arr) {
         if (this.team == 1) return arr;
         return arr.map(x => x *= -1);
     }
 
-
     get_plot_title() {
-        var red = "You ";
-
-        if (this.agent_param[0] == 2)
-            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[1];
-        else var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[1];
+        var red = "You";
+        var black = this.names[this.agent_param[0]];
+        if (this.agent_param[0] == 0)
+            black = black;
+        else (this.agent_param[0] == 2) ? black = black + "-Simulation " + this.agent_param[1] : black = black + "-Depth " + this.agent_param[1];
         var first = this.team == 1 ? red : black;
         var second = this.team == 1 ? black : red;
-        return first + "( vs " + second + " )" + " Win Rate";
+        return first + " ( vs " + second + " ) " + "Win Rate";
     }
 
 }

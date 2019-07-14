@@ -21,8 +21,8 @@ var BoardComponent = (function () {
         this.boardState = {}; // {postion => piece}  || NOT including dummy pieces
         this.checkmate = false;
         this.DEFAULT_TYPE = 0;
-        this.blackAgentType = 0;
         this.DEFAULT_DEPTH = 2;
+        this.blackAgentType = 0;
         this.blackAgentDepth = 2;
         this.pieceSize = 67;
         this.dummyPieces = [];
@@ -48,6 +48,8 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
+        this.blackAgentType = 3;
+        this.blackAgentDepth = 2;
         this.clear_results();
         this.initGame();
     };
@@ -74,11 +76,16 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.chooseBlackAgent = function (desc) {
         this.blackAgentType = this.parse_agentType(desc);
+        this.blackAgentDepth = (this.blackAgentType == 2) ? 2000 : 2;
         this.clear_results();
         this.initGame();
     };
     BoardComponent.prototype.chooseBlackAgentDepth = function (depth) {
         this.blackAgentDepth = parseInt(depth);
+        this.initGame();
+    };
+    BoardComponent.prototype.chooseBlackSimulations = function (dept) {
+        this.blackAgentDepth = dept;
         this.initGame();
     };
     BoardComponent.prototype.ngOnInit = function () {
@@ -121,10 +128,6 @@ var BoardComponent = (function () {
         if (!this.isPossibleMove(piece.position) || this.state.endFlag != null)
             return;
         this.humanMove(piece);
-    };
-    BoardComponent.prototype.chooseBlackSimulations = function (dept) {
-        this.blackAgentDepth = dept;
-        this.initGame();
     };
     BoardComponent.prototype.humanMove = function (piece) {
         this.copyCurrentState();
@@ -261,7 +264,6 @@ var BoardComponent = (function () {
         // if (turn == -1) this.switchTurn();
     };
     /** --------------------------------------------------------------------*/
-    // Check move && change image 
     //part of Timer
     BoardComponent.prototype.TimeMode = function () {
         this.timemode = !this.timemode;

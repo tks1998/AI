@@ -9,7 +9,7 @@ export class MCTS extends Agent {
 
     constructor(team, reverese, strategy, pieces, N) {
         super(team, reverese, strategy, pieces);
-        (N == 2) ? this.N_SIMULATION = 2000 : this.N_SIMULATION = N;
+        this.N_SIMULATION = N;
     }
 
     static copyFromDict(dict) {
@@ -20,7 +20,6 @@ export class MCTS extends Agent {
     // MCTS main 
     comptuteNextMove(state) {
         var root = new MCTS_State(state, null);
-        // console.log("root:", root.visits);
         var i_simulation = 1;
         while (i_simulation <= this.N_SIMULATION) {
             // console.log("======================", i_simulation, "======================")
@@ -30,6 +29,7 @@ export class MCTS extends Agent {
             if (simulated_state) this.back_propagate(simulated_state);
         }
         var r = this.pick_max_UCB_child(root).parentMove;
+        // console.log("======================MOVE: ", this.pick_max_UCB_child(root), "======================")
         // console.log("======================MOVE: ", r, "======================")
         return r;
     }
@@ -42,12 +42,18 @@ export class MCTS extends Agent {
             mcts_state.visits = 1;
             return mcts_state;
         }
+        // console.log(mcts_state.state.playingTeam)
         if (!mcts_state.children) mcts_state.generate_children();
         var unvisited = mcts_state.children.filter(x => x.visits == 0);
         if (unvisited.length > 0) return unvisited[0];
+        // console.log(mcts_state.state.playingTeam);
         var selected = this.pick_max_UCB_child(mcts_state);
-        if (selected) return this.select(selected);
-        else return mcts_state;
+        if (selected) {
+            return this.select(selected);
+        }
+        else {
+            return mcts_state;
+        }
     }
 
     pick_max_UCB_child(mcts_state: MCTS_State) {
@@ -72,7 +78,10 @@ export class MCTS extends Agent {
         var mcts_new_state = new MCTS_State(nextState, move);
         mcts_new_state.visits += 1;
         mcts_new_state.set_parent(selected);
+        // console.log(root_state.state.playingTeam)
+        // console.log((mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)));
         mcts_new_state.sum_score += (mcts_new_state.state.redAgent.getValueOfState(mcts_new_state.state)) * root_state.state.playingTeam;
+        // console.log(mcts_new_state.sum_score);
         return mcts_new_state;
     }
 

@@ -32,6 +32,8 @@ var State = (function () {
     };
     State.prototype.checkMate = function () {
         this.redAgent.updateBoardState();
+        if (this.getEndState() != 0)
+            return false;
         return this.redAgent.checkMate();
     };
     State.prototype.switchTurn = function () {

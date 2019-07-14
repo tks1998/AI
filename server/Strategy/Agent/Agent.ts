@@ -10,19 +10,22 @@ import { State } from '../State/State'
 export class Agent {
     team: number;
     legalMoves: {}; // name->[positions]
-    pastLegalMoves : {};
+    pastLegalMoves: {};
+
     myPieces: Piece[];
     oppoPieces: Piece[];
     oppoAgent: Agent;
     myPiecesDic: {}; // {name -> pos}
     boardState; // {posStr->[name, isMyPiece]}
+
     // moved: EventEmitter<number> = new EventEmitter();
     Past = [];
     reverse = false;
     strategy = 0;
-    constructor(team: number, reverse , strategy , myPieces = undefined ) {
+
+    constructor(team: number, reverse, strategy, myPieces = undefined) {
         this.team = team;
-        this.reverse= reverse;
+        this.reverse = reverse;
         if (myPieces == undefined)
             this.myPieces = (team == 1 ? InitGame.getRedPieces() : InitGame.getBlackPieces());
         else {
@@ -30,6 +33,7 @@ export class Agent {
         }
         this.strategy = strategy;
     }
+
     setOppoAgent(oppoAgent) {
         // setOppoAgent(oppoAgent, calMoves = true, updateDict = false) {
         this.oppoAgent = oppoAgent;
@@ -52,9 +56,8 @@ export class Agent {
 
     // compute legals moves for my pieces after state updated
     computeLegalMoves() {
-        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team,this.reverse);
+        this.legalMoves = Rule.allPossibleMoves(this.myPieces, this.boardState, this.team, this.reverse);
     }
-   
 
     // update board state by pieces
     updateBoardState() {
@@ -90,7 +93,6 @@ export class Agent {
         }
     }
 
-
     // TO BE IMPLEMENTED BY CHILD CLASS
     // return [piece:Piece, toPos];
     comptuteNextMove(state) {
@@ -98,11 +100,10 @@ export class Agent {
         return null;
     }
 
-
-
     getPieceByName(name) {
         return this.myPieces.filter(x => x.name == name)[0];
     }
+
     // check existance of my king
     check_king_exist() {
         return this.getPieceByName('k') != undefined;
@@ -123,7 +124,6 @@ export class Agent {
         return [this.getPieceByName(name), move];
     }
 
-
     getValueOfGreedyMove(pieceName, toPos) {
         var piece = this.boardState[toPos.toString()];
         if (piece) return Evaluation.pieceValue(piece[0]);
@@ -143,23 +143,20 @@ export class Agent {
                 max = values[i];
             }
         }
-        if (max > 0) return [this.getPieceByName(moves[pos][0]), moves[pos][1]]; // can capture opponent piece
+        if (max > 0)
+            return [this.getPieceByName(moves[pos][0]), moves[pos][1]]; // can capture opponent piece
         // take random move
         return this.random_move();
     }
 
-
-
-
-
-    copy() { return new Agent(this.team, this.reverse , this.strategy , this.myPieces.map(x => x.copy())); }
+    copy() { return new Agent(this.team, this.reverse, this.strategy, this.myPieces.map(x => x.copy())); }
 
     static piecesFromDict(dict_list) {
         return dict_list.map(x => Piece.copyFromDict(x));
     }
 
     static copyFromDict(dict) {
-        return new Agent(dict.team,dict.reverse,dict.strategy  , this.piecesFromDict(dict.myPieces));
+        return new Agent(dict.team, dict.reverse, dict.strategy, this.piecesFromDict(dict.myPieces));
     }
 
     // get array of legalMoves: [[movePieceName, move]]
@@ -208,6 +205,3 @@ export class Agent {
         this.Past = this.Past.filter(x => !(x[0] == name && x[1] == count));
     }
 }
-
-
-

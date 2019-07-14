@@ -43,6 +43,7 @@ export class State {
 
     checkMate(){
         this.redAgent.updateBoardState();
+        if (this.getEndState()!=0) return false;
         return this.redAgent.checkMate();
     }
 

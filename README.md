@@ -58,5 +58,8 @@ App Play China chess and Reverse China Chess :
     - input state && slove 
     - graph win rate  
     - log move of piece 
+    
+  
+  Report project folder : final report 
    
     

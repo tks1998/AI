@@ -39,7 +39,10 @@ App Play China chess and Reverse China Chess :
         + apha beta puring (defalt depth  =  3 )
         
   Reslove state :
-  
+    - Input state : 
+	      + input any state, State syntax is a string, chess piece separated by a comma, the end of string is a comma
+	      + Example:  k 9 4 -1,k 1 5 1, j1 4 9 -1,j2 1 1 1,s 8 4 -1,
+
     - Algorithm :
         + apha beta puring (defalt depth  =  4 )
         

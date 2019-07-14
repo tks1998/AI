@@ -49,7 +49,7 @@ var BoardComponent = (function () {
     BoardComponent.prototype.changeMode = function () {
         this.reverse = !this.reverse;
         this.blackAgentType = 3;
-        this.blackAgentDepth = 2;
+        this.blackAgentDepth = 4;
         this.clear_results();
         this.initGame();
     };

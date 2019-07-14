@@ -15,6 +15,7 @@ export class MCTS_State {
     parentMove;
 
     constructor(state, move) { this.state = state; this.parentMove = move; }
+
     get_ave_score() {
         return this.sum_score / this.visits;
     }
@@ -26,23 +27,9 @@ export class MCTS_State {
         // console.log("ave:", ave)
         // console.log("visits:", visits)
         // console.log("n:", n)
-        // console.log("Math.sqrt(2 * Math.log(n) / visits):", Math.sqrt(2 * Math.log(n) / visits))
+        // console.log("Math.sqrt(12000 * Math.log(n) / visits):", Math.sqrt(12000 * Math.log(n) / visits))
         return ave + Math.sqrt(this.EXP_RATE * Math.log(n) / visits);
     }
-
-    depth() {
-        var r = 0;
-        var temp = this.parent;
-        while (temp) {
-            temp = temp.parent;
-            r += 1;
-        }
-        return r;
-    }
-
-    add_score(x) { this.sum_score += x; }
-
-    add_visit() { this.visits += 1; }
 
     set_parent(x) { this.parent = x; }
 

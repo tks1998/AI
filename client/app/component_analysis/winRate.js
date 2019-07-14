@@ -39,6 +39,7 @@ var WinRaterComponent = (function () {
             'Greedy',
             'Alpha-Beta Pruning',
             'Monte Carlo Tree Search',
+            'Ultimate (Combined Strategy)'
         ];
         this.teamControl = new forms_1.FormControl();
         this.N = 10;
@@ -98,14 +99,15 @@ var WinRaterComponent = (function () {
         return arr.map(function (x) { return x *= -1; });
     };
     WinRaterComponent.prototype.get_plot_title = function () {
-        var red = "You ";
-        if (this.agent_param[0] == 2)
-            var black = this.names[this.agent_param[0]] + "-Simulation " + this.agent_param[1];
+        var red = "You";
+        var black = this.names[this.agent_param[0]];
+        if (this.agent_param[0] == 0)
+            black = black;
         else
-            var black = this.names[this.agent_param[0]] + "-Depth " + this.agent_param[1];
+            (this.agent_param[0] == 2) ? black = black + "-Simulation " + this.agent_param[1] : black = black + "-Depth " + this.agent_param[1];
         var first = this.team == 1 ? red : black;
         var second = this.team == 1 ? black : red;
-        return first + "( vs " + second + " )" + " Win Rate";
+        return first + " ( vs " + second + " ) " + "Win Rate";
     };
     WinRaterComponent = __decorate([
         core_1.Component({

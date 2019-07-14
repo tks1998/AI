@@ -17,20 +17,9 @@ var MCTS_State = (function () {
         // console.log("ave:", ave)
         // console.log("visits:", visits)
         // console.log("n:", n)
-        // console.log("Math.sqrt(2 * Math.log(n) / visits):", Math.sqrt(2 * Math.log(n) / visits))
+        // console.log("Math.sqrt(12000 * Math.log(n) / visits):", Math.sqrt(12000 * Math.log(n) / visits))
         return ave + Math.sqrt(this.EXP_RATE * Math.log(n) / visits);
     };
-    MCTS_State.prototype.depth = function () {
-        var r = 0;
-        var temp = this.parent;
-        while (temp) {
-            temp = temp.parent;
-            r += 1;
-        }
-        return r;
-    };
-    MCTS_State.prototype.add_score = function (x) { this.sum_score += x; };
-    MCTS_State.prototype.add_visit = function () { this.visits += 1; };
     MCTS_State.prototype.set_parent = function (x) { this.parent = x; };
     MCTS_State.prototype.generate_children = function () {
         this.children = [];
